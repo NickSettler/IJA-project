@@ -8,23 +8,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 
-public class Window implements IUIView {
-
-    private JFrame frame;
+public class Window extends JFrame implements IUIView, KeyListener {
 
     public Window() {
-        frame = new JFrame("Pacman game");
-        frame.setTitle("Pacman Game");
-        frame.setLayout(new BorderLayout());
-        frame.setSize(500, 500);
+        super("Pacman game");
+        this.addKeyListener(this);
+        this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(true);
+        this.setFocusableWindowState(true);
+        this.setLayout(new BorderLayout());
+        this.setSize(500, 500);
         JPanel panel = new JPanel();
 
         createButtons(panel);
 
-        frame.add(panel, BorderLayout.NORTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.add(panel, BorderLayout.NORTH);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void createButtons(JPanel panel) {
@@ -41,12 +44,12 @@ public class Window implements IUIView {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File("saved_games"));
 
-            int result = fileChooser.showOpenDialog(Window.this.frame);
+            int result = fileChooser.showOpenDialog(Window.this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
 
                 int index = JOptionPane.showOptionDialog(
-                        Window.this.frame,
+                        Window.this,
                         "Select a mode of replay:",
                         "Replay mode",
                         JOptionPane.DEFAULT_OPTION,
@@ -79,7 +82,7 @@ public class Window implements IUIView {
 
         startButton.addActionListener(e -> {
             int index = JOptionPane.showOptionDialog(
-                    Window.this.frame,
+                    Window.this,
                     "Select a mode of play:",
                     "Game mode",
                     JOptionPane.DEFAULT_OPTION,
@@ -104,16 +107,31 @@ public class Window implements IUIView {
         ImageIcon imageIcon = new ImageIcon("ghost.png");
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setIcon(imageIcon);
-        frame.add(imageLabel, BorderLayout.CENTER);
+        this.add(imageLabel, BorderLayout.CENTER);
     }
 
     @Override
     public JFrame getFrame() {
-        return this.frame;
+        return this;
     }
 
     @Override
     public void dispose() {
-        this.frame.dispose();
+        this.dispose();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // do nothing
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        EventsSystem.getInstance().emit(EVENTS.KEYDOWN, e.getKeyCode());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        EventsSystem.getInstance().emit(EVENTS.KEYUP, e.getKeyCode());
     }
 }
