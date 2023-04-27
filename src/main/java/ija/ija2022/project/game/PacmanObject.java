@@ -38,10 +38,19 @@ public class PacmanObject implements CommonMazeObject {
 
         if (!canMove) return false;
 
-        this.commonMaze.moveObject(this, this.row + dir.deltaRow(), this.col + dir.deltaCol());
+        int nextRow = this.row + dir.deltaRow();
+        int nextCol = this.col + dir.deltaCol();
 
-        this.row += dir.deltaRow();
-        this.col += dir.deltaCol();
+        CommonField currentField = this.commonMaze.getField(this.row, this.col);
+        CommonField nextField = this.commonMaze.getField(nextRow, nextCol);
+
+        nextField.put(this);
+        currentField.remove(this);
+
+        this.row = nextRow;
+        this.col = nextCol;
+
+        this.commonMaze.moveObject(this, this.row + dir.deltaRow(), this.col + dir.deltaCol());
 
         List<CommonMazeObject> ghosts = this.commonMaze.ghosts();
         for (CommonMazeObject ghost : ghosts) {
