@@ -1,10 +1,10 @@
-package org.example;
+package ija.ija2022.project;
 
-import ija.ija2022.homework2.game.MazeConfigure;
-import ija.ija2022.homework2.tool.MazePresenter;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
-import ija.ija2022.homework2.tool.common.IField;
-import ija.ija2022.homework2.tool.common.IMaze;
+import ija.ija2022.project.game.MazeConfigure;
+import ija.ija2022.project.tool.MazePresenter;
+import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.common.CommonMazeObject;
+import ija.ija2022.project.tool.common.CommonField;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -37,12 +37,11 @@ public class Main {
         lines.forEach(cfg::processLine);
         cfg.stopReading();
 
-        IMaze commonMaze = cfg.createMaze();
+        CommonMaze commonMaze = cfg.createMaze();
 
         MazePresenter presenter = new MazePresenter(commonMaze);
         presenter.open();
 
-//        sleep(2000);
 
         List<CommonMazeObject> ghosts = commonMaze.ghosts();
         CommonMazeObject ghost = null;
@@ -53,14 +52,10 @@ public class Main {
             }
         }
 
-        ghost.move(IField.Direction.R);
+        ghost.move(CommonField.Direction.R);
         sleep(1000);
-        ghost.move(IField.Direction.R);
+        ghost.move(CommonField.Direction.R);
         sleep(1000);
-
-//        commonMaze.getPacman().move(IField.Direction.R);
-
-//        commonMaze.getPacman().move(IField.Direction.U);
     }
 
     public static void sleep(int ms) {

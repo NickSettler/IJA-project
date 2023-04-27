@@ -2,13 +2,13 @@
  * IJA 2022/23: Úloha 2
  * Spuštění presentéru (vizualizace) implementace modelu bludiště.
  */
-package org.example;
+package ija.ija2022.project;
 
-import ija.ija2022.homework2.game.MazeConfigure;
-import ija.ija2022.homework2.tool.MazePresenter;
-import ija.ija2022.homework2.tool.common.CommonField;
-import ija.ija2022.homework2.tool.common.CommonMaze;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
+import ija.ija2022.project.game.MazeConfigure;
+import ija.ija2022.project.tool.MazePresenter;
+import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.common.CommonMazeObject;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * Třída spustí vizualizaci implementace modelu bludiště. 
  * Prezentér je implementován třídou {@link MazePresenter}, dále využívá prostředky definované 
- * v balíku ija.ija2022.homework2.common, který je součástí dodaného nástroje.
+ * v balíku ija.ija2022.project.common, který je součástí dodaného nástroje.
  * @author Radek Kočí
  */
 public class Homework2 {

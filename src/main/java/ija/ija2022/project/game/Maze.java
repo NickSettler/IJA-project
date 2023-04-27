@@ -1,14 +1,14 @@
-package org.example.game;
+package ija.ija2022.project.game;
 
-import ija.ija2022.homework2.tool.common.*;
+import ija.ija2022.project.tool.common.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Maze implements IMaze {
+public class Maze implements CommonMaze, Observable.Observer {
     private final int rows;
     private final int cols;
-    private final IField[][] fields;
+    private final CommonField[][] fields;
 
     private PacmanObject pacman;
 
@@ -18,7 +18,7 @@ public class Maze implements IMaze {
     public Maze(int rows, int cols) {
         this.rows = rows + 2;
         this.cols = cols + 2;
-        this.fields = new IField[this.rows][this.cols];
+        this.fields = new CommonField[this.rows][this.cols];
 
         this.generateWalls();
     }
@@ -34,7 +34,7 @@ public class Maze implements IMaze {
     }
 
     @Override
-    public IField getField(int row, int col) {
+    public CommonField getField(int row, int col) {
         if (row < 0 || row >= this.rows)
             return null;
 
@@ -52,9 +52,9 @@ public class Maze implements IMaze {
     @Override
     public List<CommonMazeObject> ghosts() {
         List<CommonMazeObject> ghosts = new ArrayList<>();
-        for (IField[] fields: this.fields) {
-            for (IField field: fields) {
-                if (!(field instanceof WallField)){
+        for (CommonField[] fields : this.fields) {
+            for (CommonField field : fields) {
+                if (!(field instanceof WallField)) {
                     if (field.get() instanceof GhostObject) {
                         ghosts.add(field.get());
                     }
@@ -71,24 +71,24 @@ public class Maze implements IMaze {
     }
 
     @Override
-    public void setField(int row, int col, IField iField) {
+    public void setField(int row, int col, CommonField iField) {
         this.fields[row][col] = iField;
     }
 
     @Override
-    public IField[][] getFields() {
+    public CommonField[][] getFields() {
         return this.fields;
     }
 
     @Override
-    public void putObject(IMazeObject object, int row, int col) {
+    public void putObject(CommonMazeObject object, int row, int col) {
         if (object == null)
             return;
 
         if (object instanceof PacmanObject) {
             this.pacman = (PacmanObject) object;
         } else if (object instanceof GhostObject) {
-            IField field = getField(row, col);
+            CommonField field = getField(row, col);
             if (field instanceof WallField) {
                 return;
             }
@@ -96,15 +96,15 @@ public class Maze implements IMaze {
         }
     }
 
-    public void moveObject(IMazeObject object, int row, int col) {
+    public void moveObject(CommonMazeObject object, int row, int col) {
         if (object == null)
             return;
 
         if (object instanceof PacmanObject) {
             this.pacman = (PacmanObject) object;
         } else if (object instanceof GhostObject) {
-            IField field = this.getField(row, col);
-            field.remove((IMazeObject) field.get());
+            CommonField field = this.getField(row, col);
+            field.remove((CommonMazeObject) field.get());
             field.put(object);
         }
 
@@ -122,7 +122,7 @@ public class Maze implements IMaze {
 
     @Override
     public void update(Observable observable) {
-        if (observable instanceof IMazeObject object) {
+        if (observable instanceof CommonMazeObject object) {
             this.moveObject(object, object.getRow(), object.getCol());
         }
     }

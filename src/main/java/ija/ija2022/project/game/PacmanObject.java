@@ -1,25 +1,24 @@
-package org.example.game;
+package ija.ija2022.project.game;
 
-import ija.ija2022.homework2.tool.common.*;
-import org.jetbrains.annotations.NotNull;
+import ija.ija2022.project.tool.common.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class PacmanObject implements IMazeObject {
+public class PacmanObject implements CommonMazeObject {
     private int row;
 
     private int col;
 
     public int lives;
 
-    private final IMaze commonMaze;
+    private final CommonMaze commonMaze;
 
     private final Set<Observer> observers = new HashSet<>();
 
-    public PacmanObject(int row, int col, IMaze commonMaze) {
+    public PacmanObject(int row, int col, CommonMaze commonMaze) {
         this.row = row;
         this.col = col;
         this.commonMaze = commonMaze;
@@ -27,14 +26,14 @@ public class PacmanObject implements IMazeObject {
     }
 
     @Override
-    public boolean canMove(@NotNull IField.Direction dir) {
+    public boolean canMove(CommonField.Direction dir) {
         CommonField nextField = this.commonMaze.getField(this.row + dir.deltaRow(), this.col + dir.deltaCol());
 
         return nextField != null && nextField.canMove();
     }
 
     @Override
-    public boolean move(IField.Direction dir) {
+    public boolean move(CommonField.Direction dir) {
         boolean canMove = this.canMove(dir);
 
         if (!canMove) return false;
@@ -46,9 +45,7 @@ public class PacmanObject implements IMazeObject {
 
         List<CommonMazeObject> ghosts = this.commonMaze.ghosts();
         for (CommonMazeObject ghost : ghosts) {
-            IMazeObject ghostObject = (IMazeObject) ghost;
-
-            if (ghostObject.getRow() == this.row && ghostObject.getCol() == this.col) {
+            if (ghost.getRow() == this.row && ghost.getCol() == this.col) {
                 this.lives -= 1;
                 break;
             }
@@ -109,12 +106,12 @@ public class PacmanObject implements IMazeObject {
 
 
     @Override
-    public void addObserver(Observer observer) {
+    public void addObserver(Observable.Observer observer) {
         this.observers.add(observer);
     }
 
     @Override
-    public void removeObserver(Observer observer) {
+    public void removeObserver(Observable.Observer observer) {
         this.observers.remove(observer);
     }
 

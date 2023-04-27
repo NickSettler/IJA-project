@@ -1,8 +1,8 @@
-package org.example.game;
+package ija.ija2022.project.game;
 
-import ija.ija2022.homework2.tool.common.IField;
-import ija.ija2022.homework2.tool.common.IMaze;
-import ija.ija2022.homework2.tool.common.IMazeObject;
+import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMazeObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class MazeConfigure {
 
     private int rowCounter;
 
-    private IMaze commonMaze;
+    private CommonMaze commonMaze;
 
     public MazeConfigure() {
         this.reading = false;
@@ -41,7 +41,7 @@ public class MazeConfigure {
         return line.matches("^[.XSGKT]+$");
     }
 
-    public IMaze createMaze() {
+    public CommonMaze createMaze() {
         if (this.reading) {
             return null;
         }
@@ -79,7 +79,7 @@ public class MazeConfigure {
 
             if (hasField) {
                 try {
-                    IField field = (IField) FIELDS_MAP.get(ch).getConstructor(int.class, int.class).newInstance(this.rowCounter, i + 1);
+                    CommonField field = (CommonField) FIELDS_MAP.get(ch).getConstructor(int.class, int.class).newInstance(this.rowCounter, i + 1);
                     this.commonMaze.setField(this.rowCounter, i + 1, field);
                     field.setMaze(this.commonMaze);
                 } catch (Exception e) {
@@ -92,7 +92,7 @@ public class MazeConfigure {
                     PathField field = new PathField(this.rowCounter, i + 1);
                     this.commonMaze.setField(this.rowCounter, i + 1, field);
                     field.setMaze(this.commonMaze);
-                    IMazeObject object = (IMazeObject) OBJECTS_MAP.get(ch).getConstructor(int.class, int.class, IMaze.class).newInstance(this.rowCounter, i + 1, this.commonMaze);
+                    CommonMazeObject object = (CommonMazeObject) OBJECTS_MAP.get(ch).getConstructor(int.class, int.class, CommonMaze.class).newInstance(this.rowCounter, i + 1, this.commonMaze);
                     object.addObserver(this.commonMaze);
                     this.commonMaze.putObject(object, this.rowCounter, i + 1);
                 } catch (Exception e) {

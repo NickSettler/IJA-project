@@ -1,18 +1,17 @@
-package org.example.game;
+package ija.ija2022.project.game;
 
-import ija.ija2022.homework2.tool.common.*;
-import org.jetbrains.annotations.NotNull;
+import ija.ija2022.project.tool.common.*;
 
 import java.util.Objects;
 
-public class BaseField extends AbstractObservableField implements IField {
+public class BaseField extends AbstractObservableField implements CommonField {
     protected int row;
 
     protected int col;
 
-    protected IMazeObject object;
+    protected CommonMazeObject object;
 
-    protected IMaze commonMaze;
+    protected CommonMaze commonMaze;
 
     public BaseField(int row, int col) {
         this.row = row;
@@ -30,7 +29,7 @@ public class BaseField extends AbstractObservableField implements IField {
     }
 
     @Override
-    public IMazeObject get() {
+    public CommonMazeObject get() {
         return this.object;
     }
 
@@ -40,12 +39,12 @@ public class BaseField extends AbstractObservableField implements IField {
     }
 
     @Override
-    public CommonField nextField(@NotNull Direction dirs) {
+    public CommonField nextField(Direction dirs) {
         return this.commonMaze.getField(this.row + dirs.deltaRow(), this.col + dirs.deltaCol());
     }
 
     @Override
-    public boolean put(IMazeObject object) {
+    public boolean put(CommonMazeObject object) {
         if (object == null) return false;
 
         this.object = object;
@@ -53,7 +52,7 @@ public class BaseField extends AbstractObservableField implements IField {
     }
 
     @Override
-    public boolean remove(IMazeObject object) {
+    public boolean remove(CommonMazeObject object) {
         if (object == null || this.object != object) return false;
 
         this.object = null;
@@ -61,7 +60,7 @@ public class BaseField extends AbstractObservableField implements IField {
     }
 
     @Override
-    public void setMaze(IMaze commonMaze) {
+    public void setMaze(CommonMaze commonMaze) {
         this.commonMaze = commonMaze;
     }
 
