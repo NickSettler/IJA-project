@@ -47,7 +47,7 @@ public class FieldView extends JPanel implements Observable.Observer {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    public final void update(Observable field) {
+    public final void update(Observable observable) {
         ++this.changedModel;
         this.privUpdate();
     }

@@ -9,12 +9,12 @@ public abstract class AbstractObservableField implements CommonField {
     public AbstractObservableField() {
     }
 
-    public void addObserver(Observable.Observer o) {
-        this.observers.add(o);
+    public void addObserver(Observable.Observer observer) {
+        this.observers.add(observer);
     }
 
-    public void removeObserver(Observable.Observer o) {
-        this.observers.remove(o);
+    public void removeObserver(Observable.Observer observer) {
+        this.observers.remove(observer);
     }
 
     public void notifyObservers() {
