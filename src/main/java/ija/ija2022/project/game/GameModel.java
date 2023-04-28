@@ -3,10 +3,12 @@ package ija.ija2022.project.game;
 public class GameModel {
     private int score;
     private boolean isGameOver;
+    private final Maze maze;
 
-    public GameModel() {
+    public GameModel(Maze maze) {
         score = 0;
         isGameOver = false;
+        this.maze = maze;
     }
 
     public void update() {
@@ -19,5 +21,9 @@ public class GameModel {
 
     public int getScore() {
         return score;
+    }
+
+    public Maze getMaze() {
+        return maze;
     }
 }

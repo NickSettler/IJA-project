@@ -1,15 +1,29 @@
 package ija.ija2022.project.game;
 
+import ija.ija2022.project.astar.AStarPathFinder;
 import ija.ija2022.project.tool.common.CommonField;
 
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.List;
 
-public class PacmanController implements KeyListener {
+public class PacmanController extends KeyAdapter {
     private PacmanObject pacmanObject;
+    private AStarPathFinder pathFinder;
 
-    public PacmanController(PacmanObject pacmanObject) {
+    public PacmanController(PacmanObject pacmanObject, GameModel gameModel, JPanel panel) {
         this.pacmanObject = pacmanObject;
+        pathFinder = new AStarPathFinder(gameModel, gameModel.getMaze());
+        panel.addKeyListener(this);
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // TODO
+                Point clickPoint = e.getPoint();
+                List<CommonField.Direction> path = pathFinder.findPath(clickPoint, clickPoint);
+            }
+        });
     }
 
     public void keyPressed(KeyEvent e) {
@@ -23,15 +37,5 @@ public class PacmanController implements KeyListener {
         } else if (keyCode == KeyEvent.VK_D) {
             pacmanObject.move(CommonField.Direction.R);
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // Not used
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // Not used
     }
 }
