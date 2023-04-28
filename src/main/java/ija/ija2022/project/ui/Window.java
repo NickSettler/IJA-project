@@ -24,6 +24,7 @@ public class Window extends JFrame implements IUIView, KeyListener {
         this.setSize(500, 500);
         JPanel panel = new JPanel();
 
+        setGhostImage();
         createButtons(panel);
 
         this.add(panel, BorderLayout.NORTH);
