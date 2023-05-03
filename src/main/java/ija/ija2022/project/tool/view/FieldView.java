@@ -1,15 +1,14 @@
 package ija.ija2022.project.tool.view;
 
+import ija.ija2022.project.game.PacmanObject;
 import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMazeObject;
 import ija.ija2022.project.tool.common.Observable;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 
 public class FieldView extends JPanel implements Observable.Observer {
     private final CommonField field;
@@ -34,8 +33,15 @@ public class FieldView extends JPanel implements Observable.Observer {
         if (this.field.canMove()) {
             this.setBackground(Color.white);
             if (!this.field.isEmpty()) {
-                CommonMazeObject o = this.field.get();
-                ComponentView v = o.isPacman() ? new PacmanView(this, this.field.get()) : new GhostView(this, this.field.get());
+                ArrayList<CommonMazeObject> objects = this.field.get();
+
+                PacmanObject pacman = objects.stream()
+                        .filter(o -> o instanceof PacmanObject)
+                        .map(o -> (PacmanObject) o)
+                        .findFirst()
+                        .orElse(null);
+
+                ComponentView v = pacman != null ? new PacmanView(this, pacman) : new GhostView(this, objects.get(0));
                 this.objects.add(v);
             } else {
                 this.objects.clear();

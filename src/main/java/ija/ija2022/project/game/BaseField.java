@@ -1,15 +1,17 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.tool.common.*;
+import ija.ija2022.project.tool.common.AbstractObservableField;
+import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.common.CommonMazeObject;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class BaseField extends AbstractObservableField {
     protected int row;
 
     protected int col;
-
-    protected CommonMazeObject object;
 
     protected CommonMaze commonMaze;
 
@@ -25,17 +27,19 @@ public class BaseField extends AbstractObservableField {
 
     @Override
     public boolean contains(CommonMazeObject commonMazeObject) {
-        return this.object == commonMazeObject;
+        ArrayList<CommonMazeObject> objects = this.commonMaze.getObjects()[this.row][this.col];
+
+        return objects.contains(commonMazeObject);
     }
 
     @Override
-    public CommonMazeObject get() {
-        return this.object;
+    public ArrayList<CommonMazeObject> get() {
+        return this.commonMaze.getObjects()[this.row][this.col];
     }
 
     @Override
     public boolean isEmpty() {
-        return this.object == null;
+        return this.commonMaze.getObjects()[this.row][this.col].isEmpty();
     }
 
     @Override
@@ -44,19 +48,21 @@ public class BaseField extends AbstractObservableField {
     }
 
     @Override
-    public boolean put(CommonMazeObject object) {
-        if (object == null) return false;
+    public void put(CommonMazeObject object) {
+        if (object == null) return;
 
-        this.object = object;
-        return true;
+        this.commonMaze.getObjects()[this.row][this.col].add(object);
+        this.commonMaze.getFields()[this.row][this.col].notifyObservers();
     }
 
     @Override
-    public boolean remove(CommonMazeObject object) {
-        if (object == null || this.object != object) return false;
+    public void remove(CommonMazeObject object) {
+        ArrayList<CommonMazeObject> objects = this.commonMaze.getObjects()[this.row][this.col];
 
-        this.object = null;
-        return true;
+        if (objects.isEmpty()) return;
+
+        objects.remove(object);
+        this.commonMaze.getFields()[this.row][this.col].notifyObservers();
     }
 
     @Override
@@ -77,6 +83,6 @@ public class BaseField extends AbstractObservableField {
 
     @Override
     public int hashCode() {
-        return Objects.hash(row, col, commonMaze, object);
+        return Objects.hash(row, col, commonMaze);
     }
 }

@@ -1,15 +1,19 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.tool.common.*;
+import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.common.CommonMazeObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Maze implements CommonMaze, Observable.Observer {
+public class Maze implements CommonMaze {
     private final int rows;
     private final int cols;
     private final CommonField[][] fields;
-    private PacmanObject pacman;
+
+    private final ArrayList<CommonMazeObject>[][] objects;
 
 
 //    private final Set<Observer> observers = new HashSet<>();
@@ -18,16 +22,26 @@ public class Maze implements CommonMaze, Observable.Observer {
         this.rows = rows + 2;
         this.cols = cols + 2;
         this.fields = new CommonField[this.rows][this.cols];
+        this.objects = new ArrayList[this.rows][this.cols];
 
-        this.generateWalls();
+        this.initWalls();
+        this.initObjects();
     }
 
-    private void generateWalls() {
+    private void initWalls() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 if (i == 0 || i == this.rows - 1 || j == 0 || j == this.cols - 1) {
                     this.fields[i][j] = new WallField(i, j);
                 }
+            }
+        }
+    }
+
+    private void initObjects() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; ++j) {
+                this.objects[i][j] = new ArrayList<>();
             }
         }
     }
@@ -49,18 +63,20 @@ public class Maze implements CommonMaze, Observable.Observer {
     }
 
     @Override
-    public List<CommonMazeObject> ghosts() {
-        List<CommonMazeObject> ghosts = new ArrayList<>();
-        for (CommonField[] fields : this.fields) {
-            for (CommonField field : fields) {
-                if (!(field instanceof WallField)) {
-                    if (field.get() instanceof GhostObject) {
-                        ghosts.add(field.get());
-                    }
-                }
-            }
-        }
-        return ghosts;
+    public GhostObject[] ghosts() {
+        return Arrays.stream(this.objects).flatMap(Arrays::stream)
+                .flatMap(List::stream)
+                .filter(object -> object instanceof GhostObject)
+                .toArray(GhostObject[]::new);
+    }
+
+    public PacmanObject getPacman() {
+        return Arrays.stream(this.objects).flatMap(Arrays::stream)
+                .flatMap(List::stream)
+                .filter(object -> object instanceof PacmanObject)
+                .map(object -> (PacmanObject) object)
+                .findFirst()
+                .orElse(null);
     }
 
 
@@ -80,64 +96,34 @@ public class Maze implements CommonMaze, Observable.Observer {
     }
 
     @Override
+    public ArrayList<CommonMazeObject>[][] getObjects() {
+        return this.objects;
+    }
+
+    @Override
     public void putObject(CommonMazeObject object, int row, int col) {
         if (object == null)
             return;
 
-        if (object instanceof PacmanObject) {
-            this.pacman = (PacmanObject) object;
-        } else if (object instanceof GhostObject) {
-            CommonField field = getField(row, col);
-            if (field instanceof WallField) {
-                return;
-            }
-            field.put(object);
-        }
+        this.objects[row][col].add(object);
+
+        this.fields[row][col].notifyObservers();
     }
 
     public void moveObject(CommonMazeObject object, int row, int col) {
         if (object == null)
             return;
 
-        if (object instanceof PacmanObject) {
-            this.pacman = (PacmanObject) object;
-            CommonField field = this.getField(row, col);
-            field.notifyObservers();
-        } else if (object instanceof GhostObject) {
-            CommonField field = this.getField(row, col);
-            field.remove(field.get());
-            field.put(object);
+        for (int i = 0; i < this.objects.length; i++) {
+            for (int j = 0; j < this.objects[i].length; j++) {
+                if (this.objects[i][j].contains(object)) {
+                    this.objects[i][j].remove(object);
+                    this.fields[i][j].notifyObservers();
+                }
+            }
         }
-    }
 
-    public PacmanObject getPacman() {
-        return this.pacman;
+        this.objects[row][col].add(object);
+        this.fields[row][col].notifyObservers();
     }
-
-    @Override
-    public void removeObject(int row, int col) {
-//        this.fields[row][col].remove(
-    }
-
-    @Override
-    public void update(Observable observable) {
-        if (observable instanceof CommonMazeObject object) {
-            this.moveObject(object, object.getRow(), object.getCol());
-        }
-    }
-
-//    @Override
-//    public void addObserver(Observer observer) {
-//        this.observers.add(observer);
-//    }
-//
-//    @Override
-//    public void removeObserver(Observer observer) {
-//        this.observers.remove(observer);
-//    }
-//
-//    @Override
-//    public void notifyObservers() {
-//        this.observers.forEach(o -> o.update(this));
-//    }
 }

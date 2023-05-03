@@ -1,20 +1,22 @@
 package ija.ija2022.project.tool.common;
 
+import java.util.ArrayList;
+
 public interface CommonField extends Observable {
     CommonField nextField(Direction var1);
 
     boolean isEmpty();
 
-    CommonMazeObject get();
+    ArrayList<CommonMazeObject> get();
 
     boolean canMove();
 
     boolean contains(CommonMazeObject var1);
 
 
-    boolean put(CommonMazeObject object);
+    void put(CommonMazeObject object);
 
-    boolean remove(CommonMazeObject object);
+    void remove(CommonMazeObject object);
 
     void setMaze(CommonMaze commonMaze);
 

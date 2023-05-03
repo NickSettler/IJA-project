@@ -14,12 +14,12 @@ public class WallField extends BaseField implements CommonField {
     }
 
     @Override
-    public boolean put(CommonMazeObject object) {
+    public void put(CommonMazeObject object) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean remove(CommonMazeObject object) {
+    public void remove(CommonMazeObject object) {
         throw new UnsupportedOperationException();
     }
 }

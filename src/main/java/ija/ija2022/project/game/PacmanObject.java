@@ -1,9 +1,11 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.tool.common.*;
+import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.common.CommonMazeObject;
+import ija.ija2022.project.tool.common.Observable;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,11 +46,10 @@ public class PacmanObject implements CommonMazeObject {
         this.row = nextRow;
         this.col = nextCol;
 
-        this.commonMaze.getField(this.row - dir.deltaRow(), this.col - dir.deltaCol()).notifyObservers();
         this.commonMaze.moveObject(this, nextRow, nextCol);
 
-        List<CommonMazeObject> ghosts = this.commonMaze.ghosts();
-        for (CommonMazeObject ghost : ghosts) {
+        GhostObject[] ghosts = this.commonMaze.ghosts();
+        for (GhostObject ghost : ghosts) {
             if (ghost.getRow() == this.row && ghost.getCol() == this.col) {
                 this.lives -= 1;
                 break;

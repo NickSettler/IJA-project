@@ -1,7 +1,11 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.tool.common.*;
+import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.common.CommonMazeObject;
+import ija.ija2022.project.tool.common.Observable;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,11 +40,7 @@ public class GhostObject implements CommonMazeObject {
         int nextRow = this.row + dir.deltaRow();
         int nextCol = this.col + dir.deltaCol();
 
-        CommonField currentField = this.commonMaze.getField(this.row, this.col);
-        CommonField nextField = this.commonMaze.getField(nextRow, nextCol);
-
-        nextField.put(this);
-        currentField.remove(this);
+        this.commonMaze.moveObject(this, nextRow, nextCol);
 
         this.row = nextRow;
         this.col = nextCol;
@@ -53,6 +53,23 @@ public class GhostObject implements CommonMazeObject {
         }
 
         return true;
+    }
+
+    public void makeMove() {
+        CommonField.Direction[] directions = CommonField.Direction.values();
+
+        for (CommonField.Direction direction : directions) {
+            if (!this.canMove(direction)) {
+                directions = Arrays.stream(directions).filter(dir -> dir != direction).toArray(CommonField.Direction[]::new);
+            }
+        }
+
+        if (directions.length == 0) return;
+
+        int randomIndex = (int) (Math.random() * directions.length);
+        CommonField.Direction randomDirection = directions[randomIndex];
+
+        this.move(randomDirection);
     }
 
     @Override
