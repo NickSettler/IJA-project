@@ -5,7 +5,7 @@ import ija.ija2022.project.game.PacmanObject;
 import java.util.List;
 
 public interface CommonMaze extends Observable.Observer {
-    CommonField getField(int var1, int var2);
+    CommonField getField(int row, int col);
 
     int numRows();
 

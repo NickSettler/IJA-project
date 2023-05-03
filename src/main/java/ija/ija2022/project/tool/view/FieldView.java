@@ -12,15 +12,15 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class FieldView extends JPanel implements Observable.Observer {
-    private final CommonField model;
+    private final CommonField field;
     private final List<ComponentView> objects;
     private int changedModel = 0;
 
-    public FieldView(CommonField model) {
-        this.model = model;
-        this.objects = new ArrayList();
+    public FieldView(CommonField field) {
+        this.field = field;
+        this.objects = new ArrayList<>();
         this.privUpdate();
-        model.addObserver(this);
+        field.addObserver(this);
     }
 
     protected void paintComponent(Graphics g) {
@@ -31,11 +31,11 @@ public class FieldView extends JPanel implements Observable.Observer {
     }
 
     private void privUpdate() {
-        if (this.model.canMove()) {
+        if (this.field.canMove()) {
             this.setBackground(Color.white);
-            if (!this.model.isEmpty()) {
-                CommonMazeObject o = this.model.get();
-                ComponentView v = o.isPacman() ? new PacmanView(this, this.model.get()) : new GhostView(this, this.model.get());
+            if (!this.field.isEmpty()) {
+                CommonMazeObject o = this.field.get();
+                ComponentView v = o.isPacman() ? new PacmanView(this, this.field.get()) : new GhostView(this, this.field.get());
                 this.objects.add(v);
             } else {
                 this.objects.clear();
@@ -61,6 +61,6 @@ public class FieldView extends JPanel implements Observable.Observer {
     }
 
     public CommonField getField() {
-        return this.model;
+        return this.field;
     }
 }
