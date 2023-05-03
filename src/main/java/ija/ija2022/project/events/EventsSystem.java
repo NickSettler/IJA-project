@@ -1,7 +1,6 @@
 package ija.ija2022.project.events;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ public class EventsSystem {
         if (events.containsKey(event)) {
             events.get(event).add(callback);
         } else {
-            events.put(event, List.of(callback));
+            events.put(event, new ArrayList<>(List.of(callback)));
         }
     }
 

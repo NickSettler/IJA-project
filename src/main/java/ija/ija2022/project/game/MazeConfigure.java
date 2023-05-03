@@ -1,7 +1,7 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.common.CommonMazeObject;
 
 import java.util.HashMap;
@@ -93,7 +93,6 @@ public class MazeConfigure {
                     this.commonMaze.setField(this.rowCounter, i + 1, field);
                     field.setMaze(this.commonMaze);
                     CommonMazeObject object = (CommonMazeObject) OBJECTS_MAP.get(ch).getConstructor(int.class, int.class, CommonMaze.class).newInstance(this.rowCounter, i + 1, this.commonMaze);
-                    object.addObserver(this.commonMaze);
                     this.commonMaze.putObject(object, this.rowCounter, i + 1);
                 } catch (Exception e) {
                     e.printStackTrace();
