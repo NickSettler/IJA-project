@@ -9,7 +9,6 @@ public class Maze implements CommonMaze, Observable.Observer {
     private final int rows;
     private final int cols;
     private final CommonField[][] fields;
-
     private PacmanObject pacman;
 
 
@@ -102,13 +101,13 @@ public class Maze implements CommonMaze, Observable.Observer {
 
         if (object instanceof PacmanObject) {
             this.pacman = (PacmanObject) object;
+            CommonField field = this.getField(row, col);
+            field.notifyObservers();
         } else if (object instanceof GhostObject) {
             CommonField field = this.getField(row, col);
-            field.remove((CommonMazeObject) field.get());
+            field.remove(field.get());
             field.put(object);
         }
-
-//        this.notifyObservers();
     }
 
     public PacmanObject getPacman() {

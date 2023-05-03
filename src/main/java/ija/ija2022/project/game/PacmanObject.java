@@ -41,16 +41,11 @@ public class PacmanObject implements CommonMazeObject {
         int nextRow = this.row + dir.deltaRow();
         int nextCol = this.col + dir.deltaCol();
 
-        CommonField currentField = this.commonMaze.getField(this.row, this.col);
-        CommonField nextField = this.commonMaze.getField(nextRow, nextCol);
-
-        nextField.put(this);
-        currentField.remove(this);
-
         this.row = nextRow;
         this.col = nextCol;
 
-        this.commonMaze.moveObject(this, this.row + dir.deltaRow(), this.col + dir.deltaCol());
+        this.commonMaze.getField(this.row - dir.deltaRow(), this.col - dir.deltaCol()).notifyObservers();
+        this.commonMaze.moveObject(this, nextRow, nextCol);
 
         List<CommonMazeObject> ghosts = this.commonMaze.ghosts();
         for (CommonMazeObject ghost : ghosts) {
@@ -59,8 +54,6 @@ public class PacmanObject implements CommonMazeObject {
                 break;
             }
         }
-
-        this.notifyObservers();
 
         return true;
     }
