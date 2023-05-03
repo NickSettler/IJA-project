@@ -4,7 +4,7 @@ import ija.ija2022.project.tool.common.*;
 
 import java.util.Objects;
 
-public class BaseField extends AbstractObservableField implements CommonField {
+public class BaseField extends AbstractObservableField {
     protected int row;
 
     protected int col;
