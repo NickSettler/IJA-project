@@ -11,20 +11,18 @@ public interface CommonField extends Observable {
 
     boolean canMove();
 
-    boolean contains(CommonMazeObject var1);
-
-
-    void put(CommonMazeObject object);
-
-    void remove(CommonMazeObject object);
-
     void setMaze(CommonMaze commonMaze);
+
+    int getRow();
+
+    int getCol();
 
     public static enum Direction {
         L(0, -1),
         U(-1, 0),
         R(0, 1),
-        D(1, 0);
+        D(1, 0),
+        N(0, 0);
 
         private final int r;
         private final int c;
@@ -40,6 +38,16 @@ public interface CommonField extends Observable {
 
         public int deltaCol() {
             return this.c;
+        }
+
+        public static Direction from(int dr, int dc) {
+            for (Direction direction : Direction.values()) {
+                if (direction.deltaRow() == dr && direction.deltaCol() == dc) {
+                    return direction;
+                }
+            }
+
+            return null;
         }
     }
 }

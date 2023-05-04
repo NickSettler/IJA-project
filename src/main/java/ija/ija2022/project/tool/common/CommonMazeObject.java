@@ -17,6 +17,8 @@ public interface CommonMazeObject extends Observable {
 
     void setDirection(CommonField.Direction direction);
 
+    CommonField.Direction getDirection();
+
     int getRow();
 
     int getCol();

@@ -26,13 +26,6 @@ public class BaseField extends AbstractObservableField {
     }
 
     @Override
-    public boolean contains(CommonMazeObject commonMazeObject) {
-        ArrayList<CommonMazeObject> objects = this.commonMaze.getObjects()[this.row][this.col];
-
-        return objects.contains(commonMazeObject);
-    }
-
-    @Override
     public ArrayList<CommonMazeObject> get() {
         return this.commonMaze.getObjects()[this.row][this.col];
     }
@@ -53,24 +46,6 @@ public class BaseField extends AbstractObservableField {
     @Override
     public CommonField nextField(Direction dirs) {
         return this.commonMaze.getField(this.row + dirs.deltaRow(), this.col + dirs.deltaCol());
-    }
-
-    @Override
-    public void put(CommonMazeObject object) {
-        if (object == null) return;
-
-        this.commonMaze.getObjects()[this.row][this.col].add(object);
-        this.commonMaze.getFields()[this.row][this.col].notifyObservers();
-    }
-
-    @Override
-    public void remove(CommonMazeObject object) {
-        ArrayList<CommonMazeObject> objects = this.commonMaze.getObjects()[this.row][this.col];
-
-        if (objects.isEmpty()) return;
-
-        objects.remove(object);
-        this.commonMaze.getFields()[this.row][this.col].notifyObservers();
     }
 
     @Override

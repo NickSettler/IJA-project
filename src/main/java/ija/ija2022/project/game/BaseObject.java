@@ -81,6 +81,10 @@ public class BaseObject implements CommonMazeObject {
         this.direction = direction;
     }
 
+    public CommonField.Direction getDirection() {
+        return direction;
+    }
+
     @Override
     public int getRow() {
         return this.row;

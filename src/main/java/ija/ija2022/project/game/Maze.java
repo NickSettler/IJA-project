@@ -15,7 +15,7 @@ public class Maze implements CommonMaze {
     private final CommonField[][] fields;
     private final ArrayList<CommonMazeObject>[][] objects;
 
-    private List<Pair<Integer, Integer>> updatesFields = new ArrayList<>();
+    private final List<Pair<Integer, Integer>> updatesFields = new ArrayList<>();
 
     public Maze(int rows, int cols) {
         this.rows = rows + 2;
@@ -78,7 +78,6 @@ public class Maze implements CommonMaze {
                 .orElse(null);
     }
 
-
     @Override
     public int numRows() {
         return this.rows;
@@ -109,8 +108,7 @@ public class Maze implements CommonMaze {
     }
 
     public void moveObject(CommonMazeObject object, int row, int col) {
-        if (object == null)
-            return;
+        if (object == null) return;
 
         for (int i = 0; i < this.objects.length; i++) {
             for (int j = 0; j < this.objects[i].length; j++) {
@@ -122,6 +120,14 @@ public class Maze implements CommonMaze {
         }
 
         this.objects[row][col].add(object);
+        this.updatesFields.add(new Pair<>(row, col));
+    }
+
+    @Override
+    public void removeObject(CommonMazeObject object, int row, int col) {
+        if (object == null) return;
+
+        this.objects[row][col].remove(object);
         this.updatesFields.add(new Pair<>(row, col));
     }
 

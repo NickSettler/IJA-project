@@ -26,5 +26,7 @@ public interface CommonMaze {
 
     void moveObject(CommonMazeObject object, int row, int col);
 
+    void removeObject(CommonMazeObject object, int row, int col);
+
     void notifyUpdates();
 }

@@ -38,7 +38,7 @@ public class MazePresenter implements KeyListener {
         frame.setFocusable(true);
         frame.setFocusTraversalKeysEnabled(true);
         frame.setFocusableWindowState(true);
-        frame.addKeyListener(this);
+        frame.addKeyListener(KeyboardController.getInstance());
         int rows = this.maze.numRows();
         int cols = this.maze.numCols();
         GridLayout layout = new GridLayout(rows, cols);
