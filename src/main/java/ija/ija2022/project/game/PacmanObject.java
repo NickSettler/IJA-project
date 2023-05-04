@@ -1,11 +1,10 @@
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.tool.common.CommonMaze;
-import ija.ija2022.project.tool.common.CommonMazeObject;
 
 import java.util.Objects;
 
-public class PacmanObject extends BaseObject implements CommonMazeObject {
+public class PacmanObject extends BaseObject {
     private int lives;
 
     public PacmanObject(int row, int col, CommonMaze commonMaze) {

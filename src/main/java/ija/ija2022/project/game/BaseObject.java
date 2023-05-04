@@ -5,6 +5,7 @@ import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.common.CommonMazeObject;
 import ija.ija2022.project.tool.common.Observable;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,8 @@ public class BaseObject implements CommonMazeObject {
     protected int col;
 
     protected final CommonMaze maze;
+
+    protected CommonField.Direction direction = null;
 
     private final Set<Observer> observers = new HashSet<>();
 
@@ -31,6 +34,27 @@ public class BaseObject implements CommonMazeObject {
         );
 
         return nextField != null && nextField.canMove();
+    }
+
+    public void generateDirection() {
+        CommonField.Direction[] directions = Arrays.stream(CommonField.Direction.values())
+                .filter(this::canMove)
+                .toArray(CommonField.Direction[]::new);
+
+        if (directions.length == 0) return;
+
+        int randomIndex = (int) (Math.random() * directions.length);
+        this.direction = directions[randomIndex];
+    }
+
+    @Override
+    public void move() {
+        if (this.direction == null) {
+            this.generateDirection();
+            return;
+        }
+
+        this.move(this.direction);
     }
 
     @Override
@@ -53,9 +77,8 @@ public class BaseObject implements CommonMazeObject {
         return CommonMazeObject.super.isPacman();
     }
 
-    @Override
-    public CommonField getField() {
-        return this.maze.getField(this.row, this.col);
+    public void setDirection(CommonField.Direction direction) {
+        this.direction = direction;
     }
 
     @Override
