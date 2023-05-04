@@ -1,20 +1,16 @@
 package ija.ija2022.project.tool;
 
-import ija.ija2022.project.events.EVENTS;
-import ija.ija2022.project.events.EventsSystem;
+import ija.ija2022.project.game.KeyboardController;
 import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.view.FieldView;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import javax.swing.*;
+import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
 
-public class MazePresenter implements KeyListener {
+public class MazePresenter {
     private final CommonMaze maze;
 
     public MazePresenter(CommonMaze maze) {
@@ -54,20 +50,5 @@ public class MazePresenter implements KeyListener {
         frame.getContentPane().add(content, "Center");
         frame.pack();
         frame.setVisible(true);
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // do nothing
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        EventsSystem.getInstance().emit(EVENTS.KEYDOWN, e.getKeyCode());
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        EventsSystem.getInstance().emit(EVENTS.KEYUP, e.getKeyCode());
     }
 }
