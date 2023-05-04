@@ -20,8 +20,9 @@ public class PacmanController extends KeyAdapter {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // TODO
+                e.getX();
                 Point clickPoint = e.getPoint();
-                List<CommonField.Direction> path = pathFinder.findPath(clickPoint, clickPoint);
+//                List<CommonField.Direction> path = pathFinder.findPath(clickPoint, clickPoint);
             }
         });
     }

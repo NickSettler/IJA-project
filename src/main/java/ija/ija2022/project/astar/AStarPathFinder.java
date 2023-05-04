@@ -9,29 +9,31 @@ import java.util.*;
 
 public class AStarPathFinder {
     private final GameModel gameModel;
+    private final Maze maze;
     private final int[][] heuristic;
     private final PriorityQueue<Node> openSet;
     private final Set<Node> closedSet;
 
     public AStarPathFinder(GameModel gameModel, Maze maze) {
         this.gameModel = gameModel;
+        this.maze = maze;
         this.heuristic = new int[maze.numRows()][maze.numCols()];
         this.openSet = new PriorityQueue<>(Comparator.comparingInt(Node::getF));
         this.closedSet = new HashSet<>();
     }
 
-    public List<CommonField.Direction> findPath(BaseField start, BaseField target) {
+    public List<CommonField.Direction> findPath(int startX, int startY, int endX, int endY) {
         for (int x = 0; x < heuristic.length; x++) {
             for (int y = 0; y < heuristic[0].length; y++) {
-                heuristic[x][y] = Math.abs(x - target.getRow()) + Math.abs(y - target.getCol());
+                heuristic[x][y] = Math.abs(x - endX) + Math.abs(y - endY);
             }
         }
-        Node startNode = new Node(start, null, 0, heuristic[start.getRow()][start.getCol()], null);
+        Node startNode = new Node((BaseField) maze.getField(startX, startY), null, 0, heuristic[startX][startY], null);
         openSet.offer(startNode);
 
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
-            if (current.getPoint().equals(target)) {
+            if (current.getPoint().equals(maze.getField(endX, endY))) {
                 List<CommonField.Direction> path = new ArrayList<>();
                 while (current.getParent() != null) {
                     path.add(current.getDirection());
