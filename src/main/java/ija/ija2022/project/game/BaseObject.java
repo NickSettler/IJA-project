@@ -33,7 +33,7 @@ public class BaseObject implements CommonMazeObject {
                 this.col + direction.deltaCol()
         );
 
-        return nextField != null && nextField.canMove();
+        return nextField != null && nextField.canMove() && nextField.get().isEmpty();
     }
 
     @Override
