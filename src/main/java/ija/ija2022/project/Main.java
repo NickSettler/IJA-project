@@ -4,6 +4,7 @@ import ija.ija2022.project.game.ReplayController;
 import ija.ija2022.project.game.configure.MazeConfigure;
 import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.ui.Window;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,8 +16,8 @@ public class Main {
     public static void main(String[] args) {
 //        UIController.getInstance().showMainView();
 
-//        Window mainWindow = new Window();
-//        mainWindow.getFrame().setVisible(true);
+        Window mainWindow = new Window();
+        mainWindow.getFrame().setVisible(true);
 
 //        keyboardController.addObserver(ghostMoveObserver);
 
