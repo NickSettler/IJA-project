@@ -24,11 +24,33 @@ public record LogItem(CHARACTER_MAP character, Pair<Integer, Integer> from, Pair
         return String.format("%s:(%d,%d)-(%d,%d)", this.character.getCharacter(), this.from.getKey(), this.from.getValue(), this.to.getKey(), this.to.getValue());
     }
 
-    public CommonField.Direction direction() {
+    public CommonField.Direction direction(boolean reverse) {
         return CommonField.Direction.from(
-                this.to().getKey() - this.from().getKey(),
-                this.to().getValue() - this.from().getValue()
+                this.to(reverse).getKey() - this.from(reverse).getKey(),
+                this.to(reverse).getValue() - this.from(reverse).getValue()
         );
+    }
+
+    public CommonField.Direction direction() {
+        return this.direction(false);
+    }
+
+    public Pair<Integer, Integer> from(boolean reverse) {
+        return reverse ? this.to : this.from;
+    }
+
+    @Override
+    public Pair<Integer, Integer> from() {
+        return this.from(false);
+    }
+
+    public Pair<Integer, Integer> to(boolean reverse) {
+        return reverse ? this.from : this.to;
+    }
+
+    @Override
+    public Pair<Integer, Integer> to() {
+        return this.to(false);
     }
 
     public static LogItem fromString(String string) {

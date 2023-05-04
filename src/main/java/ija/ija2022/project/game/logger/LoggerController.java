@@ -25,7 +25,7 @@ public class LoggerController {
 
     private Integer[] dimensions;
 
-    private int index = 0;
+    private int index = -1;
 
     public LoggerController(LOGGER_MODE mode) {
         this.mode = mode;
@@ -97,11 +97,18 @@ public class LoggerController {
     }
 
     public void nextEntry() {
+        if (this.index >= this.entries.size() + 1) return;
         this.index++;
     }
 
+    public void previousEntry() {
+        if (this.index <= 0) return;
+        this.index--;
+    }
+
     public LogEntry currentEntry() {
-        if (this.index >= this.entries.size()) return null;
+        if (this.index >= this.entries.size() || this.index < 0)
+            return null;
 
         return this.entries.get(this.index);
     }

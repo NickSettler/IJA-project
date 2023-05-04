@@ -3,9 +3,13 @@ package ija.ija2022.project.tool.common;
 public interface CommonMazeObject extends Observable {
     boolean canMove(CommonField.Direction direction);
 
+    boolean canMove(int row, int col);
+
     void move();
 
     void move(CommonField.Direction direction);
+
+    void move(int row, int col);
 
     default boolean isPacman() {
         return false;

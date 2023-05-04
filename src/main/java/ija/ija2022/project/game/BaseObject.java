@@ -36,6 +36,13 @@ public class BaseObject implements CommonMazeObject {
         return nextField != null && nextField.canMove();
     }
 
+    @Override
+    public boolean canMove(int row, int col) {
+        CommonField nextField = this.maze.getField(row, col);
+
+        return nextField != null && nextField.canMove();
+    }
+
     public void generateDirection() {
         CommonField.Direction[] directions = Arrays.stream(CommonField.Direction.values())
                 .filter(this::canMove)
@@ -70,6 +77,18 @@ public class BaseObject implements CommonMazeObject {
         this.col = nextCol;
 
         this.maze.moveObject(this, nextRow, nextCol);
+    }
+
+    @Override
+    public void move(int row, int col) {
+        boolean canMove = this.canMove(row, col);
+
+        if (!canMove) return;
+
+        this.row = row;
+        this.col = col;
+
+        this.maze.moveObject(this, row, col);
     }
 
     @Override
