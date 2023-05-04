@@ -1,8 +1,10 @@
 package ija.ija2022.project.game;
 
+import ija.ija2022.project.astar.AStarPathFinder;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
+import ija.ija2022.project.events.events.MouseClickedEvent;
 import ija.ija2022.project.events.events.WindowCloseEvent;
 import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.configure.MazeConfigure;
@@ -12,21 +14,25 @@ import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.tool.MazePresenter;
 import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.tool.view.FieldView;
 import ija.ija2022.project.ui.GameView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class GameController extends BaseMazeController {
+    private final MazeConfigure mazeConfigure;
     private final CommonMaze maze;
     private final MazePresenter presenter;
     private final GameView view;
+    private List<CommonField.Direction> pacmanPath = Collections.emptyList();
     private final CollisionController collisionController;
     private final LoggerController loggerController;
-    private final MazeConfigure mazeConfigure;
 
     public GameController(GAME_MODE mode, String filePath) {
         super(mode);
@@ -41,6 +47,9 @@ public class GameController extends BaseMazeController {
         this.collisionController = new CollisionController(this.maze);
 
         this.view.setVisible(true);
+
+        if (this.mode == GAME_MODE.CONTINUOUS)
+            this.start();
     }
 
     @EventHandler
@@ -87,6 +96,26 @@ public class GameController extends BaseMazeController {
             this.start();
     }
 
+    @EventHandler
+    private void handleMouseClickEvent(MouseClickedEvent event) {
+        FieldView field = (FieldView) SwingUtilities.getDeepestComponentAt(this.view, event.getX(), event.getY());
+
+        if (field == null || field.getField() == null)
+            return;
+
+        AStarPathFinder pathFinder = new AStarPathFinder(this.maze);
+        List<CommonField.Direction> path = pathFinder.findPath(
+                this.maze.getPacman().getRow(),
+                this.maze.getPacman().getCol(),
+                field.getField().getRow(),
+                field.getField().getCol()
+        );
+
+        if (path == null || path.isEmpty()) return;
+
+        this.pacmanPath = path;
+    }
+
     protected void update() {
         for (GhostObject ghost : this.maze.ghosts()) {
             ghost.generateDirection();
@@ -94,22 +123,31 @@ public class GameController extends BaseMazeController {
             this.loggerController.addItem(ghost);
         }
 
-        Map<Integer, Boolean> keys = KeyboardController.getInstance().getKeys();
-
         PacmanObject pacman = this.maze.getPacman();
 
-        if (keys.getOrDefault(KeyEvent.VK_W, false))
-            pacman.setDirection(CommonField.Direction.U);
-        else if (keys.getOrDefault(KeyEvent.VK_S, false))
-            pacman.setDirection(CommonField.Direction.D);
-        else if (keys.getOrDefault(KeyEvent.VK_A, false))
-            pacman.setDirection(CommonField.Direction.L);
-        else if (keys.getOrDefault(KeyEvent.VK_D, false))
-            pacman.setDirection(CommonField.Direction.R);
+        if (this.pacmanPath.isEmpty()) {
+            Map<Integer, Boolean> keys = KeyboardController.getInstance().getKeys();
 
-        keys.clear();
+            if (keys.getOrDefault(KeyEvent.VK_W, false))
+                pacman.setDirection(CommonField.Direction.U);
+            else if (keys.getOrDefault(KeyEvent.VK_S, false))
+                pacman.setDirection(CommonField.Direction.D);
+            else if (keys.getOrDefault(KeyEvent.VK_A, false))
+                pacman.setDirection(CommonField.Direction.L);
+            else if (keys.getOrDefault(KeyEvent.VK_D, false))
+                pacman.setDirection(CommonField.Direction.R);
 
-        pacman.move();
+            keys.clear();
+
+            pacman.move();
+        } else {
+            pacman.setDirection(this.pacmanPath.get(0));
+            pacman.move();
+            this.pacmanPath.remove(0);
+
+            if (this.pacmanPath.isEmpty())
+                pacman.setDirection(CommonField.Direction.N);
+        }
 
         this.loggerController.addItem(pacman);
         this.loggerController.nextEntry();
