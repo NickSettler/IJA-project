@@ -24,9 +24,8 @@ public class FieldView extends JPanel implements Observable.Observer {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.objects.forEach((v) -> {
-            v.paintComponent(g);
-        });
+        for (int i = 0; i < this.objects.size(); i++)
+            this.objects.get(i).paintComponent(g);
     }
 
     private void privUpdate() {
@@ -40,6 +39,10 @@ public class FieldView extends JPanel implements Observable.Observer {
                         .map(o -> (PacmanObject) o)
                         .findFirst()
                         .orElse(null);
+
+                if (objects.size() > 1) {
+                    System.out.println("Here");
+                }
 
                 ComponentView v = pacman != null ? new PacmanView(this, pacman) : new GhostView(this, objects.get(0));
                 this.objects.add(v);

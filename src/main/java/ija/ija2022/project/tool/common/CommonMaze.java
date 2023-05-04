@@ -14,6 +14,8 @@ public interface CommonMaze {
 
     GhostObject[] ghosts();
 
+    PacmanObject getPacman();
+
     void setField(int row, int col, CommonField iField);
 
     CommonField[][] getFields();
@@ -24,5 +26,5 @@ public interface CommonMaze {
 
     void moveObject(CommonMazeObject object, int row, int col);
 
-    PacmanObject getPacman();
+    void notifyUpdates();
 }
