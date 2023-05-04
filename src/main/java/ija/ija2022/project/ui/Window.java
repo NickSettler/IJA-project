@@ -1,5 +1,6 @@
 package ija.ija2022.project.ui;
 
+import ija.ija2022.project.game.GameController;
 import ija.ija2022.project.game.ReplayController;
 import ija.ija2022.project.settings.GAME_MODE;
 
@@ -57,10 +58,8 @@ public class Window extends JFrame {
                     GAME_MODE.STEP_BY_STEP
             );
             GAME_MODE selectedMode = GAME_MODE.values()[index];
-            if (selectedMode != null) {
-                boolean isContinuousMode = selectedMode.equals(GAME_MODE.CONTINUOUS);
-//                    GameController controller = new GameController
-            }
+
+            new GameController(selectedMode, "mapa01.txt");
         });
 
         settingsButton.addActionListener(e -> new SettingsView().getFrame().setVisible(true));

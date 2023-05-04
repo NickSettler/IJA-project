@@ -10,7 +10,7 @@ public class Main {
 //        UIController.getInstance().showMainView();
 
         Window mainWindow = new Window();
-        mainWindow.getFrame().setVisible(true);
+        mainWindow.setVisible(true);
 
 //        keyboardController.addObserver(ghostMoveObserver);
 

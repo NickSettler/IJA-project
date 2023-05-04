@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ReplayView extends JFrame {
-
     public ReplayView(ReplayController controller) {
         super("Replay Game");
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -60,6 +59,6 @@ public class ReplayView extends JFrame {
         c.gridx = 0;
         c.gridwidth = 3;
         c.gridy = 1;
-        this.add(controller.getFrame(), c);
+        this.add(controller.getMazeView(), c);
     }
 }

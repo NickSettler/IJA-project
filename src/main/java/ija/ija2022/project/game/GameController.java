@@ -1,17 +1,18 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.Main;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.events.events.WindowCloseEvent;
 import ija.ija2022.project.game.collision.CollisionController;
+import ija.ija2022.project.game.configure.MazeConfigure;
 import ija.ija2022.project.game.logger.LOGGER_MODE;
 import ija.ija2022.project.game.logger.LoggerController;
 import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.tool.MazePresenter;
 import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.ui.GameView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,22 +20,27 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Map;
 
-public class GameController {
+public class GameController extends BaseMazeController {
     private final CommonMaze maze;
-    private final GAME_MODE mode;
-
+    private final MazePresenter presenter;
+    private final GameView view;
     private final CollisionController collisionController;
-
     private final LoggerController loggerController;
+    private final MazeConfigure mazeConfigure;
 
-    public GameController(CommonMaze maze, GAME_MODE mode) {
-        this.maze = maze;
-        this.mode = mode;
+    public GameController(GAME_MODE mode, String filePath) {
+        super(mode);
 
-        this.collisionController = new CollisionController(this.maze);
         this.loggerController = new LoggerController(LOGGER_MODE.WRITE);
 
-        EventManager.getInstance().addEventListener(this);
+        this.mazeConfigure = new MazeConfigure(filePath, true);
+        this.maze = this.mazeConfigure.createMaze();
+        this.presenter = new MazePresenter(this.maze);
+        this.view = new GameView(this);
+
+        this.collisionController = new CollisionController(this.maze);
+
+        this.view.setVisible(true);
     }
 
     @EventHandler
@@ -43,6 +49,8 @@ public class GameController {
             return;
 
         Window parentFrame = event.getWindow();
+
+        this.stop();
 
         String[] options = {"Yes! Please.", "No! Not now."};
         int result = JOptionPane.showOptionDialog(
@@ -64,18 +72,22 @@ public class GameController {
 
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToSave = fileChooser.getSelectedFile();
-                this.loggerController.close(fileToSave.getAbsolutePath());
+                this.loggerController.close(fileToSave.getAbsolutePath(), this.mazeConfigure.getMazeText());
             }
         }
+
+        EventManager.getInstance().removeEventListener(this);
     }
 
     @EventHandler
     private void handleKeyDownEvent(KeyDownEvent event) {
         if (this.mode == GAME_MODE.STEP_BY_STEP)
             this.tick();
+        else if (!this.isRunning.get())
+            this.start();
     }
 
-    private void update() {
+    protected void update() {
         for (GhostObject ghost : this.maze.ghosts()) {
             ghost.generateDirection();
             ghost.move();
@@ -106,24 +118,12 @@ public class GameController {
         this.collisionController.handleCollisions();
     }
 
-    private void render() {
+    protected void render() {
         this.maze.notifyUpdates();
     }
 
-    private void tick() {
-        this.update();
-        this.render();
-
-        if (this.mode == GAME_MODE.CONTINUOUS) {
-            Main.sleep(250);
-            this.tick();
-        }
-    }
-
-    public void start() {
-        MazePresenter presenter = new MazePresenter(maze);
-
-        if (this.mode == GAME_MODE.CONTINUOUS)
-            this.tick();
+    @Override
+    public JPanel getMazeView() {
+        return this.presenter;
     }
 }
