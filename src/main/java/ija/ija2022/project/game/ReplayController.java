@@ -1,7 +1,6 @@
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.events.EventHandler;
-import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.configure.MazeConfigure;
@@ -16,95 +15,83 @@ import ija.ija2022.project.ui.ReplayView;
 
 import javax.swing.*;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ReplayController implements Runnable {
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+
+public class ReplayController extends BaseMazeController {
     private final CommonMaze maze;
-    private GAME_MODE mode;
+    private REPLAY_DIRECTION replayDirection = REPLAY_DIRECTION.FORWARD;
     private final MazePresenter presenter;
     private final ReplayView view;
-    private Thread tickThread;
-    private final AtomicBoolean isRunning = new AtomicBoolean(false);
     private final CollisionController collisionController;
     private final LoggerController logger;
 
     public ReplayController(GAME_MODE mode, String filePath) {
+        super(mode);
         this.logger = new LoggerController(LOGGER_MODE.READ, filePath);
 
         MazeConfigure mazeConfigure = new MazeConfigure(this.logger.getMapText());
 
         this.maze = mazeConfigure.createMaze();
-        this.mode = mode;
         this.presenter = new MazePresenter(this.maze);
         this.view = new ReplayView(this);
 
         this.collisionController = new CollisionController(this.maze);
-
-        EventManager.getInstance().addEventListener(this);
 
         this.view.setVisible(true);
     }
 
     @EventHandler
     private void handleKeyDownEvent(KeyDownEvent e) {
-        if (this.mode == GAME_MODE.STEP_BY_STEP)
+        if (e.getKeyCode() != VK_LEFT && e.getKeyCode() != VK_RIGHT)
+            return;
+
+        if (this.mode == GAME_MODE.STEP_BY_STEP) {
+            this.replayDirection = e.getKeyCode() == VK_LEFT ? REPLAY_DIRECTION.BACKWARD : REPLAY_DIRECTION.FORWARD;
+
             this.tick();
+        }
     }
 
-    private void update() {
+    protected void update() {
+        if (replayDirection == REPLAY_DIRECTION.BACKWARD)
+            this.logger.previousEntry();
+
         this.processBatchCommands(this.logger.currentEntry());
-        this.logger.nextEntry();
+
+        if (replayDirection == REPLAY_DIRECTION.FORWARD)
+            this.logger.nextEntry();
 
         this.collisionController.detectCollisions();
         this.collisionController.handleCollisions();
     }
 
-    private void render() {
+    protected void render() {
         this.maze.notifyUpdates();
     }
 
-    private void tick() {
-        this.update();
-        this.render();
-    }
-
-    public void run() {
-        isRunning.set(true);
-        while (isRunning.get()) {
-            try {
-                this.tick();
-
-                if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(250);
-
-                if (this.logger.currentEntry() == null)
-                    this.stop();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
-    public void start() {
-        this.tickThread = new Thread(this);
-        this.tickThread.start();
-    }
-
-    public void stop() {
-        this.isRunning.set(false);
+    protected void runCheck() {
+        if (this.logger.currentEntry() == null)
+            this.stop();
     }
 
     private void processCommand(LogItem command) {
+        boolean reverse = this.replayDirection == REPLAY_DIRECTION.BACKWARD;
+
         switch (command.character()) {
-            case PACMAN -> this.maze.getPacman().move(command.direction());
+            case PACMAN -> this.maze.getPacman().move(command.to(reverse).getKey(), command.to(reverse).getValue());
 
             case GHOST -> Arrays.stream(this.maze.ghosts())
-                    .filter(ghost -> ghost.getRow() == command.from().getKey() && ghost.getCol() == command.from().getValue())
+                    .filter(ghost -> ghost.getRow() == command.from(reverse).getKey() && ghost.getCol() == command.from(reverse).getValue())
                     .findFirst()
-                    .ifPresent(ghost -> ghost.move(command.direction()));
+                    .ifPresent(ghost -> ghost.move(command.to(reverse).getKey(), command.to(reverse).getValue()));
         }
     }
 
     private void processBatchCommands(LogEntry commandsEntry) {
+        if (commandsEntry == null) return;
+
         for (LogItem command : commandsEntry.items()) {
             this.processCommand(command);
         }
@@ -112,13 +99,5 @@ public class ReplayController implements Runnable {
 
     public JPanel getFrame() {
         return this.presenter;
-    }
-
-    public void setMode(GAME_MODE mode) {
-        this.mode = mode;
-    }
-
-    public GAME_MODE getMode() {
-        return mode;
     }
 }
