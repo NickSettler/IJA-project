@@ -40,10 +40,6 @@ public class FieldView extends JPanel implements Observable.Observer {
                         .findFirst()
                         .orElse(null);
 
-                if (objects.size() > 1) {
-                    System.out.println("Here");
-                }
-
                 ComponentView v = pacman != null ? new PacmanView(this, pacman) : new GhostView(this, objects.get(0));
                 this.objects.add(v);
             } else {

@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-public class Window extends JFrame implements IUIView {
+public class Window extends JFrame {
 
     public Window() {
         super("Pacman game");
@@ -22,7 +22,7 @@ public class Window extends JFrame implements IUIView {
         createButtons(panel);
 
         this.add(panel, BorderLayout.NORTH);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
     private void createButtons(JPanel panel) {
@@ -41,40 +41,7 @@ public class Window extends JFrame implements IUIView {
             int result = fileChooser.showOpenDialog(Window.this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-
-//                int index = JOptionPane.showOptionDialog(
-//                        Window.this,
-//                        "Select a mode of replay:",
-//                        "Replay mode",
-//                        JOptionPane.DEFAULT_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE,
-//                        null,
-//                        GAME_MODE.values(),
-//                        GAME_MODE.STEP_BY_STEP
-//                );
-
-//                GAME_MODE selectedMode = GAME_MODE.values()[index];
-//                System.out.println("Selected mode: " + selectedMode);
-                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-
-                ReplayController replayController = new ReplayController(GAME_MODE.STEP_BY_STEP, selectedFile.getAbsolutePath());
-
-//                if (selectedMode != null) {
-//                    if (selectedMode.equals(GAME_MODE.STEP_BY_STEP)) {
-//                        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(selectedFile))) {
-//                            //
-//                        } catch (IOException ex) {
-//                            ex.printStackTrace();
-//                        }
-//                    } else if (selectedMode.equals(GAME_MODE.CONTINUOUS)) {
-//                        int delay = 500;
-//                        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(selectedFile))) {
-//                            //
-//                        } catch (IOException ex) {
-//                            ex.printStackTrace();
-//                        }
-//                    }
-//                }
+                new ReplayController(GAME_MODE.STEP_BY_STEP, selectedFile.getAbsolutePath());
             }
         });
 
@@ -106,15 +73,5 @@ public class Window extends JFrame implements IUIView {
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setIcon(imageIcon);
         this.add(imageLabel, BorderLayout.CENTER);
-    }
-
-    @Override
-    public JFrame getFrame() {
-        return this;
-    }
-
-    @Override
-    public void dispose() {
-        this.dispose();
     }
 }
