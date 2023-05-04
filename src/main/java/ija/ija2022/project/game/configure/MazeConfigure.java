@@ -5,6 +5,9 @@ import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.common.CommonMazeObject;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +31,59 @@ public class MazeConfigure {
 
     private CommonMaze commonMaze;
 
-    public MazeConfigure() {
+    private String mazeText;
+
+    public MazeConfigure(String text) {
+        this(text, false);
+    }
+
+    public MazeConfigure(String text, boolean isFilePath) {
         this.reading = false;
         this.rowCounter = 1;
         this.commonMaze = null;
+        this.mazeText = null;
+
+        if (isFilePath)
+            try {
+                this.mazeText = Files.readString(Paths.get(text));
+            } catch (IOException e) {
+                System.out.println("Cannot read file");
+                System.exit(1);
+                return;
+            }
+        else
+            this.mazeText = text;
+
+        String[] lines = this.mazeText.split("\n");
+
+        if (lines.length < 2) {
+            System.out.println("File is too short");
+            System.exit(1);
+            return;
+        }
+
+        Integer[] dimensions = this.parseDimensions(lines[0]);
+
+        if (dimensions.length != 2) {
+            System.out.println("Invalid dimensions");
+            System.exit(1);
+            return;
+        }
+
+        this.startReading(dimensions[0], dimensions[1]);
+        lines = Arrays.copyOfRange(lines, 1, lines.length);
+        Arrays.stream(lines).forEach(this::processLine);
+        this.stopReading();
+    }
+
+    private Integer[] parseDimensions(String line) {
+        try {
+            return Arrays.stream(line.split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid dimensions");
+            System.exit(1);
+            return null;
+        }
     }
 
     private boolean checkLine(String line) {
