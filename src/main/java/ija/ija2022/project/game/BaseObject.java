@@ -33,7 +33,11 @@ public class BaseObject implements CommonMazeObject {
                 this.col + direction.deltaCol()
         );
 
-        return nextField != null && nextField.canMove() && nextField.get().isEmpty();
+        boolean canGhostMoveToGhost = this instanceof GhostObject &&
+                this.maze.getObjects()[this.row + direction.deltaRow()][this.col + direction.deltaCol()]
+                        .stream().anyMatch(obj -> obj instanceof GhostObject);
+
+        return nextField != null && nextField.canMove() && !canGhostMoveToGhost;
     }
 
     @Override
