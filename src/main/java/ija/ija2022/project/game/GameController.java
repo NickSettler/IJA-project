@@ -122,7 +122,6 @@ public class GameController {
 
     public void start() {
         MazePresenter presenter = new MazePresenter(maze);
-        presenter.open();
 
         if (this.mode == GAME_MODE.CONTINUOUS)
             this.tick();

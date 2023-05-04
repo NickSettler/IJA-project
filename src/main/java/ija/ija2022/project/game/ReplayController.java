@@ -1,6 +1,5 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.Main;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
@@ -13,15 +12,19 @@ import ija.ija2022.project.game.logger.LoggerController;
 import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.tool.MazePresenter;
 import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.ui.ReplayView;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ReplayController {
+public class ReplayController implements Runnable {
     private final CommonMaze maze;
-    private final GAME_MODE mode;
-
+    private GAME_MODE mode;
     private final MazePresenter presenter;
+    private final ReplayView view;
+    private Thread tickThread;
+    private final AtomicBoolean isRunning = new AtomicBoolean(false);
     private final CollisionController collisionController;
     private final LoggerController logger;
 
@@ -33,10 +36,13 @@ public class ReplayController {
         this.maze = mazeConfigure.createMaze();
         this.mode = mode;
         this.presenter = new MazePresenter(this.maze);
+        this.view = new ReplayView(this);
 
         this.collisionController = new CollisionController(this.maze);
 
         EventManager.getInstance().addEventListener(this);
+
+        this.view.setVisible(true);
     }
 
     @EventHandler
@@ -60,11 +66,31 @@ public class ReplayController {
     private void tick() {
         this.update();
         this.render();
+    }
 
-        if (this.mode == GAME_MODE.CONTINUOUS && this.logger.currentEntry() != null) {
-            Main.sleep(250);
-            this.tick();
+    public void run() {
+        isRunning.set(true);
+        while (isRunning.get()) {
+            try {
+                this.tick();
+
+                if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(250);
+
+                if (this.logger.currentEntry() == null)
+                    this.stop();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
+    }
+
+    public void start() {
+        this.tickThread = new Thread(this);
+        this.tickThread.start();
+    }
+
+    public void stop() {
+        this.isRunning.set(false);
     }
 
     private void processCommand(LogItem command) {
@@ -84,14 +110,15 @@ public class ReplayController {
         }
     }
 
-    public void start() {
-        this.presenter.open();
-
-        if (this.mode == GAME_MODE.CONTINUOUS)
-            this.tick();
+    public JPanel getFrame() {
+        return this.presenter;
     }
 
-    public JPanel getFrame() {
-        return (JPanel) this.presenter.getFrame().getContentPane();
+    public void setMode(GAME_MODE mode) {
+        this.mode = mode;
+    }
+
+    public GAME_MODE getMode() {
+        return mode;
     }
 }

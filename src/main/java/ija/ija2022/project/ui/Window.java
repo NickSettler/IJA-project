@@ -1,5 +1,6 @@
 package ija.ija2022.project.ui;
 
+import ija.ija2022.project.game.ReplayController;
 import ija.ija2022.project.settings.GAME_MODE;
 
 import javax.swing.*;
@@ -56,19 +57,7 @@ public class Window extends JFrame implements IUIView {
 //                System.out.println("Selected mode: " + selectedMode);
                 System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 
-                JFrame frame = new JFrame("Replay Game");
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.pack();
-                frame.setLayout(new BorderLayout());
-                frame.setSize(500, 500);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-
-                JPanel replayPanel = new JPanel();
-                ReplayView replayView = new ReplayView(replayPanel, selectedFile.getAbsolutePath());
-                replayPanel.add(replayView);
-
-                frame.add(replayPanel, BorderLayout.NORTH);
+                ReplayController replayController = new ReplayController(GAME_MODE.STEP_BY_STEP, selectedFile.getAbsolutePath());
 
 //                if (selectedMode != null) {
 //                    if (selectedMode.equals(GAME_MODE.STEP_BY_STEP)) {
