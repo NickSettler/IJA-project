@@ -1,6 +1,7 @@
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.Main;
+import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.logger.LOGGER_MODE;
 import ija.ija2022.project.game.logger.LogEntry;
 import ija.ija2022.project.game.logger.LogItem;
@@ -14,18 +15,23 @@ import java.util.Arrays;
 public class ReplayController {
     private final CommonMaze maze;
     private final GAME_MODE mode;
+    private final CollisionController collisionController;
     private final LoggerController logger;
 
     public ReplayController(CommonMaze maze, GAME_MODE mode, String filePath) {
         this.maze = maze;
         this.mode = mode;
 
+        this.collisionController = new CollisionController(this.maze);
         this.logger = new LoggerController(LOGGER_MODE.READ, filePath);
     }
 
     private void update() {
         this.processBatchCommands(this.logger.currentEntry());
         this.logger.nextEntry();
+
+        this.collisionController.detectCollisions();
+        this.collisionController.handleCollisions();
     }
 
     private void render() {
