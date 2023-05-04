@@ -10,7 +10,7 @@ public class WallField extends BaseField implements CommonField {
 
     @Override
     public boolean isEmpty() {
-        return true;
+        return false;
     }
 
     @Override

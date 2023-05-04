@@ -37,6 +37,14 @@ public class BaseField extends AbstractObservableField {
         return this.commonMaze.getObjects()[this.row][this.col];
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
     @Override
     public boolean isEmpty() {
         return this.commonMaze.getObjects()[this.row][this.col].isEmpty();
