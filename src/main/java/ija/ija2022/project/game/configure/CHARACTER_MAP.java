@@ -17,4 +17,14 @@ public enum CHARACTER_MAP {
     public char getCharacter() {
         return this.character;
     }
+
+    public static CHARACTER_MAP from(Character character) {
+        for (CHARACTER_MAP value : CHARACTER_MAP.values()) {
+            if (value.getCharacter() == character) {
+                return value;
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid character");
+    }
 }
