@@ -1,7 +1,7 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.events.EVENTS;
-import ija.ija2022.project.events.EventsSystem;
+import ija.ija2022.project.events.EventManager;
+import ija.ija2022.project.events.events.WindowCloseEvent;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -24,7 +24,7 @@ public class WindowController implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        EventsSystem.getInstance().emit(EVENTS.CLOSE_PRESENTER, null);
+        EventManager.getInstance().fireEvent(new WindowCloseEvent(e.getWindow()));
 
         e.getWindow().dispose();
     }

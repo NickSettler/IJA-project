@@ -1,7 +1,7 @@
 package ija.ija2022.project.game;
 
-import ija.ija2022.project.events.EVENTS;
-import ija.ija2022.project.events.EventsSystem;
+import ija.ija2022.project.events.EventManager;
+import ija.ija2022.project.events.events.KeyDownEvent;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -32,13 +32,13 @@ public class KeyboardController implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         keys.put(e.getKeyCode(), true);
-        EventsSystem.getInstance().emit(EVENTS.KEYDOWN, e.getKeyCode());
+        EventManager.getInstance().fireEvent(new KeyDownEvent(e.getKeyCode()));
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 //        keys.put(e.getKeyCode(), false);
-        EventsSystem.getInstance().emit(EVENTS.KEYUP, e.getKeyCode());
+//        EventManager.getInstance().fireEvent(new KeyDownEvent(e.getKeyCode()));
     }
 
     public Map<Integer, Boolean> getKeys() {

@@ -1,8 +1,10 @@
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.Main;
-import ija.ija2022.project.events.EVENTS;
-import ija.ija2022.project.events.EventsSystem;
+import ija.ija2022.project.events.EventHandler;
+import ija.ija2022.project.events.EventManager;
+import ija.ija2022.project.events.events.KeyDownEvent;
+import ija.ija2022.project.events.events.WindowCloseEvent;
 import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.logger.LOGGER_MODE;
 import ija.ija2022.project.game.logger.LoggerController;
@@ -11,7 +13,10 @@ import ija.ija2022.project.tool.MazePresenter;
 import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Map;
 
 public class GameController {
@@ -29,10 +34,42 @@ public class GameController {
         this.collisionController = new CollisionController(this.maze);
         this.loggerController = new LoggerController(LOGGER_MODE.WRITE, "data/history03.json");
 
-        if (this.mode == GAME_MODE.STEP_BY_STEP)
-            EventsSystem.getInstance().on(EVENTS.KEYDOWN, (Object obj) -> this.tick());
+        EventManager.getInstance().addEventListener(this);
+    }
 
-        EventsSystem.getInstance().on(EVENTS.CLOSE_PRESENTER, (Object obj) -> this.loggerController.close());
+    @EventHandler
+    private void handleWindowCloseEvent(WindowCloseEvent event) {
+        Window parentFrame = event.getWindow();
+
+        String[] options = {"Yes! Please.", "No! Not now."};
+        int result = JOptionPane.showOptionDialog(
+                parentFrame,
+                "Do you want to save the game?",
+                "Save game",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        if (result == JOptionPane.YES_OPTION) {
+            JFileChooser fileChooser = new JFileChooser("data/");
+            fileChooser.setDialogTitle("Specify a file to save");
+
+            int userSelection = fileChooser.showSaveDialog(parentFrame);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                this.loggerController.close(fileToSave.getAbsolutePath());
+            }
+        }
+    }
+
+    @EventHandler
+    private void handleKeyDownEvent(KeyDownEvent event) {
+        if (this.mode == GAME_MODE.STEP_BY_STEP)
+            this.tick();
     }
 
     private void update() {
