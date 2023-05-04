@@ -5,6 +5,7 @@ import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.game.collision.CollisionController;
+import ija.ija2022.project.game.configure.MazeConfigure;
 import ija.ija2022.project.game.logger.LOGGER_MODE;
 import ija.ija2022.project.game.logger.LogEntry;
 import ija.ija2022.project.game.logger.LogItem;
@@ -13,20 +14,27 @@ import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.tool.MazePresenter;
 import ija.ija2022.project.tool.common.CommonMaze;
 
+import javax.swing.*;
 import java.util.Arrays;
 
 public class ReplayController {
     private final CommonMaze maze;
     private final GAME_MODE mode;
+
+    private final MazePresenter presenter;
     private final CollisionController collisionController;
     private final LoggerController logger;
 
-    public ReplayController(CommonMaze maze, GAME_MODE mode, String filePath) {
-        this.maze = maze;
+    public ReplayController(GAME_MODE mode, String filePath) {
+        this.logger = new LoggerController(LOGGER_MODE.READ, filePath);
+
+        MazeConfigure mazeConfigure = new MazeConfigure(this.logger.getMapText());
+
+        this.maze = mazeConfigure.createMaze();
         this.mode = mode;
+        this.presenter = new MazePresenter(this.maze);
 
         this.collisionController = new CollisionController(this.maze);
-        this.logger = new LoggerController(LOGGER_MODE.READ, filePath);
 
         EventManager.getInstance().addEventListener(this);
     }
@@ -77,10 +85,13 @@ public class ReplayController {
     }
 
     public void start() {
-        MazePresenter presenter = new MazePresenter(this.maze);
-        presenter.open();
+        this.presenter.open();
 
         if (this.mode == GAME_MODE.CONTINUOUS)
             this.tick();
+    }
+
+    public JPanel getFrame() {
+        return (JPanel) this.presenter.getFrame().getContentPane();
     }
 }

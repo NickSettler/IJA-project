@@ -14,8 +14,11 @@ import java.util.logging.Logger;
 public class MazePresenter {
     private final CommonMaze maze;
 
+    private final JFrame frame;
+
     public MazePresenter(CommonMaze maze) {
         this.maze = maze;
+        this.frame = new JFrame();
     }
 
     public void open() {
@@ -27,16 +30,16 @@ public class MazePresenter {
     }
 
     private void initializeInterface() {
-        JFrame frame = new JFrame("Pacman Demo");
-        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        frame.setSize(350, 400);
-        frame.setPreferredSize(new Dimension(350, 400));
-        frame.setResizable(false);
-        frame.setFocusable(true);
-        frame.setFocusTraversalKeysEnabled(true);
-        frame.setFocusableWindowState(true);
-        frame.addKeyListener(KeyboardController.getInstance());
-        frame.addWindowListener(WindowController.getInstance());
+        this.frame.setTitle("Pacman Demo");
+        this.frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.frame.setSize(350, 400);
+        this.frame.setPreferredSize(new Dimension(350, 400));
+        this.frame.setResizable(false);
+        this.frame.setFocusable(true);
+        this.frame.setFocusTraversalKeysEnabled(true);
+        this.frame.setFocusableWindowState(true);
+        this.frame.addKeyListener(KeyboardController.getInstance());
+        this.frame.addWindowListener(WindowController.getInstance());
         int rows = this.maze.numRows();
         int cols = this.maze.numCols();
         GridLayout layout = new GridLayout(rows, cols);
@@ -49,8 +52,12 @@ public class MazePresenter {
             }
         }
 
-        frame.getContentPane().add(content, "Center");
-        frame.pack();
-        frame.setVisible(true);
+        this.frame.getContentPane().add(content, "Center");
+        this.frame.pack();
+        this.frame.setVisible(true);
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }

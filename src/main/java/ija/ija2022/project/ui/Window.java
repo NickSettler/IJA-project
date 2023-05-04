@@ -5,9 +5,6 @@ import ija.ija2022.project.settings.GAME_MODE;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 public class Window extends JFrame implements IUIView {
 
@@ -38,40 +35,25 @@ public class Window extends JFrame implements IUIView {
         panel.add(endButton);
 
         replayButton.addActionListener(e -> {
-
-//            JFrame frame = new JFrame("Replay Game");
-//            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//            frame.pack();
-//            frame.setLayout(new BorderLayout());
-//            frame.setSize(500, 500);
-//            frame.setLocationRelativeTo(null);
-//            frame.setVisible(true);
-//
-//            JPanel replayPanel = new JPanel();
-//            ReplayView replayView = new ReplayView(replayPanel);
-//            replayPanel.add(replayView);
-//
-//            frame.add(replayPanel, BorderLayout.NORTH);
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(new File("saved_games"));
+            JFileChooser fileChooser = new JFileChooser("data/");
 
             int result = fileChooser.showOpenDialog(Window.this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
 
-                int index = JOptionPane.showOptionDialog(
-                        Window.this,
-                        "Select a mode of replay:",
-                        "Replay mode",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        GAME_MODE.values(),
-                        GAME_MODE.STEP_BY_STEP
-                );
+//                int index = JOptionPane.showOptionDialog(
+//                        Window.this,
+//                        "Select a mode of replay:",
+//                        "Replay mode",
+//                        JOptionPane.DEFAULT_OPTION,
+//                        JOptionPane.QUESTION_MESSAGE,
+//                        null,
+//                        GAME_MODE.values(),
+//                        GAME_MODE.STEP_BY_STEP
+//                );
 
-                GAME_MODE selectedMode = GAME_MODE.values()[index];
-                System.out.println("Selected mode: " + selectedMode);
+//                GAME_MODE selectedMode = GAME_MODE.values()[index];
+//                System.out.println("Selected mode: " + selectedMode);
                 System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 
                 JFrame frame = new JFrame("Replay Game");
@@ -83,27 +65,27 @@ public class Window extends JFrame implements IUIView {
                 frame.setVisible(true);
 
                 JPanel replayPanel = new JPanel();
-                ReplayView replayView = new ReplayView(replayPanel);
+                ReplayView replayView = new ReplayView(replayPanel, selectedFile.getAbsolutePath());
                 replayPanel.add(replayView);
 
                 frame.add(replayPanel, BorderLayout.NORTH);
 
-                if (selectedMode != null) {
-                    if (selectedMode.equals(GAME_MODE.STEP_BY_STEP)) {
-                        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(selectedFile))) {
-                            //GameState state = (GameState)
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    } else if (selectedMode.equals(GAME_MODE.CONTINUOUS)) {
-                        int delay = 500;
-                        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(selectedFile))) {
-                            //
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                }
+//                if (selectedMode != null) {
+//                    if (selectedMode.equals(GAME_MODE.STEP_BY_STEP)) {
+//                        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(selectedFile))) {
+//                            //
+//                        } catch (IOException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    } else if (selectedMode.equals(GAME_MODE.CONTINUOUS)) {
+//                        int delay = 500;
+//                        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(selectedFile))) {
+//                            //
+//                        } catch (IOException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    }
+//                }
             }
         });
 

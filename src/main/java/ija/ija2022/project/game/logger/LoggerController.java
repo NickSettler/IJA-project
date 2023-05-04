@@ -21,6 +21,10 @@ public class LoggerController {
 
     private ArrayList<LogEntry> entries = new ArrayList<>();
 
+    private String mapText;
+
+    private Integer[] dimensions;
+
     private int index = 0;
 
     public LoggerController(LOGGER_MODE mode) {
@@ -59,6 +63,8 @@ public class LoggerController {
         for (int i = 0; i < entries.length(); i++) {
             this.entries.add(LogEntry.fromJSONArray(entries.getJSONArray(i)));
         }
+
+        this.mapText = object.getString("map");
     }
 
     public void addItem(LogItem item) {
@@ -102,6 +108,10 @@ public class LoggerController {
 
     public int getIndex() {
         return index;
+    }
+
+    public String getMapText() {
+        return mapText;
     }
 
     public JSONObject toJSON() {

@@ -1,39 +1,30 @@
 package ija.ija2022.project.ui;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import ija.ija2022.project.game.ReplayController;
+import ija.ija2022.project.settings.GAME_MODE;
 
-public class ReplayView  extends JPanel {
+import javax.swing.*;
+
+public class ReplayView extends JPanel {
     private Timer timer;
-    public ReplayView(JPanel panel) {
+
+    public ReplayView(JPanel panel, String filePath) {
+        ReplayController replayController = new ReplayController(GAME_MODE.STEP_BY_STEP, filePath);
+
         JButton fasterButton = new JButton(">>");
         JButton slowerButton = new JButton("<<");
         JToggleButton pauseResumeButton = new JToggleButton("▶");
-        fasterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                timer.setDelay(timer.getDelay() / 2);
-            }
-        });
+        fasterButton.addActionListener(e -> timer.setDelay(timer.getDelay() / 2));
 
-        slowerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                timer.setDelay(timer.getDelay() * 2);
-            }
-        });
+        slowerButton.addActionListener(e -> timer.setDelay(timer.getDelay() * 2));
 
-        pauseResumeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pauseResumeButton.isSelected()) {
-                    pauseResumeButton.setText("⏹");
-                    timer.start();
-                } else {
-                    pauseResumeButton.setText("▶");
-                    timer.stop();
-                }
+        pauseResumeButton.addActionListener(e -> {
+            if (pauseResumeButton.isSelected()) {
+                pauseResumeButton.setText("⏹");
+                timer.start();
+            } else {
+                pauseResumeButton.setText("▶");
+                timer.stop();
             }
         });
 
@@ -41,12 +32,11 @@ public class ReplayView  extends JPanel {
         panel.add(pauseResumeButton);
         panel.add(fasterButton);
 
-        timer = new Timer(500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // some logic for updating game state
-            }
+        timer = new Timer(500, e -> {
+            // some logic for updating game state
         });
         timer.start();
+
+        replayController.start();
     }
 }
