@@ -181,4 +181,8 @@ public class MazeConfigure {
             this.reading = false;
         }
     }
+
+    public String getMazeText() {
+        return mazeText;
+    }
 }
