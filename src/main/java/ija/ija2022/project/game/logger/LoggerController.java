@@ -25,7 +25,7 @@ public class LoggerController {
 
     private Integer[] dimensions;
 
-    private int index = -1;
+    private int index = 0;
 
     public LoggerController(LOGGER_MODE mode) {
         this.mode = mode;
@@ -131,6 +131,8 @@ public class LoggerController {
             object.getJSONArray("items").put(entry);
         }
 
+        object.put("map", this.mapText);
+
         return object;
     }
 
@@ -155,8 +157,9 @@ public class LoggerController {
         }
     }
 
-    public void close(String filePath) {
+    public void close(String filePath, String mapText) {
         this.filePath = filePath;
+        this.mapText = mapText;
 
         this.close();
     }
