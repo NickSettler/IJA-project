@@ -12,9 +12,6 @@ import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
 
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Map;
 
 public class GameController {
@@ -30,10 +27,12 @@ public class GameController {
         this.mode = mode;
 
         this.collisionController = new CollisionController(this.maze);
-        this.loggerController = new LoggerController(LOGGER_MODE.WRITE);
+        this.loggerController = new LoggerController(LOGGER_MODE.WRITE, "data/history03.json");
 
         if (this.mode == GAME_MODE.STEP_BY_STEP)
             EventsSystem.getInstance().on(EVENTS.KEYDOWN, (Object obj) -> this.tick());
+
+        EventsSystem.getInstance().on(EVENTS.CLOSE_PRESENTER, (Object obj) -> this.loggerController.close());
     }
 
     private void update() {
@@ -74,23 +73,6 @@ public class GameController {
     private void tick() {
         this.update();
         this.render();
-
-        if (this.loggerController.getIndex() % 10 == 0) {
-            FileOutputStream os = null;
-            try {
-                os = new FileOutputStream("data/history02.json");
-            } catch (FileNotFoundException e) {
-                System.out.println("Settings file not found");
-            }
-
-            try {
-                assert os != null;
-                os.write(loggerController.toJSON().toString().getBytes());
-                os.close();
-            } catch (IOException e) {
-                System.out.println("Error while saving settings");
-            }
-        }
 
         if (this.mode == GAME_MODE.CONTINUOUS) {
             Main.sleep(250);

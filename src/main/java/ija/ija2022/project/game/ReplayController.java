@@ -1,6 +1,8 @@
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.Main;
+import ija.ija2022.project.events.EVENTS;
+import ija.ija2022.project.events.EventsSystem;
 import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.logger.LOGGER_MODE;
 import ija.ija2022.project.game.logger.LogEntry;
@@ -24,6 +26,9 @@ public class ReplayController {
 
         this.collisionController = new CollisionController(this.maze);
         this.logger = new LoggerController(LOGGER_MODE.READ, filePath);
+
+        if (this.mode == GAME_MODE.STEP_BY_STEP)
+            EventsSystem.getInstance().on(EVENTS.KEYDOWN, (Object obj) -> this.tick());
     }
 
     private void update() {

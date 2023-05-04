@@ -10,6 +10,8 @@ import org.json.JSONTokener;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LoggerController {
@@ -21,11 +23,6 @@ public class LoggerController {
 
     private int index = 0;
 
-    public LoggerController(LOGGER_MODE mode) {
-        this.mode = mode;
-        this.filePath = null;
-    }
-
     public LoggerController(LOGGER_MODE mode, String filePath) {
         this.mode = mode;
         this.filePath = filePath;
@@ -34,9 +31,7 @@ public class LoggerController {
     }
 
     private void process() {
-        if (this.mode == LOGGER_MODE.WRITE) {
-            throw new IllegalStateException("Cannot process in write mode");
-        }
+        if (this.mode == LOGGER_MODE.WRITE) return;
 
         if (this.filePath == null) {
             throw new IllegalStateException("Cannot process without file path");
@@ -115,5 +110,26 @@ public class LoggerController {
         }
 
         return object;
+    }
+
+    public void close() {
+        if (this.filePath == null) {
+            throw new IllegalStateException("Cannot close without file path");
+        }
+
+        FileOutputStream os = null;
+        try {
+            os = new FileOutputStream(this.filePath);
+        } catch (FileNotFoundException e) {
+            System.out.println("Settings file not found");
+        }
+
+        try {
+            assert os != null;
+            os.write(this.toJSON().toString().getBytes());
+            os.close();
+        } catch (IOException e) {
+            System.out.println("Error while saving settings");
+        }
     }
 }

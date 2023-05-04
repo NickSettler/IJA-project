@@ -1,6 +1,7 @@
 package ija.ija2022.project.tool;
 
 import ija.ija2022.project.game.KeyboardController;
+import ija.ija2022.project.game.WindowController;
 import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.view.FieldView;
 
@@ -27,7 +28,7 @@ public class MazePresenter {
 
     private void initializeInterface() {
         JFrame frame = new JFrame("Pacman Demo");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.setSize(350, 400);
         frame.setPreferredSize(new Dimension(350, 400));
         frame.setResizable(false);
@@ -35,6 +36,7 @@ public class MazePresenter {
         frame.setFocusTraversalKeysEnabled(true);
         frame.setFocusableWindowState(true);
         frame.addKeyListener(KeyboardController.getInstance());
+        frame.addWindowListener(WindowController.getInstance());
         int rows = this.maze.numRows();
         int cols = this.maze.numCols();
         GridLayout layout = new GridLayout(rows, cols);
