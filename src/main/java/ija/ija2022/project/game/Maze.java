@@ -14,7 +14,6 @@ public class Maze implements CommonMaze {
     private final int cols;
     private final CommonField[][] fields;
     private final ArrayList<CommonMazeObject>[][] objects;
-
     private final List<Pair<Integer, Integer>> updatesFields = new ArrayList<>();
 
     public Maze(int rows, int cols) {

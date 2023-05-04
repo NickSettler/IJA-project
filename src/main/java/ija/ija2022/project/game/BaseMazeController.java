@@ -3,6 +3,7 @@ package ija.ija2022.project.game;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.settings.GAME_MODE;
 
+import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class BaseMazeController implements Runnable {
@@ -62,4 +63,6 @@ public abstract class BaseMazeController implements Runnable {
     public GAME_MODE getMode() {
         return mode;
     }
+
+    abstract public JPanel getMazeView();
 }

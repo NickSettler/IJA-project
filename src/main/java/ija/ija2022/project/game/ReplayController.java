@@ -29,6 +29,7 @@ public class ReplayController extends BaseMazeController {
 
     public ReplayController(GAME_MODE mode, String filePath) {
         super(mode);
+
         this.logger = new LoggerController(LOGGER_MODE.READ, filePath);
 
         MazeConfigure mazeConfigure = new MazeConfigure(this.logger.getMapText());
@@ -97,7 +98,7 @@ public class ReplayController extends BaseMazeController {
         }
     }
 
-    public JPanel getFrame() {
+    public JPanel getMazeView() {
         return this.presenter;
     }
 }
