@@ -42,6 +42,20 @@ public class Window extends JFrame implements IUIView, KeyListener {
         panel.add(endButton);
 
         replayButton.addActionListener(e -> {
+
+//            JFrame frame = new JFrame("Replay Game");
+//            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//            frame.pack();
+//            frame.setLayout(new BorderLayout());
+//            frame.setSize(500, 500);
+//            frame.setLocationRelativeTo(null);
+//            frame.setVisible(true);
+//
+//            JPanel replayPanel = new JPanel();
+//            ReplayView replayView = new ReplayView(replayPanel);
+//            replayPanel.add(replayView);
+//
+//            frame.add(replayPanel, BorderLayout.NORTH);
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File("saved_games"));
 
@@ -59,9 +73,25 @@ public class Window extends JFrame implements IUIView, KeyListener {
                         GAME_MODE.values(),
                         GAME_MODE.STEP_BY_STEP
                 );
+
                 GAME_MODE selectedMode = GAME_MODE.values()[index];
                 System.out.println("Selected mode: " + selectedMode);
                 System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+
+                JFrame frame = new JFrame("Replay Game");
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.pack();
+                frame.setLayout(new BorderLayout());
+                frame.setSize(500, 500);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+                JPanel replayPanel = new JPanel();
+                ReplayView replayView = new ReplayView(replayPanel);
+                replayPanel.add(replayView);
+
+                frame.add(replayPanel, BorderLayout.NORTH);
+
                 if (selectedMode != null) {
                     if (selectedMode.equals(GAME_MODE.STEP_BY_STEP)) {
                         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(selectedFile))) {
