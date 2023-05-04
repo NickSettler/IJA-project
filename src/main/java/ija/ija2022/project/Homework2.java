@@ -38,25 +38,25 @@ public class Homework2 {
 
         sleep(2000);
 
-        CommonMazeObject obj = maze.ghosts().get(0);
+//        CommonMazeObject obj = maze.ghosts().get(0);
         
-        obj.move(CommonField.Direction.L);
-        sleep(2000);
-        obj.move(CommonField.Direction.L);
-        sleep(1000);
-        obj.move(CommonField.Direction.D);
-        sleep(1000);
-        obj.move(CommonField.Direction.D);
-        sleep(1000);
-        obj.move(CommonField.Direction.D);
-        sleep(1000);
-        obj.move(CommonField.Direction.D);
-        sleep(1000);
-        obj.move(CommonField.Direction.R);
-        sleep(1000);
-        obj.move(CommonField.Direction.L);
-        sleep(1000);
-        obj.move(CommonField.Direction.U);
+//        obj.move(CommonField.Direction.L);
+//        sleep(2000);
+//        obj.move(CommonField.Direction.L);
+//        sleep(1000);
+//        obj.move(CommonField.Direction.D);
+//        sleep(1000);
+//        obj.move(CommonField.Direction.D);
+//        sleep(1000);
+//        obj.move(CommonField.Direction.D);
+//        sleep(1000);
+//        obj.move(CommonField.Direction.D);
+//        sleep(1000);
+//        obj.move(CommonField.Direction.R);
+//        sleep(1000);
+//        obj.move(CommonField.Direction.L);
+//        sleep(1000);
+//        obj.move(CommonField.Direction.U);
     }
 
     /**
