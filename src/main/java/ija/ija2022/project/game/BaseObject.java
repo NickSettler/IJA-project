@@ -16,7 +16,7 @@ public class BaseObject implements CommonMazeObject {
 
     protected final CommonMaze maze;
 
-    protected CommonField.Direction direction = null;
+    protected CommonField.Direction direction = CommonField.Direction.N;
 
     private final Set<Observer> observers = new HashSet<>();
 
