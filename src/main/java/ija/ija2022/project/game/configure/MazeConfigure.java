@@ -1,24 +1,25 @@
-package ija.ija2022.project.game;
+package ija.ija2022.project.game.configure;
 
+import ija.ija2022.project.game.*;
 import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.common.CommonMazeObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MazeConfigure {
     private static final Map<Character, Class<?>> FIELDS_MAP = new HashMap<>() {{
-        put('.', PathField.class);
-        put('X', WallField.class);
-        put('K', WallField.class);
-        put('T', WallField.class);
-//        put('G', PathField.class);
+        put(CHARACTER_MAP.PATH.getCharacter(), PathField.class);
+        put(CHARACTER_MAP.WALL.getCharacter(), WallField.class);
+        put(CHARACTER_MAP.KEY.getCharacter(), WallField.class);
+        put(CHARACTER_MAP.TARGET.getCharacter(), WallField.class);
     }};
 
     private static final Map<Character, Class<?>> OBJECTS_MAP = new HashMap<>() {{
-        put('S', PacmanObject.class);
-        put('G', GhostObject.class);
+        put(CHARACTER_MAP.PACMAN.getCharacter(), PacmanObject.class);
+        put(CHARACTER_MAP.GHOST.getCharacter(), GhostObject.class);
     }};
 
     private boolean reading;
@@ -38,7 +39,12 @@ public class MazeConfigure {
 
         if (line.length() != this.commonMaze.numCols() - 2) return false;
 
-        return line.matches("^[.XSGKT]+$");
+        String allowedChars = Arrays.stream(CHARACTER_MAP.values())
+                .map(CHARACTER_MAP::getCharacter)
+                .map(String::valueOf)
+                .reduce((a, b) -> a + b).orElse("");
+
+        return line.matches("^[ " + allowedChars + "]+$");
     }
 
     public CommonMaze createMaze() {
@@ -57,18 +63,14 @@ public class MazeConfigure {
         return this.commonMaze;
     }
 
-    public boolean processLine(String line) {
-        if (!this.reading) {
-            return false;
-        }
+    public void processLine(String line) {
+        if (!this.reading) return;
 
-        if (!this.checkLine(line)) {
-            return false;
-        }
+        if (!this.checkLine(line)) return;
 
         if (this.rowCounter >= this.commonMaze.numRows()) {
             this.rowCounter++;
-            return false;
+            return;
         }
 
         for (int i = 0; i < line.length(); i++) {
@@ -101,8 +103,6 @@ public class MazeConfigure {
         }
 
         this.rowCounter++;
-
-        return true;
     }
 
     public void startReading(int rows, int cols) {
@@ -123,13 +123,10 @@ public class MazeConfigure {
         this.commonMaze = new Maze(rows, cols);
     }
 
-    public boolean stopReading() {
+    public void stopReading() {
         if (this.reading) {
             this.rowCounter++;
             this.reading = false;
-            return true;
         }
-
-        return false;
     }
 }
