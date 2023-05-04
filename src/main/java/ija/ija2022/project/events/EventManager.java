@@ -64,7 +64,8 @@ public class EventManager implements IEventManager {
     public void fireEvent(Event event) {
         List<EventHandle> eventHandles;
         if ((eventHandles = eventHandleMap.get(event.getClass())) != null) {
-            for (EventHandle eventHandle : eventHandles) {
+            for (int i = 0; i < eventHandles.size(); i++) {
+                EventHandle eventHandle = eventHandles.get(i);
                 if (!event.isCancelled() && eventHandle.getPriority() != EventPriority.MONITOR) {
                     try {
                         eventHandle.getMethod().invoke(eventHandle.getMethodClass(), event);
