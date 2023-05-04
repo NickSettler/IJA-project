@@ -2,6 +2,7 @@ package ija.ija2022.project.ui;
 
 import ija.ija2022.project.game.GameController;
 import ija.ija2022.project.game.KeyboardController;
+import ija.ija2022.project.game.MouseController;
 import ija.ija2022.project.game.WindowController;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ public class GameView extends JFrame {
         this.setLayout(new GridBagLayout());
         this.setSize(500, 500);
         this.addKeyListener(KeyboardController.getInstance());
+        this.addMouseListener(MouseController.getInstance());
         this.addWindowListener(WindowController.getInstance());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
