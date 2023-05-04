@@ -32,13 +32,16 @@ public class GameController {
         this.mode = mode;
 
         this.collisionController = new CollisionController(this.maze);
-        this.loggerController = new LoggerController(LOGGER_MODE.WRITE, "data/history03.json");
+        this.loggerController = new LoggerController(LOGGER_MODE.WRITE);
 
         EventManager.getInstance().addEventListener(this);
     }
 
     @EventHandler
     private void handleWindowCloseEvent(WindowCloseEvent event) {
+        if (this.loggerController.getIndex() == 0)
+            return;
+
         Window parentFrame = event.getWindow();
 
         String[] options = {"Yes! Please.", "No! Not now."};
