@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class EventsSystem {
@@ -28,6 +29,22 @@ public class EventsSystem {
             events.get(event).add(callback);
         } else {
             events.put(event, new ArrayList<>(List.of(callback)));
+        }
+    }
+
+    public void on(EVENTS event, Consumer<Object> callback) {
+        if (events.containsKey(event)) {
+            events.get(event).add((Object o) -> {
+                callback.accept(o);
+
+                return null;
+            });
+        } else {
+            events.put(event, new ArrayList<>(List.of((Object o) -> {
+                callback.accept(o);
+
+                return null;
+            })));
         }
     }
 
