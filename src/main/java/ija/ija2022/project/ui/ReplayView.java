@@ -23,8 +23,11 @@ public class ReplayView extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
 
         JButton fasterButton = new JButton(">>");
+        fasterButton.setFocusable(false);
         JButton slowerButton = new JButton("<<");
+        slowerButton.setFocusable(false);
         JToggleButton pauseResumeButton = new JToggleButton("▶");
+        pauseResumeButton.setFocusable(false);
 //        fasterButton.addActionListener(e -> timer.setDelay(timer.getDelay() / 2));
 
 //        slowerButton.addActionListener(e -> timer.setDelay(timer.getDelay() * 2));
