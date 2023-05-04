@@ -1,20 +1,18 @@
 package ija.ija2022.project.astar;
 
+import ija.ija2022.project.game.BaseField;
 import ija.ija2022.project.tool.common.CommonField;
 
-import java.awt.*;
-import java.util.Objects;
-
 public class Node {
-    private final Point point;
+    private final BaseField field;
     private final Node parent;
     private final int g;
     private final int h;
     private final int f;
     private final CommonField.Direction direction;
 
-    public Node(Point point, Node parent, int g, int h, CommonField.Direction direction) {
-        this.point = point;
+    public Node(BaseField field, Node parent, int g, int h, CommonField.Direction direction) {
+        this.field = field;
         this.parent = parent;
         this.g = g;
         this.h = h;
@@ -27,12 +25,12 @@ public class Node {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
-        return point == node.point;
+        return field == node.field;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(f);
+        return field.hashCode();
     }
 
     public int getF() {
@@ -42,8 +40,13 @@ public class Node {
     public int getG() {
         return g;
     }
-    public Point getPoint() {
-        return point;
+
+    public BaseField getField() {
+        return field;
+    }
+
+    public BaseField getPoint() {
+        return field;
     }
 
     public Node getParent() {

@@ -1,12 +1,11 @@
 package ija.ija2022.project.astar;
 
+import ija.ija2022.project.game.BaseField;
 import ija.ija2022.project.game.GameModel;
 import ija.ija2022.project.game.Maze;
 import ija.ija2022.project.tool.common.CommonField;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class AStarPathFinder {
     private final GameModel gameModel;
@@ -21,13 +20,13 @@ public class AStarPathFinder {
         this.closedSet = new HashSet<>();
     }
 
-    public List<CommonField.Direction> findPath(Point start, Point target) {
+    public List<CommonField.Direction> findPath(BaseField start, BaseField target) {
         for (int x = 0; x < heuristic.length; x++) {
             for (int y = 0; y < heuristic[0].length; y++) {
-                heuristic[x][y] = Math.abs(x - target.x) + Math.abs(y - target.y);
+                heuristic[x][y] = Math.abs(x - target.getRow()) + Math.abs(y - target.getCol());
             }
         }
-        Node startNode = new Node(start, null, 0, heuristic[start.x][start.y], null);
+        Node startNode = new Node(start, null, 0, heuristic[start.getRow()][start.getCol()], null);
         openSet.offer(startNode);
 
         while (!openSet.isEmpty()) {
@@ -41,12 +40,12 @@ public class AStarPathFinder {
                 Collections.reverse(path);
                 return path;
             }
-            for (CommonField.Direction direction: CommonField.Direction.values()) {
-                Point neighbourPoint = null; // TODO
-                if (gameModel.getMaze().getField(neighbourPoint.x, neighbourPoint.y).isEmpty() && !closedSet.contains(neighbourPoint)) { // TODO
-                    int g = current.getG();
-                    int h = heuristic[neighbourPoint.x][neighbourPoint.y];
-                    Node neighbourNode = new Node(neighbourPoint, current, g, h, direction);
+            for (CommonField.Direction direction : CommonField.Direction.values()) {
+                BaseField neighbourField = (BaseField) this.gameModel.getMaze().getField(current.getField().getRow(), current.getField().getCol()).nextField(direction);
+                int g = current.getG();
+                int h = heuristic[neighbourField.getRow()][neighbourField.getCol()];
+                Node neighbourNode = new Node(neighbourField, current, g, h, direction);
+                if (neighbourField.isEmpty() && !closedSet.contains(neighbourNode)) { // TODO
                     openSet.offer(neighbourNode);
                 }
             }
