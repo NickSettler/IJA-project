@@ -17,11 +17,16 @@ import java.util.ArrayList;
 public class LoggerController {
     private final LOGGER_MODE mode;
 
-    private final String filePath;
+    private String filePath;
 
     private ArrayList<LogEntry> entries = new ArrayList<>();
 
     private int index = 0;
+
+    public LoggerController(LOGGER_MODE mode) {
+        this.mode = mode;
+        this.filePath = null;
+    }
 
     public LoggerController(LOGGER_MODE mode, String filePath) {
         this.mode = mode;
@@ -131,5 +136,11 @@ public class LoggerController {
         } catch (IOException e) {
             System.out.println("Error while saving settings");
         }
+    }
+
+    public void close(String filePath) {
+        this.filePath = filePath;
+
+        this.close();
     }
 }
