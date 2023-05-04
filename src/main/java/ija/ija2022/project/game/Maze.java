@@ -3,6 +3,7 @@ package ija.ija2022.project.game;
 import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.tool.common.CommonMazeObject;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,11 +13,9 @@ public class Maze implements CommonMaze {
     private final int rows;
     private final int cols;
     private final CommonField[][] fields;
-
     private final ArrayList<CommonMazeObject>[][] objects;
 
-
-//    private final Set<Observer> observers = new HashSet<>();
+    private List<Pair<Integer, Integer>> updatesFields = new ArrayList<>();
 
     public Maze(int rows, int cols) {
         this.rows = rows + 2;
@@ -106,8 +105,7 @@ public class Maze implements CommonMaze {
             return;
 
         this.objects[row][col].add(object);
-
-        this.fields[row][col].notifyObservers();
+        this.updatesFields.add(new Pair<>(row, col));
     }
 
     public void moveObject(CommonMazeObject object, int row, int col) {
@@ -118,12 +116,17 @@ public class Maze implements CommonMaze {
             for (int j = 0; j < this.objects[i].length; j++) {
                 if (this.objects[i][j].contains(object)) {
                     this.objects[i][j].remove(object);
-                    this.fields[i][j].notifyObservers();
+                    this.updatesFields.add(new Pair<>(i, j));
                 }
             }
         }
 
         this.objects[row][col].add(object);
-        this.fields[row][col].notifyObservers();
+        this.updatesFields.add(new Pair<>(row, col));
+    }
+
+    public void notifyUpdates() {
+        this.updatesFields.forEach(pair -> this.fields[pair.getKey()][pair.getValue()].notifyObservers());
+        this.updatesFields.clear();
     }
 }
