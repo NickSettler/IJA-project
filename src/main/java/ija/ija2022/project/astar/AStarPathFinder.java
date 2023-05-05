@@ -3,6 +3,7 @@ package ija.ija2022.project.astar;
 import ija.ija2022.project.game.BaseField;
 import ija.ija2022.project.game.GameModel;
 import ija.ija2022.project.game.Maze;
+import ija.ija2022.project.game.WallField;
 import ija.ija2022.project.tool.common.CommonField;
 import ija.ija2022.project.tool.common.CommonMaze;
 
@@ -32,7 +33,7 @@ public class AStarPathFinder {
 
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
-            if (current.getPoint().equals(maze.getField(endX, endY))) {
+            if (current.getField().equals(maze.getField(endX, endY))) {
                 List<CommonField.Direction> path = new ArrayList<>();
                 while (current.getParent() != null) {
                     path.add(current.getDirection());
@@ -46,7 +47,7 @@ public class AStarPathFinder {
                 int g = current.getG();
                 int h = heuristic[neighbourField.getRow()][neighbourField.getCol()];
                 Node neighbourNode = new Node(neighbourField, current, g, h, direction);
-                if (neighbourField.isEmpty() && !closedSet.contains(neighbourNode)) { // TODO
+                if (!(neighbourField instanceof WallField) && !closedSet.contains(neighbourNode)) {
                     openSet.offer(neighbourNode);
                 }
             }

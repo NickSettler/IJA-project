@@ -45,10 +45,6 @@ public class Node {
         return field;
     }
 
-    public BaseField getPoint() {
-        return field;
-    }
-
     public Node getParent() {
         return parent;
     }
