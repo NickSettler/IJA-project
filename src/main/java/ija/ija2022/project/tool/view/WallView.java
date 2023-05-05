@@ -4,6 +4,7 @@ import ija.ija2022.project.tool.common.CommonMazeObject;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -12,21 +13,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class GhostView implements ComponentView {
-    private final CommonMazeObject model;
-    private final FieldView parent;
+public class WallView implements ComponentView {
+    private FieldView parent;
 
-    public GhostView(FieldView parent, CommonMazeObject m) {
-        this.model = m;
+    public WallView(FieldView parent) {
         this.parent = parent;
     }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        BufferedImage ghostImage = null;
+        BufferedImage wallImage = null;
         try {
-            ghostImage = ImageIO.read(new File("ghost2.png"));
+            wallImage = ImageIO.read(new File("wall.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,13 +34,17 @@ public class GhostView implements ComponentView {
         double w = bounds.getWidth();
         double h = bounds.getHeight();
         Math.max(h, w);
-        double diameter = Math.min(h, w) - 10.0;
+        double diameter = Math.max(h, w);
         double x = (w - diameter) / 2.0;
         double y = (h - diameter) / 2.0;
 
-        g2.drawImage(ghostImage, (int) x, (int) y,  (int) diameter, (int) diameter, null);
+        g2.drawImage(wallImage, (int) x, (int) y,  (int) diameter, (int) diameter, null);
+
 //        Ellipse2D.Double ellipse = new Ellipse2D.Double(x, y, diameter, diameter);
-//        g2.setColor(Color.yellow);
+//        g2.setColor(Color.green);
 //        g2.fill(ellipse);
+        g2.setColor(Color.black);
+        g2.setFont(new Font("Serif", 1, 20));
+//        g2.drawString("(" + this.model.getLives() + ")", (int) (x + diameter) / 2, (int) (y + diameter + 10.0) / 2 + 5);
     }
 }

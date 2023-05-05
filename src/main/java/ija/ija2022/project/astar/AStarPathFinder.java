@@ -4,18 +4,17 @@ import ija.ija2022.project.game.BaseField;
 import ija.ija2022.project.game.GameModel;
 import ija.ija2022.project.game.Maze;
 import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.tool.common.CommonMaze;
 
 import java.util.*;
 
 public class AStarPathFinder {
-    private final GameModel gameModel;
-    private final Maze maze;
+    private final CommonMaze maze;
     private final int[][] heuristic;
     private final PriorityQueue<Node> openSet;
     private final Set<Node> closedSet;
 
-    public AStarPathFinder(GameModel gameModel, Maze maze) {
-        this.gameModel = gameModel;
+    public AStarPathFinder(CommonMaze maze) {
         this.maze = maze;
         this.heuristic = new int[maze.numRows()][maze.numCols()];
         this.openSet = new PriorityQueue<>(Comparator.comparingInt(Node::getF));
@@ -43,7 +42,7 @@ public class AStarPathFinder {
                 return path;
             }
             for (CommonField.Direction direction : CommonField.Direction.values()) {
-                BaseField neighbourField = (BaseField) this.gameModel.getMaze().getField(current.getField().getRow(), current.getField().getCol()).nextField(direction);
+                BaseField neighbourField = (BaseField) maze.getField(current.getField().getRow(), current.getField().getCol()).nextField(direction);
                 int g = current.getG();
                 int h = heuristic[neighbourField.getRow()][neighbourField.getCol()];
                 Node neighbourNode = new Node(neighbourField, current, g, h, direction);
