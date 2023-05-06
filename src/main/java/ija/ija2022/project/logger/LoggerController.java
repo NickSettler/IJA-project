@@ -1,5 +1,7 @@
 package ija.ija2022.project.logger;
 
+import ija.ija2022.project.events.EventManager;
+import ija.ija2022.project.events.events.UpdateReplayStepEvent;
 import ija.ija2022.project.maze.configure.CHARACTER_MAP;
 import ija.ija2022.project.objects.CommonMazeObject;
 import ija.ija2022.project.objects.GhostObject;
@@ -99,11 +101,13 @@ public class LoggerController {
     public void nextEntry() {
         if (this.index >= this.entries.size()) return;
         this.index++;
+        EventManager.getInstance().fireEvent(new UpdateReplayStepEvent(this.index));
     }
 
     public void previousEntry() {
         if (this.index <= -1) return;
         this.index--;
+        EventManager.getInstance().fireEvent(new UpdateReplayStepEvent(this.index));
     }
 
     public LogEntry currentEntry() {
