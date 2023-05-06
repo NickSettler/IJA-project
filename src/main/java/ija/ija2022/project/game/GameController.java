@@ -132,8 +132,6 @@ public class GameController extends BaseGameViewController {
     }
 
     public void handleWindowClose(Window window) {
-        if (this.loggerController.getIndex() == 0)
-            return;
 
         this.stop();
 
