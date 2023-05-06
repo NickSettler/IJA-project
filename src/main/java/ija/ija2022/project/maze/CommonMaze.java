@@ -6,6 +6,7 @@ import ija.ija2022.project.objects.GhostObject;
 import ija.ija2022.project.objects.PacmanObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CommonMaze {
     CommonField getField(int row, int col);
@@ -31,4 +32,8 @@ public interface CommonMaze {
     void removeObject(CommonMazeObject object, int row, int col);
 
     void notifyUpdates();
+
+    List<CommonField.Direction> getPacmanPath();
+
+    void setPacmanPath(List<CommonField.Direction> pacmanPath);
 }

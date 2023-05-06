@@ -11,6 +11,10 @@ public interface CommonField extends Observable {
 
     boolean isEmpty();
 
+    default boolean isPacmanPath() {
+        return false;
+    }
+
     ArrayList<CommonMazeObject> get();
 
     boolean canMove();

@@ -32,8 +32,10 @@ public class FieldView extends JPanel implements Observable.Observer {
 
     private void privUpdate() {
         if (this.field.canMove()) {
-//            this.objects.add(new FloorView(this));
-            this.setBackground(Color.white);
+            if (this.field.isPacmanPath())
+                this.setBackground(Color.green.brighter());
+            else
+                this.setBackground(Color.white);
             if (!this.field.isEmpty()) {
                 ArrayList<CommonMazeObject> objects = this.field.get();
 
@@ -50,7 +52,6 @@ public class FieldView extends JPanel implements Observable.Observer {
             }
         } else {
             this.objects.add(new WallView(this));
-//            this.setBackground(Color.lightGray);
         }
 
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));

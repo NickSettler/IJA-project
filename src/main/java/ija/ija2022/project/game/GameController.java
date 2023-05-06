@@ -23,7 +23,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,6 @@ public class GameController extends BaseGameViewController {
     private final CommonMaze maze;
     private final MazePresenter presenter;
     private final GameView view;
-    private List<CommonField.Direction> pacmanPath = Collections.emptyList();
     private final CollisionController collisionController;
     private final LoggerController loggerController;
 
@@ -79,7 +77,7 @@ public class GameController extends BaseGameViewController {
 
         if (path == null || path.isEmpty()) return;
 
-        this.pacmanPath = path;
+        this.maze.setPacmanPath(path);
     }
 
     protected void update() {
@@ -91,7 +89,7 @@ public class GameController extends BaseGameViewController {
 
         PacmanObject pacman = this.maze.getPacman();
 
-        if (this.pacmanPath.isEmpty()) {
+        if (this.maze.getPacmanPath().isEmpty()) {
             Map<Integer, Boolean> keys = KeyboardController.getInstance().getKeys();
 
             if (keys.getOrDefault(KeyEvent.VK_W, false))
@@ -107,11 +105,11 @@ public class GameController extends BaseGameViewController {
 
             pacman.move();
         } else {
-            pacman.setDirection(this.pacmanPath.get(0));
+            pacman.setDirection(this.maze.getPacmanPath().get(0));
             pacman.move();
-            this.pacmanPath.remove(0);
+            this.maze.getPacmanPath().remove(0);
 
-            if (this.pacmanPath.isEmpty())
+            if (this.maze.getPacmanPath().isEmpty())
                 pacman.setDirection(CommonField.Direction.N);
         }
 

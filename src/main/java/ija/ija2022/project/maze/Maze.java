@@ -9,6 +9,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Maze implements CommonMaze {
@@ -17,6 +18,7 @@ public class Maze implements CommonMaze {
     private final CommonField[][] fields;
     private final ArrayList<CommonMazeObject>[][] objects;
     private final List<Pair<Integer, Integer>> updatesFields = new ArrayList<>();
+    private List<CommonField.Direction> pacmanPath = Collections.emptyList();
 
     public Maze(int rows, int cols) {
         this.rows = rows + 2;
@@ -135,5 +137,13 @@ public class Maze implements CommonMaze {
     public void notifyUpdates() {
         this.updatesFields.forEach(pair -> this.fields[pair.getKey()][pair.getValue()].notifyObservers());
         this.updatesFields.clear();
+    }
+
+    public List<CommonField.Direction> getPacmanPath() {
+        return pacmanPath;
+    }
+
+    public void setPacmanPath(List<CommonField.Direction> pacmanPath) {
+        this.pacmanPath = pacmanPath;
     }
 }
