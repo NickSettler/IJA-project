@@ -52,6 +52,7 @@ public class CommandProcessor {
                             if (reviveGhost) {
                                 GhostObject ghost = new GhostObject(item.from().getKey(), item.from().getValue(), this.maze);
                                 this.maze.putObject(ghost, item.from().getKey(), item.from().getValue());
+                                this.maze.getPacman().incrLives();
                             }
                         });
             }

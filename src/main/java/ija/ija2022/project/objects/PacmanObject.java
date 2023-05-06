@@ -29,6 +29,11 @@ public class PacmanObject extends BaseObject {
         EventManager.getInstance().fireEvent(new LivesChangeEvent(this.lives));
     }
 
+    public void incrLives() {
+        this.lives += 1;
+        EventManager.getInstance().fireEvent(new LivesChangeEvent(this.lives));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
