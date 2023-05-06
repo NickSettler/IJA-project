@@ -72,7 +72,7 @@ public class GameController extends BaseGameViewController {
             return;
 
         AStarPathFinder pathFinder = new AStarPathFinder(this.maze);
-        List<CommonField.Direction> path = pathFinder.findPath(
+        List<int[]> path = pathFinder.findPath(
                 this.maze.getPacman().getRow(),
                 this.maze.getPacman().getCol(),
                 field.getField().getRow(),
@@ -93,7 +93,7 @@ public class GameController extends BaseGameViewController {
 
         PacmanObject pacman = this.maze.getPacman();
 
-        if (this.maze.getPacmanPath().isEmpty()) {
+        if (this.maze.getPacmanPath().size() == 1) {
             Map<Integer, Boolean> keys = KeyboardController.getInstance().getKeys();
 
             if (keys.getOrDefault(KeyEvent.VK_W, false))
@@ -109,7 +109,9 @@ public class GameController extends BaseGameViewController {
 
             pacman.move();
         } else {
-            pacman.setDirection(this.maze.getPacmanPath().get(0));
+            int deltaX = this.maze.getPacmanPath().get(1)[0] - this.maze.getPacmanPath().get(0)[0];
+            int deltaY = this.maze.getPacmanPath().get(1)[1] - this.maze.getPacmanPath().get(0)[1];
+            pacman.setDirection(CommonField.Direction.from(deltaX, deltaY));
             pacman.move();
             this.maze.getPacmanPath().remove(0);
 

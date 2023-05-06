@@ -18,7 +18,7 @@ public class Maze implements CommonMaze {
     private final CommonField[][] fields;
     private final ArrayList<CommonMazeObject>[][] objects;
     private final List<Pair<Integer, Integer>> updatesFields = new ArrayList<>();
-    private List<CommonField.Direction> pacmanPath = Collections.emptyList();
+    private List<int[]> pacmanPath = Collections.emptyList();
 
     public Maze(int rows, int cols) {
         this.rows = rows + 2;
@@ -139,11 +139,11 @@ public class Maze implements CommonMaze {
         this.updatesFields.clear();
     }
 
-    public List<CommonField.Direction> getPacmanPath() {
+    public List<int[]> getPacmanPath() {
         return pacmanPath;
     }
 
-    public void setPacmanPath(List<CommonField.Direction> pacmanPath) {
+    public void setPacmanPath(List<int[]> pacmanPath) {
         this.pacmanPath = pacmanPath;
     }
 }

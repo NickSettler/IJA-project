@@ -33,7 +33,7 @@ public interface CommonMaze {
 
     void notifyUpdates();
 
-    List<CommonField.Direction> getPacmanPath();
+    List<int[]> getPacmanPath();
 
-    void setPacmanPath(List<CommonField.Direction> pacmanPath);
+    void setPacmanPath(List<int[]> pacmanPath);
 }

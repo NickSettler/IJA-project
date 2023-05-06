@@ -20,7 +20,7 @@ public class AStarPathFinder {
         this.closedSet = new HashSet<>();
     }
 
-    public List<CommonField.Direction> findPath(int startX, int startY, int endX, int endY) {
+    public List<int[]> findPath(int startX, int startY, int endX, int endY) {
         for (int x = 0; x < heuristic.length; x++) {
             for (int y = 0; y < heuristic[0].length; y++) {
                 heuristic[x][y] = Math.abs(x - endX) + Math.abs(y - endY);
@@ -32,11 +32,12 @@ public class AStarPathFinder {
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
             if (current.getField().equals(maze.getField(endX, endY))) {
-                List<CommonField.Direction> path = new ArrayList<>();
+                List<int[]> path = new ArrayList<>();
                 while (current.getParent() != null) {
-                    path.add(current.getDirection());
+                    path.add(new int[]{current.getField().getRow(), current.getField().getCol()});
                     current = current.getParent();
                 }
+                path.add(new int[]{current.getField().getRow(), current.getField().getCol()});
                 Collections.reverse(path);
                 return path;
             }
