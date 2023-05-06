@@ -27,8 +27,10 @@ public class SettingsController {
         JSONTokener tokener = new JSONTokener(is);
         JSONObject object = new JSONObject(tokener);
         String gameMode = object.getString("mode");
+        int maxLives = object.getInt("maxLives");
 
         this.model.setGameMode(GAME_MODE.fromValue(gameMode));
+        this.model.setMaxLives(maxLives);
     }
 
     public void setContinuousMode() {
@@ -42,6 +44,7 @@ public class SettingsController {
     public void saveSettings() {
         JSONObject object = new JSONObject();
         object.put("mode", model.getGameMode().toString());
+        object.put("maxLives", model.getMaxLives());
 
         FileOutputStream os = null;
         try {
@@ -61,5 +64,13 @@ public class SettingsController {
 
     public GAME_MODE getGameMode() {
         return model.getGameMode();
+    }
+
+    public void setMaxLives(int lives) {
+        model.setMaxLives(lives);
+    }
+
+    public int getMaxLives() {
+        return model.getMaxLives();
     }
 }

@@ -1,5 +1,7 @@
 package ija.ija2022.project.objects;
 
+import ija.ija2022.project.events.EventManager;
+import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.maze.CommonMaze;
 
 import java.util.Objects;
@@ -24,6 +26,7 @@ public class PacmanObject extends BaseObject {
 
     public void decrLives() {
         this.lives -= 1;
+        EventManager.getInstance().fireEvent(new LivesChangeEvent(this.lives));
     }
 
     @Override

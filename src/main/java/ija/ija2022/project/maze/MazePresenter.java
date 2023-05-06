@@ -12,6 +12,7 @@ public class MazePresenter extends JPanel {
         this.maze = maze;
         this.setLayout(new GridLayout(this.maze.numRows(), this.maze.numCols()));
         this.setSize(350, 400);
+        this.setBackground(Color.gray);
 
         this.initializeInterface();
     }

@@ -6,6 +6,7 @@ import ija.ija2022.project.common.BaseGameViewController;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
+import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.events.events.MouseClickedEvent;
 import ija.ija2022.project.fields.CommonField;
 import ija.ija2022.project.fields.FieldView;
@@ -17,6 +18,7 @@ import ija.ija2022.project.maze.configure.MazeConfigure;
 import ija.ija2022.project.objects.GhostObject;
 import ija.ija2022.project.objects.PacmanObject;
 import ija.ija2022.project.settings.GAME_MODE;
+import ija.ija2022.project.settings.SettingsController;
 import ija.ija2022.project.ui_controllers.KeyboardController;
 
 import javax.swing.*;
@@ -33,23 +35,28 @@ public class GameController extends BaseGameViewController {
     private final GameView view;
     private final CollisionController collisionController;
     private final LoggerController loggerController;
+    private final SettingsController settingsController;
 
     public GameController(GAME_MODE mode, String filePath) {
         super(mode);
 
         this.loggerController = new LoggerController(LOGGER_MODE.WRITE);
+        this.settingsController = new SettingsController();
 
         this.mazeConfigure = new MazeConfigure(filePath, true);
         this.maze = this.mazeConfigure.createMaze();
-        this.presenter = new MazePresenter(this.maze);
-        this.view = new GameView(this);
 
         this.collisionController = new CollisionController(this.maze);
+
+        this.presenter = new MazePresenter(this.maze);
+        this.view = new GameView(this);
 
         this.view.setVisible(true);
 
         if (this.mode == GAME_MODE.CONTINUOUS)
             this.start();
+
+        EventManager.getInstance().fireEvent(new LivesChangeEvent(this.maze.getPacman().getLives()));
     }
 
     @EventHandler
@@ -154,7 +161,6 @@ public class GameController extends BaseGameViewController {
             }
         }
 
-        System.out.println("Here");
         this.destroy();
     }
 
@@ -170,5 +176,9 @@ public class GameController extends BaseGameViewController {
     @Override
     public JPanel getMazeView() {
         return this.presenter;
+    }
+
+    public int getMaxLives() {
+        return this.settingsController.getMaxLives();
     }
 }
