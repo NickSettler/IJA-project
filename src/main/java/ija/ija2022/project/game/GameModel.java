@@ -1,5 +1,7 @@
 package ija.ija2022.project.game;
 
+import ija.ija2022.project.maze.Maze;
+
 public class GameModel {
     private int score;
     private boolean isGameOver;

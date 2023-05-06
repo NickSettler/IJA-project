@@ -1,8 +1,8 @@
 package ija.ija2022.project.game;
 
-import java.util.List;
+import ija.ija2022.project.objects.CommonMazeObject;
 
-import ija.ija2022.project.tool.common.CommonMazeObject;
+import java.util.List;
 
 public class GameState {
     private boolean isGameOver;

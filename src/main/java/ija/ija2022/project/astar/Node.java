@@ -1,7 +1,7 @@
 package ija.ija2022.project.astar;
 
-import ija.ija2022.project.game.BaseField;
-import ija.ija2022.project.tool.common.CommonField;
+import ija.ija2022.project.fields.BaseField;
+import ija.ija2022.project.fields.CommonField;
 
 public class Node {
     private final BaseField field;

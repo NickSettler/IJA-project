@@ -1,7 +1,5 @@
 package ija.ija2022.project;
 
-import ija.ija2022.project.ui.Window;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

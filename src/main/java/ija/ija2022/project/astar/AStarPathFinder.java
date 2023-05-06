@@ -1,11 +1,9 @@
 package ija.ija2022.project.astar;
 
-import ija.ija2022.project.game.BaseField;
-import ija.ija2022.project.game.GameModel;
-import ija.ija2022.project.game.Maze;
-import ija.ija2022.project.game.WallField;
-import ija.ija2022.project.tool.common.CommonField;
-import ija.ija2022.project.tool.common.CommonMaze;
+import ija.ija2022.project.fields.BaseField;
+import ija.ija2022.project.fields.CommonField;
+import ija.ija2022.project.fields.WallField;
+import ija.ija2022.project.maze.CommonMaze;
 
 import java.util.*;
 

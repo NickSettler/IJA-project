@@ -1,20 +1,23 @@
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.astar.AStarPathFinder;
+import ija.ija2022.project.collisions.CollisionController;
+import ija.ija2022.project.common.BaseGameViewController;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.events.events.MouseClickedEvent;
-import ija.ija2022.project.game.collision.CollisionController;
-import ija.ija2022.project.game.configure.MazeConfigure;
-import ija.ija2022.project.game.logger.LOGGER_MODE;
-import ija.ija2022.project.game.logger.LoggerController;
+import ija.ija2022.project.fields.CommonField;
+import ija.ija2022.project.fields.FieldView;
+import ija.ija2022.project.logger.LOGGER_MODE;
+import ija.ija2022.project.logger.LoggerController;
+import ija.ija2022.project.maze.CommonMaze;
+import ija.ija2022.project.maze.MazePresenter;
+import ija.ija2022.project.maze.configure.MazeConfigure;
+import ija.ija2022.project.objects.GhostObject;
+import ija.ija2022.project.objects.PacmanObject;
 import ija.ija2022.project.settings.GAME_MODE;
-import ija.ija2022.project.tool.MazePresenter;
-import ija.ija2022.project.tool.common.CommonField;
-import ija.ija2022.project.tool.common.CommonMaze;
-import ija.ija2022.project.tool.view.FieldView;
-import ija.ija2022.project.ui.GameView;
+import ija.ija2022.project.ui_controllers.KeyboardController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class GameController extends BaseMazeController {
+public class GameController extends BaseGameViewController {
     private final MazeConfigure mazeConfigure;
     private final CommonMaze maze;
     private final MazePresenter presenter;

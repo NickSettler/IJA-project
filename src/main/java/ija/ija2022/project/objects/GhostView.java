@@ -1,23 +1,33 @@
-package ija.ija2022.project.tool.view;
+package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.fields.FieldView;
-import ija.ija2022.project.objects.CommonMazeObject;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class PacmanPathView implements ComponentView {
+public class GhostView implements ComponentView {
     private final CommonMazeObject model;
     private final FieldView parent;
 
-    public PacmanPathView(FieldView parent, CommonMazeObject m) {
+    public GhostView(FieldView parent, CommonMazeObject m) {
         this.model = m;
         this.parent = parent;
     }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+
+        BufferedImage ghostImage = null;
+        try {
+            ghostImage = ImageIO.read(new File("ghost2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Rectangle bounds = this.parent.getBounds();
         double w = bounds.getWidth();
         double h = bounds.getHeight();
@@ -25,8 +35,7 @@ public class PacmanPathView implements ComponentView {
         double diameter = Math.min(h, w) - 10.0;
         double x = (w - diameter) / 2.0;
         double y = (h - diameter) / 2.0;
-        Ellipse2D.Double ellipse = new Ellipse2D.Double(x, y, diameter, diameter);
-        g2.setColor(Color.blue);
-        g2.fill(ellipse);
+
+        g2.drawImage(ghostImage, (int) x, (int) y, (int) diameter, (int) diameter, null);
     }
 }
