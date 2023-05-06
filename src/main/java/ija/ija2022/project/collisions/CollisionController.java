@@ -20,7 +20,7 @@ public class CollisionController {
         PacmanObject pacman = this.maze.getPacman();
 
         for (GhostObject ghost : this.maze.ghosts()) {
-            if (pacman.getRow() == ghost.getRow() && pacman.getCol() == ghost.getCol()) {
+            if (collides(pacman, ghost)) {
                 this.collisions.add(new Collision(pacman, ghost, (pair) -> {
                     PacmanObject p = (PacmanObject) pair.getKey();
                     GhostObject g = (GhostObject) pair.getValue();
@@ -30,6 +30,21 @@ public class CollisionController {
                 }));
             }
         }
+    }
+
+    public boolean collides(PacmanObject pacman, GhostObject ghost) {
+        int pacmanPrevRow = pacman.getRow() - pacman.getDirection().deltaRow();
+        int pacmanPrevCol = pacman.getCol() - pacman.getDirection().deltaCol();
+        int ghostPrevRow = ghost.getRow() - ghost.getDirection().deltaRow();
+        int ghostPrevCol = ghost.getCol() - ghost.getDirection().deltaCol();
+
+        boolean collidesByCurrentPosition = pacman.getRow() == ghost.getRow() && pacman.getCol() == ghost.getCol();
+        boolean collidesByPrevPosition = pacmanPrevRow == ghostPrevRow && pacmanPrevCol == ghostPrevCol;
+        boolean collidesByCrossPositions = (pacman.getRow() == ghostPrevRow && pacman.getCol() == ghostPrevCol)
+                || (pacmanPrevRow == ghost.getRow() && pacmanPrevCol == ghost.getCol());
+
+
+        return collidesByCurrentPosition || collidesByPrevPosition || collidesByCrossPositions;
     }
 
     public void handleCollisions() {
