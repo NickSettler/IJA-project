@@ -54,7 +54,7 @@ public class FieldView extends JPanel implements Observable.Observer {
             this.objects.add(new WallView(this));
         }
 
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        updateUI();
     }
 
     public final void update(Observable observable) {
