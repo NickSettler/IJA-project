@@ -1,8 +1,7 @@
-package ija.ija2022.project.tool.view;
+package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.fields.FieldView;
-import ija.ija2022.project.objects.CommonMazeObject;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

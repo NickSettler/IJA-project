@@ -5,7 +5,6 @@ import ija.ija2022.project.common.ComponentView;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class WallView implements ComponentView {
@@ -20,7 +19,7 @@ public class WallView implements ComponentView {
 
         BufferedImage wallImage = null;
         try {
-            wallImage = ImageIO.read(new File("wall.png"));
+            wallImage = ImageIO.read(getClass().getResource("/wall.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

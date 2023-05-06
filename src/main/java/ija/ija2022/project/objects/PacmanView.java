@@ -6,14 +6,16 @@ import ija.ija2022.project.fields.FieldView;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class PacmanView implements ComponentView {
     private final FieldView parent;
+    private final PacmanObject pacman;
+    private String directionChar = "r";
 
-    public PacmanView(FieldView parent, CommonMazeObject m) {
+    public PacmanView(FieldView parent, PacmanObject pacman) {
         this.parent = parent;
+        this.pacman = pacman;
     }
 
     public void paintComponent(Graphics g) {
@@ -21,7 +23,14 @@ public class PacmanView implements ComponentView {
 
         BufferedImage pacmanImage = null;
         try {
-            pacmanImage = ImageIO.read(new File("pacman.png"));
+            directionChar = switch (this.pacman.getDirection()) {
+                case U -> "u";
+                case D -> "d";
+                case L -> "l";
+                case R -> "r";
+                case N -> directionChar;
+            };
+            pacmanImage = ImageIO.read(getClass().getResource("/pacman/" + directionChar + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

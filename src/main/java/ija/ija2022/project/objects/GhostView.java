@@ -6,7 +6,6 @@ import ija.ija2022.project.fields.FieldView;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class GhostView implements ComponentView {
@@ -21,7 +20,7 @@ public class GhostView implements ComponentView {
 
         BufferedImage ghostImage = null;
         try {
-            ghostImage = ImageIO.read(new File("ghost2.png"));
+            ghostImage = ImageIO.read(getClass().getResource("/ghost.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

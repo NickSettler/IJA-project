@@ -35,7 +35,7 @@ public class FieldView extends JPanel implements Observable.Observer {
             if (this.field.isPacmanPath())
                 this.setBackground(Color.green.brighter());
             else
-                this.setBackground(Color.white);
+                this.setBackground(Color.gray);
             if (!this.field.isEmpty()) {
                 ArrayList<CommonMazeObject> objects = this.field.get();
 
