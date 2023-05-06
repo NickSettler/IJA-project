@@ -145,5 +145,7 @@ public class Maze implements CommonMaze {
 
     public void setPacmanPath(List<int[]> pacmanPath) {
         this.pacmanPath = pacmanPath;
+
+        pacmanPath.forEach(p -> this.updatesFields.add(new Pair<>(p[0], p[1])));
     }
 }

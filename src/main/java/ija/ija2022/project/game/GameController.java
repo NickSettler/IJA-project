@@ -93,7 +93,7 @@ public class GameController extends BaseGameViewController {
 
         PacmanObject pacman = this.maze.getPacman();
 
-        if (this.maze.getPacmanPath().size() == 1) {
+        if (this.maze.getPacmanPath().size() == 0) {
             Map<Integer, Boolean> keys = KeyboardController.getInstance().getKeys();
 
             if (keys.getOrDefault(KeyEvent.VK_W, false))
@@ -109,10 +109,7 @@ public class GameController extends BaseGameViewController {
 
             pacman.move();
         } else {
-            int deltaX = this.maze.getPacmanPath().get(1)[0] - this.maze.getPacmanPath().get(0)[0];
-            int deltaY = this.maze.getPacmanPath().get(1)[1] - this.maze.getPacmanPath().get(0)[1];
-            pacman.setDirection(CommonField.Direction.from(deltaX, deltaY));
-            pacman.move();
+            pacman.move(this.maze.getPacmanPath().get(0)[0], this.maze.getPacmanPath().get(0)[1]);
             this.maze.getPacmanPath().remove(0);
 
             if (this.maze.getPacmanPath().isEmpty())
