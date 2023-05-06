@@ -9,8 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class BaseGameViewController implements Runnable {
     protected GAME_MODE mode;
     protected Thread tickThread;
-
-    protected int timeToSleep = 250;
+    protected int tickTime = 250;
 
     protected AtomicBoolean isRunning = new AtomicBoolean(false);
 
@@ -28,19 +27,12 @@ public abstract class BaseGameViewController implements Runnable {
             try {
                 this.tick();
 
-                if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(timeToSleep);
+                if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(tickTime);
 
                 runCheck();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-        }
-    }
-
-    public void updateTimeToSleep(int newTime) {
-        timeToSleep = newTime;
-        if (timeToSleep < 0) {
-            timeToSleep = 0;
         }
     }
 
@@ -72,6 +64,17 @@ public abstract class BaseGameViewController implements Runnable {
         this.isRunning = null;
 
         EventManager.getInstance().removeEventListener(this);
+    }
+
+    public void increaseTickTime() {
+        tickTime += 50;
+    }
+
+    public void decreaseTickTime() {
+        tickTime -= 50;
+        if (tickTime < 0) {
+            tickTime = 0;
+        }
     }
 
     public void setMode(GAME_MODE mode) {

@@ -50,25 +50,36 @@ public class ReplayController extends BaseGameViewController {
             return;
 
         if (this.mode == GAME_MODE.STEP_BY_STEP) {
-            if (e.getKeyCode() == VK_LEFT) {
-                if (this.replayDirection == REPLAY_DIRECTION.FORWARD)
-                    this.logger.previousEntry();
-                this.replayDirection = REPLAY_DIRECTION.BACKWARD;
-            } else if (e.getKeyCode() == VK_RIGHT) {
-                if (this.replayDirection == REPLAY_DIRECTION.BACKWARD)
-                    this.logger.nextEntry();
-                this.replayDirection = REPLAY_DIRECTION.FORWARD;
-            }
-
-            System.out.println("Going " + (this.replayDirection == REPLAY_DIRECTION.FORWARD ? "forward" : "backward"));
+            if (e.getKeyCode() == VK_LEFT) this.preparePreviousStep();
+            else if (e.getKeyCode() == VK_RIGHT) this.prepareNextStep();
 
             this.tick();
         }
     }
 
-    protected void update() {
-        super.updateTimeToSleep(250 + view.getTimeChange());
+    private void preparePreviousStep() {
+        if (this.replayDirection == REPLAY_DIRECTION.FORWARD)
+            this.logger.previousEntry();
+        this.replayDirection = REPLAY_DIRECTION.BACKWARD;
+    }
 
+    private void prepareNextStep() {
+        if (this.replayDirection == REPLAY_DIRECTION.BACKWARD)
+            this.logger.nextEntry();
+        this.replayDirection = REPLAY_DIRECTION.FORWARD;
+    }
+
+    public void previousStep() {
+        this.preparePreviousStep();
+        this.tick();
+    }
+
+    public void nextStep() {
+        this.prepareNextStep();
+        this.tick();
+    }
+
+    protected void update() {
         System.out.println("Processing entry: " + this.logger.getIndex() + ". Reverse: " + (this.replayDirection == REPLAY_DIRECTION.BACKWARD));
 
         this.commandProcessor.processEntry(
