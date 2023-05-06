@@ -59,6 +59,9 @@ public class MazeConfigure {
             this.mazeText = text;
 
         String[] lines = this.mazeText.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            lines[i] = lines[i].trim();
+        }
 
         if (lines.length < 2) {
             System.out.println("File is too short");
@@ -81,6 +84,9 @@ public class MazeConfigure {
     }
 
     private Integer[] parseDimensions(String line) {
+//        line = line.trim();
+//        System.out.println(line);
+//        System.out.println("hy");
         try {
             return Arrays.stream(line.split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
         } catch (NumberFormatException e) {
@@ -120,6 +126,7 @@ public class MazeConfigure {
     }
 
     public void processLine(String line) {
+        line = line.trim();
         if (!this.reading) return;
 
         if (!this.checkLine(line)) return;
