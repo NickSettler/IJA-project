@@ -1,1 +1,4 @@
-{"mode":"continuous"}
+{
+  "mode": "continuous",
+  "maxLives": 3
+}
