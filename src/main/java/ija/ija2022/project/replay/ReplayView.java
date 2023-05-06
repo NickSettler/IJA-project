@@ -33,6 +33,10 @@ public class ReplayView extends JFrame {
         this.getContentPane().setBackground(Color.gray);
         GridBagConstraints c = new GridBagConstraints();
 
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonsPanel.setBackground(Color.gray);
+
         ImageIcon increaseContinuousSpeedIcon = new ImageIcon("src/main/resources/icons/ff.png");
         JButton increaseContinuousSpeed = new JButton(increaseContinuousSpeedIcon);
         increaseContinuousSpeed.setFocusable(false);
@@ -57,19 +61,16 @@ public class ReplayView extends JFrame {
 
         stepTextField = new JTextField("0");
 
-        c.weighty = 0.05;
-        c.weightx = 0.2;
-        c.gridy = 0;
-        c.gridx = 0;
-        this.add(decreaseContinuousSpeed, c);
-        c.gridx = 1;
-        this.add(stepBackward, c);
-        c.gridx = 2;
-        this.add(pauseResumeButton, c);
-        c.gridx = 3;
-        this.add(stepForward, c);
-        c.gridx = 4;
-        this.add(increaseContinuousSpeed, c);
+        buttonsPanel.add(decreaseContinuousSpeed);
+        buttonsPanel.add(stepBackward);
+        buttonsPanel.add(pauseResumeButton);
+        buttonsPanel.add(stepForward);
+        buttonsPanel.add(increaseContinuousSpeed);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weighty = 0.1;
+        c.weightx = 1;
+        this.add(buttonsPanel, c);
 
         c.gridx = 0;
         c.gridwidth = 2;
