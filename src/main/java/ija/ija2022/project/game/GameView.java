@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 
 public class GameView extends JFrame {
     private GameController controller;
-    private JPanel heartsPanel;
+    private final JPanel heartsPanel;
 
     public GameView(GameController controller) {
         super("Play Game");

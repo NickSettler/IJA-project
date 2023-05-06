@@ -6,6 +6,7 @@ import ija.ija2022.project.common.BaseGameViewController;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
+import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.logger.LOGGER_MODE;
 import ija.ija2022.project.logger.LoggerController;
 import ija.ija2022.project.maze.CommonMaze;
@@ -42,6 +43,8 @@ public class ReplayController extends BaseGameViewController {
         this.commandProcessor = new CommandProcessor(this.maze, this.logger);
 
         this.view.setVisible(true);
+
+        EventManager.getInstance().fireEvent(new LivesChangeEvent(this.maze.getPacman().getLives()));
     }
 
     @EventHandler
@@ -118,5 +121,4 @@ public class ReplayController extends BaseGameViewController {
     public JPanel getMazeView() {
         return this.presenter;
     }
-
 }

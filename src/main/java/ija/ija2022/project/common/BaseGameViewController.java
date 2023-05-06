@@ -2,6 +2,7 @@ package ija.ija2022.project.common;
 
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.settings.GAME_MODE;
+import ija.ija2022.project.settings.SettingsController;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,12 +11,13 @@ public abstract class BaseGameViewController implements Runnable {
     protected GAME_MODE mode;
     protected Thread tickThread;
     protected int tickTime = 250;
-
     protected AtomicBoolean isRunning = new AtomicBoolean(false);
+    protected final SettingsController settingsController;
 
     public BaseGameViewController(GAME_MODE mode) {
         this.mode = mode;
         this.tickThread = new Thread(this);
+        this.settingsController = new SettingsController();
 
         EventManager.getInstance().addEventListener(this);
     }
@@ -86,4 +88,8 @@ public abstract class BaseGameViewController implements Runnable {
     }
 
     abstract public JPanel getMazeView();
+
+    public int getMaxLives() {
+        return this.settingsController.getMaxLives();
+    }
 }

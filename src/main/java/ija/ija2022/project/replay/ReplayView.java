@@ -2,6 +2,7 @@ package ija.ija2022.project.replay;
 
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
+import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.events.events.UpdateReplayStepEvent;
 import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.ui_controllers.KeyboardController;
@@ -16,17 +17,20 @@ public class ReplayView extends JFrame {
     private ReplayController controller;
     private final JToggleButton pauseResumeButton;
     private final JTextField stepTextField;
+    private final JPanel heartsPanel;
 
     public ReplayView(ReplayController controller) {
         super("Replay Game");
         this.controller = controller;
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(new GridBagLayout());
         this.setSize(500, 500);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addKeyListener(KeyboardController.getInstance());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
         this.setFocusableWindowState(true);
+        this.setBackground(Color.gray);
+        this.getContentPane().setBackground(Color.gray);
         GridBagConstraints c = new GridBagConstraints();
 
         ImageIcon increaseContinuousSpeedIcon = new ImageIcon("src/main/resources/icons/ff.png");
@@ -73,12 +77,25 @@ public class ReplayView extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(stepTextField, c);
 
+        heartsPanel = new JPanel();
+        heartsPanel.setBackground(Color.gray);
+        heartsPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.weighty = 0.02;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.gridy = 2;
+        c.ipady = 0;
+        this.add(heartsPanel, c);
+
         c.fill = GridBagConstraints.BOTH;
         c.weighty = 0.9;
         c.weightx = 1;
         c.gridx = 0;
         c.gridwidth = 5;
-        c.gridy = 2;
+        c.gridy = 3;
         this.add(controller.getMazeView(), c);
 
         addWindowListener(new WindowAdapter() {
@@ -90,6 +107,21 @@ public class ReplayView extends JFrame {
         });
 
         EventManager.getInstance().addEventListener(this);
+    }
+
+    private void drawLives(int count) {
+        this.heartsPanel.removeAll();
+
+        ImageIcon heartIcon = new ImageIcon("src/main/resources/heart_full.png");
+        ImageIcon heartEmptyIcon = new ImageIcon("src/main/resources/heart_empty.png");
+
+        for (int i = 0; i < this.controller.getMaxLives(); i++) {
+            boolean isFull = i < count;
+            heartsPanel.add(new JLabel(isFull ? heartIcon : heartEmptyIcon));
+        }
+
+        this.revalidate();
+        this.repaint();
     }
 
     private void pauseButtonClickHandler(ActionEvent e) {
@@ -110,6 +142,11 @@ public class ReplayView extends JFrame {
     private void handleReplayStepUpdate(UpdateReplayStepEvent event) {
         String step = event.getStep() < 0 ? "0" : String.valueOf(event.getStep());
         this.stepTextField.setText(step);
+    }
+
+    @EventHandler
+    private void handleLivesChange(LivesChangeEvent event) {
+        this.drawLives(event.getLives());
     }
 
     private void handleWindowClosing() {

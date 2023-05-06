@@ -18,7 +18,6 @@ import ija.ija2022.project.maze.configure.MazeConfigure;
 import ija.ija2022.project.objects.GhostObject;
 import ija.ija2022.project.objects.PacmanObject;
 import ija.ija2022.project.settings.GAME_MODE;
-import ija.ija2022.project.settings.SettingsController;
 import ija.ija2022.project.ui_controllers.KeyboardController;
 
 import javax.swing.*;
@@ -35,13 +34,11 @@ public class GameController extends BaseGameViewController {
     private final GameView view;
     private final CollisionController collisionController;
     private final LoggerController loggerController;
-    private final SettingsController settingsController;
 
     public GameController(GAME_MODE mode, String filePath) {
         super(mode);
 
         this.loggerController = new LoggerController(LOGGER_MODE.WRITE);
-        this.settingsController = new SettingsController();
 
         this.mazeConfigure = new MazeConfigure(filePath, true);
         this.maze = this.mazeConfigure.createMaze();
@@ -174,9 +171,5 @@ public class GameController extends BaseGameViewController {
     @Override
     public JPanel getMazeView() {
         return this.presenter;
-    }
-
-    public int getMaxLives() {
-        return this.settingsController.getMaxLives();
     }
 }
