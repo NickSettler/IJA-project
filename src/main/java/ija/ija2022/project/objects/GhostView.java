@@ -10,11 +10,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class GhostView implements ComponentView {
-    private final CommonMazeObject model;
     private final FieldView parent;
 
     public GhostView(FieldView parent, CommonMazeObject m) {
-        this.model = m;
         this.parent = parent;
     }
 
@@ -31,7 +29,6 @@ public class GhostView implements ComponentView {
         Rectangle bounds = this.parent.getBounds();
         double w = bounds.getWidth();
         double h = bounds.getHeight();
-        Math.max(h, w);
         double diameter = Math.min(h, w) - 10.0;
         double x = (w - diameter) / 2.0;
         double y = (h - diameter) / 2.0;

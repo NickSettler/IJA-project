@@ -18,8 +18,6 @@ public abstract class AbstractObservableField implements CommonField {
     }
 
     public void notifyObservers() {
-        this.observers.forEach((o) -> {
-            o.update(this);
-        });
+        this.observers.forEach((o) -> o.update(this));
     }
 }

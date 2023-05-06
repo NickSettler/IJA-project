@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionController {
-    private CommonMaze maze;
+    private final CommonMaze maze;
 
-    private List<Collision> collisions = new ArrayList<>();
+    private final List<Collision> collisions = new ArrayList<>();
 
     public CollisionController(CommonMaze maze) {
         this.maze = maze;

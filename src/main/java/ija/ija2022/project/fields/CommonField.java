@@ -21,7 +21,7 @@ public interface CommonField extends Observable {
 
     int getCol();
 
-    public static enum Direction {
+    enum Direction {
         L(0, -1),
         U(-1, 0),
         R(0, 1),
@@ -31,7 +31,7 @@ public interface CommonField extends Observable {
         private final int r;
         private final int c;
 
-        private Direction(int dr, int dc) {
+        Direction(int dr, int dc) {
             this.r = dr;
             this.c = dc;
         }

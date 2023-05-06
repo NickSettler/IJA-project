@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SettingsView {
-    public record SettingsViewParams(GAME_MODE mode) {
-    }
-
     private final SettingsController controller;
 
     private final JFrame settingsFrame;

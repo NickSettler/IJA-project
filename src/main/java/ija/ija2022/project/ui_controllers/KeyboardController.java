@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class KeyboardController implements KeyListener {
     private static KeyboardController instance = null;
-    private Map<Integer, Boolean> keys;
+    private final Map<Integer, Boolean> keys;
 
     private KeyboardController() {
         this.keys = new HashMap<>();
@@ -37,8 +37,7 @@ public class KeyboardController implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-//        keys.put(e.getKeyCode(), false);
-//        EventManager.getInstance().fireEvent(new KeyDownEvent(e.getKeyCode()));
+
     }
 
     public Map<Integer, Boolean> getKeys() {

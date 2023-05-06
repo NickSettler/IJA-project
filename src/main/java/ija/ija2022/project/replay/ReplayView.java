@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
 public class ReplayView extends JFrame {
     public int timeChange = 0;
     private ReplayController controller;
-    private JToggleButton pauseResumeButton;
+    private final JToggleButton pauseResumeButton;
 
     public ReplayView(ReplayController controller) {
         super("Replay Game");

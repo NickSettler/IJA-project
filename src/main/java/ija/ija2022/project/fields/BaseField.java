@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BaseField extends AbstractObservableField {
-    protected int row;
+    protected final int row;
 
-    protected int col;
+    protected final int col;
 
     protected CommonMaze commonMaze;
 

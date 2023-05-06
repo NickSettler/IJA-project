@@ -2,7 +2,10 @@ package ija.ija2022.project.events;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EventManager implements IEventManager {
     private final Map<Class<? extends Event>, List<EventHandle>> eventHandleMap = new HashMap<>();
@@ -46,18 +49,12 @@ public class EventManager implements IEventManager {
     }
 
     private void sortArrayList(List<EventHandle> arrayList) {
-        arrayList.sort((objOne, objTwo) -> objTwo.getPriority().ordinal() - objOne.getPriority().ordinal());
+        arrayList.sort((objOne, objTwo) -> objTwo.priority().ordinal() - objOne.priority().ordinal());
     }
 
     public void removeEventListener(Object object) {
-        Iterator<Map.Entry<Class<? extends Event>, List<EventHandle>>> iterator = eventHandleMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Class<? extends Event>, List<EventHandle>> entry = iterator.next();
-            Iterator<EventHandle> eventHandleIterator = entry.getValue().iterator();
-            while (eventHandleIterator.hasNext()) {
-                if (eventHandleIterator.next().getMethodClass().equals(object))
-                    eventHandleIterator.remove();
-            }
+        for (Map.Entry<Class<? extends Event>, List<EventHandle>> entry : eventHandleMap.entrySet()) {
+            entry.getValue().removeIf(eventHandle -> eventHandle.methodClass().equals(object));
         }
     }
 
@@ -66,9 +63,9 @@ public class EventManager implements IEventManager {
         if ((eventHandles = eventHandleMap.get(event.getClass())) != null) {
             for (int i = 0; i < eventHandles.size(); i++) {
                 EventHandle eventHandle = eventHandles.get(i);
-                if (!event.isCancelled() && eventHandle.getPriority() != EventPriority.MONITOR) {
+                if (!event.isCancelled() && eventHandle.priority() != EventPriority.MONITOR) {
                     try {
-                        eventHandle.getMethod().invoke(eventHandle.getMethodClass(), event);
+                        eventHandle.method().invoke(eventHandle.methodClass(), event);
                     } catch (InvocationTargetException | IllegalAccessException e) {
                         e.printStackTrace();
                     }

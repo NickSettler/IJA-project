@@ -8,11 +8,9 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class PacmanPathView implements ComponentView {
-    private final CommonMazeObject model;
     private final FieldView parent;
 
     public PacmanPathView(FieldView parent, CommonMazeObject m) {
-        this.model = m;
         this.parent = parent;
     }
 
@@ -21,7 +19,6 @@ public class PacmanPathView implements ComponentView {
         Rectangle bounds = this.parent.getBounds();
         double w = bounds.getWidth();
         double h = bounds.getHeight();
-        Math.max(h, w);
         double diameter = Math.min(h, w) - 10.0;
         double x = (w - diameter) / 2.0;
         double y = (h - diameter) / 2.0;

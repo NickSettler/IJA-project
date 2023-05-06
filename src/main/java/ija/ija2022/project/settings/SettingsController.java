@@ -1,8 +1,12 @@
 package ija.ija2022.project.settings;
 
-import org.json.*;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SettingsController {
     private final SettingsModel model;
@@ -13,7 +17,7 @@ public class SettingsController {
     }
 
     private void loadSettings() {
-        FileInputStream is = null;
+        FileInputStream is;
         try {
             is = new FileInputStream("data/settings.json");
         } catch (FileNotFoundException e) {

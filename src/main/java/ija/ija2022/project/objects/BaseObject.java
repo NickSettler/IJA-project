@@ -94,11 +94,6 @@ public class BaseObject implements CommonMazeObject {
         this.maze.moveObject(this, row, col);
     }
 
-    @Override
-    public boolean isPacman() {
-        return CommonMazeObject.super.isPacman();
-    }
-
     public void setDirection(CommonField.Direction direction) {
         this.direction = direction;
     }

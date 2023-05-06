@@ -15,17 +15,15 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandProcessor {
-    private CommonMaze maze;
-    private LoggerController loggerController;
+    private final CommonMaze maze;
 
-    private Map<Integer, CommonMazeObject> ghostAssociations;
+    private final Map<Integer, CommonMazeObject> ghostAssociations;
 
     public CommandProcessor(CommonMaze maze, LoggerController loggerController) {
         this.maze = maze;
-        this.loggerController = loggerController;
         this.ghostAssociations = new HashMap<>();
 
-        this.loggerController.getGhostsAssociations().forEach((index, association) -> {
+        loggerController.getGhostsAssociations().forEach((index, association) -> {
             CommonMazeObject object = maze.getField(association.getKey(), association.getValue()).get().get(0);
             this.ghostAssociations.put(index, object);
         });
