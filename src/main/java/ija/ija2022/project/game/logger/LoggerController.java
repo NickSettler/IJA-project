@@ -97,12 +97,12 @@ public class LoggerController {
     }
 
     public void nextEntry() {
-        if (this.index >= this.entries.size() + 1) return;
+        if (this.index >= this.entries.size()) return;
         this.index++;
     }
 
     public void previousEntry() {
-        if (this.index <= 0) return;
+        if (this.index <= -1) return;
         this.index--;
     }
 

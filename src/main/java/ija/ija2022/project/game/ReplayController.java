@@ -6,8 +6,6 @@ import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.configure.MazeConfigure;
 import ija.ija2022.project.game.logger.LOGGER_MODE;
-import ija.ija2022.project.game.logger.LogEntry;
-import ija.ija2022.project.game.logger.LogItem;
 import ija.ija2022.project.game.logger.LoggerController;
 import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.tool.MazePresenter;
@@ -15,7 +13,6 @@ import ija.ija2022.project.tool.common.CommonMaze;
 import ija.ija2022.project.ui.ReplayView;
 
 import javax.swing.*;
-import java.util.Arrays;
 
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
@@ -27,6 +24,7 @@ public class ReplayController extends BaseMazeController {
     private final ReplayView view;
     private final CollisionController collisionController;
     private final LoggerController logger;
+    private final CommandProcessor commandProcessor;
 
     public ReplayController(GAME_MODE mode, String filePath) {
         super(mode);
@@ -40,6 +38,7 @@ public class ReplayController extends BaseMazeController {
         this.view = new ReplayView(this);
 
         this.collisionController = new CollisionController(this.maze);
+        this.commandProcessor = new CommandProcessor(this.maze, this.logger);
 
         this.view.setVisible(true);
     }
@@ -50,7 +49,17 @@ public class ReplayController extends BaseMazeController {
             return;
 
         if (this.mode == GAME_MODE.STEP_BY_STEP) {
-            this.replayDirection = e.getKeyCode() == VK_LEFT ? REPLAY_DIRECTION.BACKWARD : REPLAY_DIRECTION.FORWARD;
+            if (e.getKeyCode() == VK_LEFT) {
+                if (this.replayDirection == REPLAY_DIRECTION.FORWARD)
+                    this.logger.previousEntry();
+                this.replayDirection = REPLAY_DIRECTION.BACKWARD;
+            } else if (e.getKeyCode() == VK_RIGHT) {
+                if (this.replayDirection == REPLAY_DIRECTION.BACKWARD)
+                    this.logger.nextEntry();
+                this.replayDirection = REPLAY_DIRECTION.FORWARD;
+            }
+
+            System.out.println("Going " + (this.replayDirection == REPLAY_DIRECTION.FORWARD ? "forward" : "backward"));
 
             this.tick();
         }
@@ -58,13 +67,18 @@ public class ReplayController extends BaseMazeController {
 
     protected void update() {
         super.updateTimeToSleep(250 + view.getTimeChange());
-        if (replayDirection == REPLAY_DIRECTION.BACKWARD)
-            this.logger.previousEntry();
 
-        this.processBatchCommands(this.logger.currentEntry());
+        System.out.println("Processing entry: " + this.logger.getIndex() + ". Reverse: " + (this.replayDirection == REPLAY_DIRECTION.BACKWARD));
+
+        this.commandProcessor.processEntry(
+                this.logger.getEntry(this.logger.getIndex()),
+                replayDirection == REPLAY_DIRECTION.BACKWARD
+        );
 
         if (replayDirection == REPLAY_DIRECTION.FORWARD)
             this.logger.nextEntry();
+        else
+            this.logger.previousEntry();
 
         this.collisionController.detectCollisions();
         this.collisionController.handleCollisions();
@@ -83,22 +97,10 @@ public class ReplayController extends BaseMazeController {
     public void destroy() {
         super.destroy();
 
-        switch (command.character()) {
-            case PACMAN -> this.maze.getPacman().move(command.to(reverse).getKey(), command.to(reverse).getValue());
+        EventManager.getInstance().removeEventListener(this);
 
-            case GHOST -> Arrays.stream(this.maze.ghosts())
-                    .filter(ghost -> ghost.getRow() == command.from(reverse).getKey() && ghost.getCol() == command.from(reverse).getValue())
-                    .findFirst()
-                    .ifPresent(ghost -> ghost.move(command.to(reverse).getKey(), command.to(reverse).getValue()));
-        }
-    }
-
-    private void processBatchCommands(LogEntry commandsEntry) {
-        if (commandsEntry == null) return;
-
-        for (LogItem command : commandsEntry.items()) {
-            this.processCommand(command);
-        }
+        this.view.dispose();
+        this.logger.close();
     }
 
     public JPanel getMazeView() {

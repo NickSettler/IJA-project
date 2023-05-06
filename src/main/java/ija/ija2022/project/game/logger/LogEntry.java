@@ -1,5 +1,6 @@
 package ija.ija2022.project.game.logger;
 
+import ija.ija2022.project.game.configure.CHARACTER_MAP;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -19,6 +20,12 @@ public record LogEntry(ArrayList<LogItem> items) {
         }
 
         return array;
+    }
+
+    public ArrayList<LogItem> getGhosts() {
+        return this.items.stream()
+                .filter(item -> item.character() == CHARACTER_MAP.GHOST)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
     public static LogEntry fromJSONArray(JSONArray array) {

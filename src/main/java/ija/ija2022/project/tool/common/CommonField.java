@@ -40,6 +40,16 @@ public interface CommonField extends Observable {
             return this.c;
         }
 
+        public Direction opposite() {
+            return switch (this) {
+                case L -> R;
+                case U -> D;
+                case R -> L;
+                case D -> U;
+                default -> N;
+            };
+        }
+
         public static Direction from(int dr, int dc) {
             for (Direction direction : Direction.values()) {
                 if (direction.deltaRow() == dr && direction.deltaCol() == dc) {
