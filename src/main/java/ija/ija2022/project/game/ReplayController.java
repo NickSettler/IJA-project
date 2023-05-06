@@ -1,6 +1,7 @@
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.events.EventHandler;
+import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.configure.MazeConfigure;
@@ -78,8 +79,9 @@ public class ReplayController extends BaseMazeController {
             this.stop();
     }
 
-    private void processCommand(LogItem command) {
-        boolean reverse = this.replayDirection == REPLAY_DIRECTION.BACKWARD;
+    @Override
+    public void destroy() {
+        super.destroy();
 
         switch (command.character()) {
             case PACMAN -> this.maze.getPacman().move(command.to(reverse).getKey(), command.to(reverse).getValue());

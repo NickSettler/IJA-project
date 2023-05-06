@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoggerController {
     private final LOGGER_MODE mode;
@@ -22,8 +24,6 @@ public class LoggerController {
     private ArrayList<LogEntry> entries = new ArrayList<>();
 
     private String mapText;
-
-    private Integer[] dimensions;
 
     private int index = 0;
 
@@ -113,6 +113,13 @@ public class LoggerController {
         return this.entries.get(this.index);
     }
 
+    public LogEntry getEntry(int index) {
+        if (index >= this.entries.size() || index < 0)
+            return null;
+
+        return this.entries.get(index);
+    }
+
     public int getIndex() {
         return index;
     }
@@ -137,6 +144,11 @@ public class LoggerController {
     }
 
     public void close() {
+        if (this.mode == LOGGER_MODE.READ) {
+            this.afterClose();
+            return;
+        }
+
         if (this.filePath == null) {
             throw new IllegalStateException("Cannot close without file path");
         }
@@ -155,6 +167,8 @@ public class LoggerController {
         } catch (IOException e) {
             System.out.println("Error while saving settings");
         }
+
+        this.afterClose();
     }
 
     public void close(String filePath, String mapText) {
@@ -162,5 +176,42 @@ public class LoggerController {
         this.mapText = mapText;
 
         this.close();
+    }
+
+    public void afterClose() {
+        this.filePath = null;
+        this.mapText = null;
+        this.entries.clear();
+        this.entries = null;
+        this.index = 0;
+    }
+
+    public Map<Integer, Pair<Integer, Integer>> getGhostsAssociations() {
+        if (this.mode == LOGGER_MODE.WRITE) return null;
+
+        if (this.entries.size() == 0) {
+            throw new IllegalStateException("Cannot get associations from empty log");
+        }
+
+        LogEntry entry = this.entries.get(0);
+
+        if (entry.items().size() == 0) {
+            throw new IllegalStateException("Cannot get associations from empty entry");
+        }
+
+        Map<Integer, Pair<Integer, Integer>> associations = new HashMap<>();
+
+        if (entry.items().size() == 0) {
+            throw new IllegalStateException("Cannot get associations from empty entry");
+        }
+
+        for (int i = 0; i < entry.items().size(); i++) {
+            LogItem item = entry.items().get(i);
+            if (item.character() == CHARACTER_MAP.GHOST) {
+                associations.put(i, item.from());
+            }
+        }
+
+        return associations;
     }
 }

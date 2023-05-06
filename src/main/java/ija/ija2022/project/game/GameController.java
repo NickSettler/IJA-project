@@ -5,7 +5,6 @@ import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.events.events.MouseClickedEvent;
-import ija.ija2022.project.events.events.WindowCloseEvent;
 import ija.ija2022.project.game.collision.CollisionController;
 import ija.ija2022.project.game.configure.MazeConfigure;
 import ija.ija2022.project.game.logger.LOGGER_MODE;
@@ -50,42 +49,6 @@ public class GameController extends BaseMazeController {
 
         if (this.mode == GAME_MODE.CONTINUOUS)
             this.start();
-    }
-
-    @EventHandler
-    private void handleWindowCloseEvent(WindowCloseEvent event) {
-        if (this.loggerController.getIndex() == 0)
-            return;
-
-        Window parentFrame = event.getWindow();
-
-        this.stop();
-
-        String[] options = {"Yes! Please.", "No! Not now."};
-        int result = JOptionPane.showOptionDialog(
-                parentFrame,
-                "Do you want to save the game?",
-                "Save game",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
-
-        if (result == JOptionPane.YES_OPTION) {
-            JFileChooser fileChooser = new JFileChooser("data/");
-            fileChooser.setDialogTitle("Specify a file to save");
-
-            int userSelection = fileChooser.showSaveDialog(parentFrame);
-
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File fileToSave = fileChooser.getSelectedFile();
-                this.loggerController.close(fileToSave.getAbsolutePath(), this.mazeConfigure.getMazeText());
-            }
-        }
-
-        EventManager.getInstance().removeEventListener(this);
     }
 
     @EventHandler
@@ -158,6 +121,49 @@ public class GameController extends BaseMazeController {
 
     protected void render() {
         this.maze.notifyUpdates();
+    }
+
+    public void handleWindowClose(Window window) {
+        if (this.loggerController.getIndex() == 0)
+            return;
+
+        this.stop();
+
+        String[] options = {"Yes! Please.", "No! Not now."};
+        int result = JOptionPane.showOptionDialog(
+                window,
+                "Do you want to save the game?",
+                "Save game",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        if (result == JOptionPane.YES_OPTION) {
+            JFileChooser fileChooser = new JFileChooser("data/");
+            fileChooser.setDialogTitle("Specify a file to save");
+
+            int userSelection = fileChooser.showSaveDialog(window);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                this.loggerController.close(fileToSave.getAbsolutePath(), this.mazeConfigure.getMazeText());
+            }
+        }
+
+        System.out.println("Here");
+        this.destroy();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        EventManager.getInstance().removeEventListener(this);
+
+        this.view.dispose();
     }
 
     @Override

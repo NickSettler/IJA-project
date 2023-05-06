@@ -2,23 +2,26 @@ package ija.ija2022.project.ui;
 
 import ija.ija2022.project.game.KeyboardController;
 import ija.ija2022.project.game.ReplayController;
-import ija.ija2022.project.game.WindowController;
 import ija.ija2022.project.settings.GAME_MODE;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ReplayView extends JFrame {
     public int timeChange = 0;
+    private ReplayController controller;
+    private JToggleButton pauseResumeButton;
+
     public ReplayView(ReplayController controller) {
         super("Replay Game");
+        this.controller = controller;
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(new GridBagLayout());
         this.setSize(500, 500);
         this.addKeyListener(KeyboardController.getInstance());
-        this.addWindowListener(WindowController.getInstance());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
         this.setFocusableWindowState(true);
@@ -28,23 +31,10 @@ public class ReplayView extends JFrame {
         fasterButton.setFocusable(false);
         JButton slowerButton = new JButton("<<");
         slowerButton.setFocusable(false);
-        JToggleButton pauseResumeButton = new JToggleButton("▶");
+        pauseResumeButton = new JToggleButton("▶");
         pauseResumeButton.setFocusable(false);
-//        fasterButton.addActionListener(e -> timer.setDelay(timer.getDelay() / 2));
 
-//        slowerButton.addActionListener(e -> timer.setDelay(timer.getDelay() * 2));
-
-        pauseResumeButton.addActionListener(e -> {
-            if (controller.getMode() == GAME_MODE.CONTINUOUS) {
-                pauseResumeButton.setText("▶");
-                controller.setMode(GAME_MODE.STEP_BY_STEP);
-                controller.stop();
-            } else {
-                pauseResumeButton.setText("⏹");
-                controller.setMode(GAME_MODE.CONTINUOUS);
-                controller.start();
-            }
-        });
+        pauseResumeButton.addActionListener(this::pauseButtonClickHandler);
 
         slowerButton.addActionListener(e -> timeChange += 50);
 
@@ -53,7 +43,14 @@ public class ReplayView extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                timeChange = 250; // Reset sleep time to default value
+                super.windowClosed(e);
+                timeChange = 250;
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                handleWindowClosing();
             }
         });
 
@@ -78,5 +75,24 @@ public class ReplayView extends JFrame {
 
     public int getTimeChange() {
         return timeChange;
+    }
+
+    private void pauseButtonClickHandler(ActionEvent e) {
+        if (controller.getMode() == GAME_MODE.CONTINUOUS) {
+            pauseResumeButton.setText("▶");
+            controller.setMode(GAME_MODE.STEP_BY_STEP);
+            controller.stop();
+        } else {
+            pauseResumeButton.setText("⏹");
+            controller.setMode(GAME_MODE.CONTINUOUS);
+            controller.start();
+        }
+    }
+
+    private void handleWindowClosing() {
+        this.removeKeyListener(KeyboardController.getInstance());
+
+        this.controller.destroy();
+        this.controller = null;
     }
 }

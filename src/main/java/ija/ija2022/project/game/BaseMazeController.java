@@ -12,7 +12,7 @@ public abstract class BaseMazeController implements Runnable {
 
     protected int timeToSleep = 250;
 
-    protected final AtomicBoolean isRunning = new AtomicBoolean(false);
+    protected AtomicBoolean isRunning = new AtomicBoolean(false);
 
     public BaseMazeController(GAME_MODE mode) {
         this.mode = mode;
@@ -63,6 +63,15 @@ public abstract class BaseMazeController implements Runnable {
 
     public void stop() {
         this.isRunning.set(false);
+    }
+
+    public void destroy() {
+        this.stop();
+        this.tickThread.interrupt();
+        this.tickThread = null;
+        this.isRunning = null;
+        
+        EventManager.getInstance().removeEventListener(this);
     }
 
     public void setMode(GAME_MODE mode) {
