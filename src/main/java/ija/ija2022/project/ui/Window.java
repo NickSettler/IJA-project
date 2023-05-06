@@ -59,7 +59,13 @@ public class Window extends JFrame {
             );
             GAME_MODE selectedMode = GAME_MODE.values()[index];
 
-            new GameController(selectedMode, "mapa01.txt");
+            JFileChooser fileChooser = new JFileChooser("maps/");
+
+            int result = fileChooser.showOpenDialog(Window.this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                new GameController(selectedMode, selectedFile.getAbsolutePath());
+            }
         });
 
         settingsButton.addActionListener(e -> new SettingsView().getFrame().setVisible(true));
