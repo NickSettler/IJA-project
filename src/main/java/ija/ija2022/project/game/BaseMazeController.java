@@ -10,6 +10,8 @@ public abstract class BaseMazeController implements Runnable {
     protected GAME_MODE mode;
     protected Thread tickThread;
 
+    protected int timeToSleep = 250;
+
     protected final AtomicBoolean isRunning = new AtomicBoolean(false);
 
     public BaseMazeController(GAME_MODE mode) {
@@ -26,12 +28,19 @@ public abstract class BaseMazeController implements Runnable {
             try {
                 this.tick();
 
-                if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(250);
+                if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(timeToSleep);
 
                 runCheck();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    public void updateTimeToSleep(int newTime) {
+        timeToSleep = newTime;
+        if (timeToSleep < 0) {
+            timeToSleep = 0;
         }
     }
 

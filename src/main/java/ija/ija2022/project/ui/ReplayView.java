@@ -7,8 +7,11 @@ import ija.ija2022.project.settings.GAME_MODE;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ReplayView extends JFrame {
+    public int timeChange = 0;
     public ReplayView(ReplayController controller) {
         super("Replay Game");
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -43,6 +46,17 @@ public class ReplayView extends JFrame {
             }
         });
 
+        slowerButton.addActionListener(e -> timeChange += 50);
+
+        fasterButton.addActionListener(e -> timeChange -= 50);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                timeChange = 250; // Reset sleep time to default value
+            }
+        });
+
         c.weighty = 0.1;
         c.weightx = 1;
         c.gridx = 0;
@@ -60,5 +74,9 @@ public class ReplayView extends JFrame {
         c.gridwidth = 3;
         c.gridy = 1;
         this.add(controller.getMazeView(), c);
+    }
+
+    public int getTimeChange() {
+        return timeChange;
     }
 }

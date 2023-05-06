@@ -56,6 +56,7 @@ public class ReplayController extends BaseMazeController {
     }
 
     protected void update() {
+        super.updateTimeToSleep(250 + view.getTimeChange());
         if (replayDirection == REPLAY_DIRECTION.BACKWARD)
             this.logger.previousEntry();
 
@@ -101,4 +102,5 @@ public class ReplayController extends BaseMazeController {
     public JPanel getMazeView() {
         return this.presenter;
     }
+
 }
