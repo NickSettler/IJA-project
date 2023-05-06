@@ -7,6 +7,8 @@ import ija.ija2022.project.settings.SettingsView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 
 public class Window extends JFrame {
@@ -77,7 +79,28 @@ public class Window extends JFrame {
     private void setGhostImage() {
         ImageIcon imageIcon = new ImageIcon("ghost.png");
         JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setLayout(new FlowLayout());
+
+        // Add a ComponentListener to the JLabel to listen for size changes
+        imageLabel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // Rescale the image when the JLabel is resized
+                ImageIcon icon = (ImageIcon) imageLabel.getIcon();
+                if (icon != null && imageLabel.getWidth() > 0 && imageLabel.getHeight() > 0) {
+                    icon.setImage(icon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH));
+                }
+            }
+        });
+
+        // Scale the image to fit the initial size of the JLabel
+        if (imageLabel.getWidth() > 0 && imageLabel.getHeight() > 0) {
+            imageIcon.setImage(imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH));
+        }
+
         imageLabel.setIcon(imageIcon);
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);
+        imageLabel.setVerticalAlignment(JLabel.CENTER);
         this.add(imageLabel, BorderLayout.CENTER);
     }
 }
