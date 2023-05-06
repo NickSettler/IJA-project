@@ -9,10 +9,7 @@ import ija.ija2022.project.maze.configure.CHARACTER_MAP;
 import ija.ija2022.project.objects.CommonMazeObject;
 import ija.ija2022.project.objects.GhostObject;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CommandProcessor {
     private final CommonMaze maze;
@@ -59,7 +56,12 @@ public class CommandProcessor {
         }
     }
 
-    public void processEntries(List<LogEntry> entries) {
-        entries.forEach(this::processEntry);
+    public void processEntries(List<LogEntry> entries, boolean reverse) {
+        if (reverse)
+            Collections.reverse(entries);
+
+        for (LogEntry entry : entries) {
+            this.processEntry(entry, reverse);
+        }
     }
 }

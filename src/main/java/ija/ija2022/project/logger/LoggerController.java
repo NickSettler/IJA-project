@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoggerController {
@@ -122,6 +123,28 @@ public class LoggerController {
             return null;
 
         return this.entries.get(index);
+    }
+
+    public List<LogEntry> getEntries() {
+        return this.entries;
+    }
+
+    public List<LogEntry> getEntries(int start) {
+        if (start < 0 || start > this.entries.size())
+            throw new IllegalArgumentException("Invalid start index");
+
+        return this.entries.subList(start, this.entries.size());
+    }
+
+    public List<LogEntry> getEntries(int start, int end) {
+        if (start < 0 || end > this.entries.size() || start > end)
+            throw new IllegalArgumentException("Invalid start or end index");
+
+        return this.entries.subList(start, end);
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public int getIndex() {

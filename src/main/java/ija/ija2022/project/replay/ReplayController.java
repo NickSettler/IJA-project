@@ -8,6 +8,7 @@ import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.logger.LOGGER_MODE;
+import ija.ija2022.project.logger.LogEntry;
 import ija.ija2022.project.logger.LoggerController;
 import ija.ija2022.project.maze.CommonMaze;
 import ija.ija2022.project.maze.MazePresenter;
@@ -15,6 +16,7 @@ import ija.ija2022.project.maze.configure.MazeConfigure;
 import ija.ija2022.project.settings.GAME_MODE;
 
 import javax.swing.*;
+import java.util.List;
 
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
@@ -80,6 +82,19 @@ public class ReplayController extends BaseGameViewController {
     public void nextStep() {
         this.prepareNextStep();
         this.tick();
+    }
+
+    public void jumpToStep(int step) {
+        boolean reverse = this.logger.getIndex() > step;
+
+        List<LogEntry> entries = this.logger.getEntries(reverse ? step : this.logger.getIndex(), reverse ? this.logger.getIndex() : step);
+        this.commandProcessor.processEntries(entries, reverse);
+        this.logger.setIndex(step);
+
+        this.collisionController.detectCollisions();
+        this.collisionController.handleCollisions();
+
+        this.render();
     }
 
     protected void update() {

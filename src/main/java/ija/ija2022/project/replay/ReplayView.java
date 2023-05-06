@@ -17,6 +17,7 @@ public class ReplayView extends JFrame {
     private ReplayController controller;
     private final JToggleButton pauseResumeButton;
     private final JTextField stepTextField;
+    private final JButton stepButton;
     private final JPanel heartsPanel;
 
     public ReplayView(ReplayController controller) {
@@ -60,6 +61,9 @@ public class ReplayView extends JFrame {
         increaseContinuousSpeed.addActionListener(e -> controller.decreaseTickTime());
 
         stepTextField = new JTextField("0");
+        stepButton = new JButton("Go to step");
+        stepButton.setFocusable(false);
+        stepButton.addActionListener(this::stepButtonClickHandler);
 
         buttonsPanel.add(decreaseContinuousSpeed);
         buttonsPanel.add(stepBackward);
@@ -70,13 +74,16 @@ public class ReplayView extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weighty = 0.1;
         c.weightx = 1;
+        c.gridwidth = 2;
         this.add(buttonsPanel, c);
 
         c.gridx = 0;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
         c.gridy = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(stepTextField, c);
+        c.gridx = 1;
+        this.add(stepButton, c);
 
         heartsPanel = new JPanel();
         heartsPanel.setBackground(Color.gray);
@@ -137,6 +144,11 @@ public class ReplayView extends JFrame {
             controller.setMode(GAME_MODE.CONTINUOUS);
             controller.start();
         }
+    }
+
+    private void stepButtonClickHandler(ActionEvent e) {
+        int step = Integer.parseInt(stepTextField.getText());
+        this.controller.jumpToStep(step);
     }
 
     @EventHandler
