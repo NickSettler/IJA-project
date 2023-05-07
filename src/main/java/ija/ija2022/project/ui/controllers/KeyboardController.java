@@ -1,4 +1,4 @@
-package ija.ija2022.project.ui_controllers;
+package ija.ija2022.project.ui.controllers;
 
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;

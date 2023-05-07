@@ -98,8 +98,6 @@ public class ReplayController extends BaseGameViewController {
     }
 
     protected void update() {
-        System.out.println("Processing entry: " + this.logger.getIndex() + ". Reverse: " + (this.replayDirection == REPLAY_DIRECTION.BACKWARD));
-
         this.commandProcessor.processEntry(
                 this.logger.getEntry(this.logger.getIndex()),
                 replayDirection == REPLAY_DIRECTION.BACKWARD

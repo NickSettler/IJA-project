@@ -3,8 +3,7 @@ package ija.ija2022.project.game;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.LivesChangeEvent;
-import ija.ija2022.project.ui_controllers.KeyboardController;
-import ija.ija2022.project.ui_controllers.MouseController;
+import ija.ija2022.project.ui.controllers.KeyboardController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +21,6 @@ public class GameView extends JFrame {
         this.setSize(500, 500);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addKeyListener(KeyboardController.getInstance());
-        this.addMouseListener(MouseController.getInstance());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
         this.setFocusableWindowState(true);
@@ -106,7 +104,6 @@ public class GameView extends JFrame {
         this.heartsPanel.removeAll();
 
         this.removeKeyListener(KeyboardController.getInstance());
-        this.removeMouseListener(MouseController.getInstance());
         EventManager.getInstance().removeEventListener(this);
 
         this.controller = null;
