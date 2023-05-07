@@ -2,6 +2,7 @@ package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.fields.FieldView;
+import ija.ija2022.project.theming.ThemeManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,16 +22,11 @@ public class PacmanView implements ComponentView {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
+        String spriteName = ThemeManager.getInstance().getTheme().getPacmanSpriteName(this.pacman.getDirection());
+
         BufferedImage pacmanImage = null;
         try {
-            directionChar = switch (this.pacman.getDirection()) {
-                case U -> "u";
-                case D -> "d";
-                case L -> "l";
-                case R -> "r";
-                case N -> directionChar;
-            };
-            pacmanImage = ImageIO.read(getClass().getResource("/pacman/" + directionChar + ".png"));
+            pacmanImage = ImageIO.read(getClass().getResource(spriteName));
         } catch (IOException e) {
             e.printStackTrace();
         }

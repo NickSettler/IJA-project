@@ -31,12 +31,12 @@ public class FieldView extends JPanel implements Observable.Observer {
         if (this.field instanceof WallField) {
             this.objects.add(new WallView(this));
         } else {
+            this.objects.clear();
+
             if (this.field.isPacmanPath())
                 this.setBackground(Color.green.brighter());
             else
-                this.setBackground(Color.gray);
-
-            this.objects.clear();
+                this.objects.add(new FloorView(this));
 
             ArrayList<CommonMazeObject> objects = this.field.get();
 

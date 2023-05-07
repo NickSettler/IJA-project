@@ -2,6 +2,7 @@ package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.fields.FieldView;
+import ija.ija2022.project.theming.ThemeManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,9 +19,11 @@ public class KeyView implements ComponentView {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
+        String spriteName = ThemeManager.getInstance().getTheme().getKeySpriteName();
+
         BufferedImage keyImage = null;
         try {
-            keyImage = ImageIO.read(getClass().getResource("/key.png"));
+            keyImage = ImageIO.read(getClass().getResource(spriteName));
         } catch (IOException e) {
             e.printStackTrace();
         }

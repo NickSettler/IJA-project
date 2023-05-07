@@ -2,6 +2,7 @@ package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.fields.FieldView;
+import ija.ija2022.project.theming.ThemeManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,9 +21,13 @@ public class GhostView implements ComponentView {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
+        String spriteName = this.ghost.isFrozen() ?
+                ThemeManager.getInstance().getTheme().getGhostSpriteName(true) :
+                ThemeManager.getInstance().getTheme().getGhostSpriteName(this.ghost.getDirection());
+
         BufferedImage ghostImage = null;
         try {
-            ghostImage = ImageIO.read(getClass().getResource(this.ghost.isFrozen() ? "/frozenghost.png" : "/ghost.png"));
+            ghostImage = ImageIO.read(getClass().getResource(spriteName));
         } catch (IOException e) {
             e.printStackTrace();
         }

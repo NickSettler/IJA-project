@@ -58,6 +58,16 @@ public interface CommonField extends Observable {
             };
         }
 
+        public String getChar() {
+            return switch (this) {
+                case L -> "l";
+                case U -> "u";
+                case R -> "r";
+                case D -> "d";
+                case N -> "n";
+            };
+        }
+
         public static Direction from(int dr, int dc) {
             for (Direction direction : Direction.values()) {
                 if (direction.deltaRow() == dr && direction.deltaCol() == dc) {

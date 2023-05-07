@@ -1,5 +1,6 @@
 package ija.ija2022.project.settings;
 
+import ija.ija2022.project.theming.THEME_NAMES;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -28,9 +29,11 @@ public class SettingsController {
         JSONObject object = new JSONObject(tokener);
         String gameMode = object.getString("mode");
         int maxLives = object.getInt("maxLives");
+        String themeName = object.getString("theme");
 
         this.model.setGameMode(GAME_MODE.fromValue(gameMode));
         this.model.setMaxLives(maxLives);
+        this.model.setTheme(THEME_NAMES.fromValue(themeName));
     }
 
     public void setContinuousMode() {
@@ -45,6 +48,7 @@ public class SettingsController {
         JSONObject object = new JSONObject();
         object.put("mode", model.getGameMode().toString());
         object.put("maxLives", model.getMaxLives());
+        object.put("theme", model.getTheme().getName());
 
         FileOutputStream os = null;
         try {
@@ -72,5 +76,13 @@ public class SettingsController {
 
     public int getMaxLives() {
         return model.getMaxLives();
+    }
+
+    public void setTheme(THEME_NAMES theme) {
+        model.setTheme(theme);
+    }
+
+    public THEME_NAMES getTheme() {
+        return model.getTheme();
     }
 }

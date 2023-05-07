@@ -1,4 +1,5 @@
 {
   "mode": "continuous",
-  "maxLives": 3
+  "maxLives": 3,
+  "theme": "basic"
 }

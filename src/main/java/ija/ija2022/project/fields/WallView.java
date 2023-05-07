@@ -1,6 +1,7 @@
 package ija.ija2022.project.fields;
 
 import ija.ija2022.project.common.ComponentView;
+import ija.ija2022.project.theming.ThemeManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,9 +18,11 @@ public class WallView implements ComponentView {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
+        String spriteName = ThemeManager.getInstance().getTheme().getWallSpriteName();
+
         BufferedImage wallImage = null;
         try {
-            wallImage = ImageIO.read(getClass().getResource("/wall.png"));
+            wallImage = ImageIO.read(getClass().getResource(spriteName));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,8 +35,5 @@ public class WallView implements ComponentView {
         double y = (h - diameter) / 2.0;
 
         g2.drawImage(wallImage, (int) x, (int) y, (int) diameter, (int) diameter, null);
-
-        g2.setColor(Color.black);
-        g2.setFont(new Font("Serif", Font.BOLD, 20));
     }
 }

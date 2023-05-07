@@ -2,6 +2,7 @@ package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.fields.FieldView;
+import ija.ija2022.project.theming.ThemeManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,11 +21,11 @@ public class TargetView implements ComponentView {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        boolean open = this.model.maze.isAllKeysCollected();
+        String spriteName = ThemeManager.getInstance().getTheme().getTargetSpriteName(this.model.maze.isAllKeysCollected());
 
         BufferedImage keyImage = null;
         try {
-            keyImage = ImageIO.read(getClass().getResource(open ? "/opendoor.png" : "/closeddoor.png"));
+            keyImage = ImageIO.read(getClass().getResource(spriteName));
         } catch (IOException e) {
             e.printStackTrace();
         }
