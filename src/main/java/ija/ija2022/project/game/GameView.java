@@ -28,7 +28,7 @@ public class GameView extends JFrame {
         this.controller = controller;
         this.setLayout(new GridBagLayout());
         this.setSize(500, 500);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.addKeyListener(KeyboardController.getInstance());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
