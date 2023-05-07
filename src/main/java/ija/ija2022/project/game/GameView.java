@@ -70,6 +70,8 @@ public class GameView extends JFrame {
     private void drawLives(int count) {
         this.heartsPanel.removeAll();
 
+        int max = Math.max(this.controller.getMaxLives(), count);
+
         int heartSize = 20;
 
         ImageIcon heartIcon = new ImageIcon("src/main/resources/heart_full.png");
@@ -81,7 +83,7 @@ public class GameView extends JFrame {
         newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
         heartEmptyIcon = new ImageIcon(newImage);
 
-        for (int i = 0; i < this.controller.getMaxLives(); i++)
+        for (int i = 0; i < max; i++)
             heartsPanel.add(new JLabel(i < count ? heartIcon : heartEmptyIcon));
 
         this.revalidate();
