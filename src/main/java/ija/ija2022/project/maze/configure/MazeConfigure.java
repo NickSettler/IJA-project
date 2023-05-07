@@ -7,6 +7,7 @@ import ija.ija2022.project.maze.CommonMaze;
 import ija.ija2022.project.maze.Maze;
 import ija.ija2022.project.objects.CommonMazeObject;
 import ija.ija2022.project.objects.GhostObject;
+import ija.ija2022.project.objects.KeyObject;
 import ija.ija2022.project.objects.PacmanObject;
 
 import java.io.IOException;
@@ -20,13 +21,13 @@ public class MazeConfigure {
     private static final Map<Character, Class<?>> FIELDS_MAP = new HashMap<>() {{
         put(CHARACTER_MAP.PATH.getCharacter(), PathField.class);
         put(CHARACTER_MAP.WALL.getCharacter(), WallField.class);
-        put(CHARACTER_MAP.KEY.getCharacter(), WallField.class);
         put(CHARACTER_MAP.TARGET.getCharacter(), WallField.class);
     }};
 
     private static final Map<Character, Class<?>> OBJECTS_MAP = new HashMap<>() {{
         put(CHARACTER_MAP.PACMAN.getCharacter(), PacmanObject.class);
         put(CHARACTER_MAP.GHOST.getCharacter(), GhostObject.class);
+        put(CHARACTER_MAP.KEY.getCharacter(), KeyObject.class);
     }};
 
     private boolean reading;

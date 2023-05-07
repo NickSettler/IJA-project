@@ -30,8 +30,8 @@ public class KeyView implements ComponentView {
         double h = bounds.getHeight();
         double diameter = Math.min(h, w) - 10.0;
         double x = (w - diameter) / 2.0;
-        double y = (h - diameter) / 2.0;
+        double y = (h - diameter);
 
-        g2.drawImage(keyImage, (int) x, (int) y, (int) diameter, (int) diameter, null);
+        g2.drawImage(keyImage, (int) x, (int) y, (int) diameter, (int) diameter / 2, null);
     }
 }

@@ -2,10 +2,7 @@ package ija.ija2022.project.fields;
 
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.common.Observable;
-import ija.ija2022.project.objects.CommonMazeObject;
-import ija.ija2022.project.objects.GhostView;
-import ija.ija2022.project.objects.PacmanObject;
-import ija.ija2022.project.objects.PacmanView;
+import ija.ija2022.project.objects.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,20 +33,23 @@ public class FieldView extends JPanel implements Observable.Observer {
                 this.setBackground(Color.green.brighter());
             else
                 this.setBackground(Color.gray);
-            if (!this.field.isEmpty()) {
-                ArrayList<CommonMazeObject> objects = this.field.get();
 
-                PacmanObject pacman = objects.stream()
-                        .filter(o -> o instanceof PacmanObject)
-                        .map(o -> (PacmanObject) o)
-                        .findFirst()
-                        .orElse(null);
+            this.objects.clear();
 
-                ComponentView v = pacman != null ? new PacmanView(this, pacman) : new GhostView(this, objects.get(0));
-                this.objects.add(v);
-            } else {
-                this.objects.clear();
-            }
+            ArrayList<CommonMazeObject> objects = this.field.get();
+
+            objects.stream().forEach(o -> {
+                ComponentView v = null;
+                if (o instanceof PacmanObject)
+                    v = new PacmanView(this, (PacmanObject) o);
+                else if (o instanceof KeyObject)
+                    v = new KeyView(this, o);
+                else if (o instanceof GhostObject)
+                    v = new GhostView(this, o);
+
+                if (v != null)
+                    this.objects.add(v);
+            });
         } else {
             this.objects.add(new WallView(this));
         }
