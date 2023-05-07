@@ -41,6 +41,15 @@ public class CollisionController {
                 }));
         }
 
+        for (ClockObject clock : this.maze.clocks()) {
+            if (this.collidesBasic(pacman, clock))
+                this.collisions.add(new Collision(pacman, clock, (pair) -> {
+                    ClockObject c = (ClockObject) pair.getValue();
+
+                    c.collect();
+                }));
+        }
+
         for (HeartObject heart : this.maze.hearts()) {
             if (this.collidesBasic(pacman, heart))
                 this.collisions.add(new Collision(pacman, heart, (pair) -> {

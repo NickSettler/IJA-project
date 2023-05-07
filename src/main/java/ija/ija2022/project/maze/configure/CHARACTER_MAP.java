@@ -7,6 +7,7 @@ public enum CHARACTER_MAP {
     GHOST('G'),
     HEART('H'),
     KEY('K'),
+    CLOCK('F'),
     TARGET('T');
 
     private final char character;

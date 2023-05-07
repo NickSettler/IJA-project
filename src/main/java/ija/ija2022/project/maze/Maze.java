@@ -77,6 +77,13 @@ public class Maze implements CommonMaze {
                 .toArray(KeyObject[]::new);
     }
 
+    public ClockObject[] clocks() {
+        return Arrays.stream(this.objects).flatMap(Arrays::stream)
+                .flatMap(List::stream)
+                .filter(object -> object instanceof ClockObject)
+                .toArray(ClockObject[]::new);
+    }
+
     public HeartObject[] hearts() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
                 .flatMap(List::stream)

@@ -24,6 +24,7 @@ public class MazeConfigure {
         put(CHARACTER_MAP.PACMAN.getCharacter(), PacmanObject.class);
         put(CHARACTER_MAP.GHOST.getCharacter(), GhostObject.class);
         put(CHARACTER_MAP.KEY.getCharacter(), KeyObject.class);
+        put(CHARACTER_MAP.CLOCK.getCharacter(), ClockObject.class);
         put(CHARACTER_MAP.HEART.getCharacter(), HeartObject.class);
         put(CHARACTER_MAP.TARGET.getCharacter(), TargetObject.class);
     }};

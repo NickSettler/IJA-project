@@ -16,6 +16,7 @@ public interface CommonMaze {
     GhostObject[] ghosts();
 
     KeyObject[] keys();
+    ClockObject[] clocks();
 
     HeartObject[] hearts();
 

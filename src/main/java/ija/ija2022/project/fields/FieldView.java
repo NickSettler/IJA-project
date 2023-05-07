@@ -50,6 +50,8 @@ public class FieldView extends JPanel implements Observable.Observer {
                     v = new HeartView(this);
                 else if (o instanceof KeyObject)
                     v = new KeyView(this);
+                else if (o instanceof ClockObject)
+                    v = new ClockView(this);
                 else if (o instanceof GhostObject)
                     v = new GhostView(this, (GhostObject) o);
 
