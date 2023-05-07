@@ -62,7 +62,7 @@ public class Window extends JFrame {
             );
             GAME_MODE selectedMode = GAME_MODE.values()[index];
 
-            JFileChooser fileChooser = new JFileChooser("maps/");
+            JFileChooser fileChooser = new JFileChooser("data/maps/");
 
             int result = fileChooser.showOpenDialog(Window.this);
             if (result == JFileChooser.APPROVE_OPTION) {
