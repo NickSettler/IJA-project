@@ -28,6 +28,7 @@ public class Window extends JFrame {
         this.setFocusableWindowState(true);
         this.setLayout(new GridBagLayout());
         this.setSize(500, 500);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel() {
             @Override
             /**
@@ -55,6 +56,7 @@ public class Window extends JFrame {
                 g2.drawImage(backgroundImage, 0, 0, width, height, null);
             }
         };
+        panel.setLayout(new GridBagLayout());
 
         createButtons(panel);
 
@@ -62,9 +64,10 @@ public class Window extends JFrame {
         c.fill = GridBagConstraints.BOTH;
         c.weighty = 1;
         c.weightx = 1;
-        c.gridx = 1;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.CENTER;
         this.add(panel, c);
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
     /**
@@ -73,14 +76,24 @@ public class Window extends JFrame {
      * @param panel The panel to add the buttons to
      */
     private void createButtons(JPanel panel) {
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
         JButton startButton = new JButton("start game");
-        panel.add(startButton);
+        startButton.setFont(new Font("sans-serif", Font.BOLD, 20));
+        panel.add(startButton, c);
         JButton replayButton = new JButton("replay game");
-        panel.add(replayButton);
+        replayButton.setFont(new Font("sans-serif", Font.BOLD, 20));
+        c.gridy = 1;
+        panel.add(replayButton, c);
         JButton settingsButton = new JButton("settings");
-        panel.add(settingsButton);
+        settingsButton.setFont(new Font("sans-serif", Font.BOLD, 20));
+        c.gridy = 2;
+        panel.add(settingsButton, c);
         JButton endButton = new JButton("exit game");
-        panel.add(endButton);
+        endButton.setFont(new Font("sans-serif", Font.BOLD, 20));
+        c.gridy = 3;
+        panel.add(endButton, c);
 
         replayButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser("data/");
