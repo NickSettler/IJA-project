@@ -25,6 +25,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -104,7 +105,7 @@ public class GameController extends BaseGameViewController {
             this.loggerController.addItem(ghost);
         }
 
-        if (this.unfreezeTicks <= 0)
+        if (this.unfreezeTicks <= 0 && Arrays.stream(this.maze.ghosts()).anyMatch(GhostObject::isFrozen))
             this.maze.unfreezeGhosts();
 
         PacmanObject pacman = this.maze.getPacman();
