@@ -147,14 +147,23 @@ public class GameController extends BaseGameViewController {
         this.maze.notifyUpdates();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
     public void handleWindowClose(Window window) {
         this.stop();
 
-        String[] options = {"Yes! Please.", "No! Not now."};
+        this.showSaveModal(window, "Save Game", "Do you really want to save the game?");
+    }
+
+    private void showSaveModal(Window window, String title, String message) {
+        String[] options = {"Yes! Please.", "No! Not now.", "Cancel"};
         int result = JOptionPane.showOptionDialog(
                 window,
-                "Do you want to save the game?",
-                "Save game",
+                message,
+                title,
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -171,10 +180,19 @@ public class GameController extends BaseGameViewController {
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToSave = fileChooser.getSelectedFile();
                 this.loggerController.close(fileToSave.getAbsolutePath(), this.mazeConfigure.getMazeText());
+                this.destroy();
+            }
+
+            if (userSelection == JFileChooser.CANCEL_OPTION) {
+                this.showSaveModal(window, title, message);
             }
         }
 
-        this.destroy();
+        if (result == JOptionPane.NO_OPTION)
+            this.destroy();
+
+        if (result == JOptionPane.CANCEL_OPTION && !this.isFinished.get())
+            this.start();
     }
 
     @Override
