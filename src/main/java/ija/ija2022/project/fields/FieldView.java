@@ -51,7 +51,7 @@ public class FieldView extends JPanel implements Observable.Observer {
                 else if (o instanceof KeyObject)
                     v = new KeyView(this);
                 else if (o instanceof GhostObject)
-                    v = new GhostView(this);
+                    v = new GhostView(this, (GhostObject) o);
 
                 if (v != null)
                     this.objects.add(v);

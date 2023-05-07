@@ -31,6 +31,7 @@ import java.util.Map;
 public class GameController extends BaseGameViewController {
     private final MazeConfigure mazeConfigure;
     private final CommonMaze maze;
+    private int unfreezeTicks;
     private final MazePresenter presenter;
     private GameView view;
     private final CollisionController collisionController;
@@ -43,6 +44,7 @@ public class GameController extends BaseGameViewController {
 
         this.mazeConfigure = new MazeConfigure(filePath, true);
         this.maze = this.mazeConfigure.createMaze();
+        this.unfreezeTicks = this.maze.ghosts().length * 10;
 
         this.collisionController = new CollisionController(this.maze);
 
@@ -92,10 +94,18 @@ public class GameController extends BaseGameViewController {
 
     protected void update() {
         for (GhostObject ghost : this.maze.ghosts()) {
-            ghost.generateDirection();
-            ghost.move();
+            if (!ghost.isFrozen()) {
+                ghost.generateDirection();
+                ghost.move();
+            } else {
+                this.unfreezeTicks--;
+            }
+
             this.loggerController.addItem(ghost);
         }
+
+        if (this.unfreezeTicks <= 0)
+            this.maze.unfreezeGhosts();
 
         PacmanObject pacman = this.maze.getPacman();
 

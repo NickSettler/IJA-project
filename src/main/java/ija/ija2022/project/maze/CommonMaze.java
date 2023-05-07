@@ -35,6 +35,10 @@ public interface CommonMaze {
 
     void removeObject(CommonMazeObject object, int row, int col);
 
+    void freezeGhosts();
+
+    void unfreezeGhosts();
+
     void notifyUpdates();
 
     List<int[]> getPacmanPath();

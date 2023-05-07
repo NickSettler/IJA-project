@@ -158,6 +158,22 @@ public class Maze implements CommonMaze {
             this.updatesFields.add(new Pair<>(this.target().getRow(), this.target().getCol()));
     }
 
+    @Override
+    public void freezeGhosts() {
+        for (GhostObject ghost : this.ghosts()) {
+            ghost.setFrozen(true);
+            this.updatesFields.add(new Pair<>(ghost.getRow(), ghost.getCol()));
+        }
+    }
+
+    @Override
+    public void unfreezeGhosts() {
+        for (GhostObject ghost : this.ghosts()) {
+            ghost.setFrozen(false);
+            this.updatesFields.add(new Pair<>(ghost.getRow(), ghost.getCol()));
+        }
+    }
+
     public void notifyUpdates() {
         this.updatesFields.forEach(pair -> this.fields[pair.getKey()][pair.getValue()].notifyObservers());
         this.updatesFields.clear();

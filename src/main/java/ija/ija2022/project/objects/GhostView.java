@@ -10,9 +10,11 @@ import java.io.IOException;
 
 public class GhostView implements ComponentView {
     private final FieldView parent;
+    private final GhostObject ghost;
 
-    public GhostView(FieldView parent) {
+    public GhostView(FieldView parent, GhostObject ghost) {
         this.parent = parent;
+        this.ghost = ghost;
     }
 
     public void paintComponent(Graphics g) {
@@ -20,7 +22,7 @@ public class GhostView implements ComponentView {
 
         BufferedImage ghostImage = null;
         try {
-            ghostImage = ImageIO.read(getClass().getResource("/ghost.png"));
+            ghostImage = ImageIO.read(getClass().getResource(this.ghost.isFrozen() ? "/frozenghost.png" : "/ghost.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
