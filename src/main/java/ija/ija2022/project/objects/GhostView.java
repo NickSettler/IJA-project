@@ -11,7 +11,7 @@ import java.io.IOException;
 public class GhostView implements ComponentView {
     private final FieldView parent;
 
-    public GhostView(FieldView parent, CommonMazeObject m) {
+    public GhostView(FieldView parent) {
         this.parent = parent;
     }
 

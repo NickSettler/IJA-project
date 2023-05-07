@@ -18,7 +18,6 @@ public class MazeConfigure {
     private static final Map<Character, Class<?>> FIELDS_MAP = new HashMap<>() {{
         put(CHARACTER_MAP.PATH.getCharacter(), PathField.class);
         put(CHARACTER_MAP.WALL.getCharacter(), WallField.class);
-        put(CHARACTER_MAP.TARGET.getCharacter(), WallField.class);
     }};
 
     private static final Map<Character, Class<?>> OBJECTS_MAP = new HashMap<>() {{
@@ -26,6 +25,7 @@ public class MazeConfigure {
         put(CHARACTER_MAP.GHOST.getCharacter(), GhostObject.class);
         put(CHARACTER_MAP.KEY.getCharacter(), KeyObject.class);
         put(CHARACTER_MAP.HEART.getCharacter(), HeartObject.class);
+        put(CHARACTER_MAP.TARGET.getCharacter(), TargetObject.class);
     }};
 
     private boolean reading;
@@ -83,9 +83,6 @@ public class MazeConfigure {
     }
 
     private Integer[] parseDimensions(String line) {
-//        line = line.trim();
-//        System.out.println(line);
-//        System.out.println("hy");
         try {
             return Arrays.stream(line.split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
         } catch (NumberFormatException e) {

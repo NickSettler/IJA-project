@@ -11,7 +11,7 @@ import java.io.IOException;
 public class KeyView implements ComponentView {
     private final FieldView parent;
 
-    public KeyView(FieldView parent, CommonMazeObject m) {
+    public KeyView(FieldView parent) {
         this.parent = parent;
     }
 

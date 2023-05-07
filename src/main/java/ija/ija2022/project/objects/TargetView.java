@@ -8,19 +8,23 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class HeartView implements ComponentView {
+public class TargetView implements ComponentView {
     private final FieldView parent;
+    private final TargetObject model;
 
-    public HeartView(FieldView parent) {
+    public TargetView(FieldView parent, TargetObject model) {
         this.parent = parent;
+        this.model = model;
     }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
+        boolean open = this.model.maze.isAllKeysCollected();
+
         BufferedImage keyImage = null;
         try {
-            keyImage = ImageIO.read(getClass().getResource("/heart_full.png"));
+            keyImage = ImageIO.read(getClass().getResource(open ? "/opendoor.png" : "/closeddoor.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

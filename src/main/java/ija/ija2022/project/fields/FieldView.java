@@ -40,6 +40,8 @@ public class FieldView extends JPanel implements Observable.Observer {
 
             objects.stream().forEach(o -> {
                 ComponentView v = null;
+                if (o instanceof TargetObject)
+                    v = new TargetView(this, (TargetObject) o);
                 if (o instanceof PacmanObject)
                     v = new PacmanView(this, (PacmanObject) o);
                 else if (o instanceof HeartObject)
