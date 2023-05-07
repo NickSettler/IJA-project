@@ -28,7 +28,9 @@ public class FieldView extends JPanel implements Observable.Observer {
     }
 
     private void privUpdate() {
-        if (this.field.canMove()) {
+        if (this.field instanceof WallField) {
+            this.objects.add(new WallView(this));
+        } else {
             if (this.field.isPacmanPath())
                 this.setBackground(Color.green.brighter());
             else
@@ -38,24 +40,22 @@ public class FieldView extends JPanel implements Observable.Observer {
 
             ArrayList<CommonMazeObject> objects = this.field.get();
 
-            objects.stream().forEach(o -> {
+            objects.forEach(o -> {
                 ComponentView v = null;
                 if (o instanceof TargetObject)
                     v = new TargetView(this, (TargetObject) o);
                 if (o instanceof PacmanObject)
                     v = new PacmanView(this, (PacmanObject) o);
                 else if (o instanceof HeartObject)
-                    v = new HeartView(this, o);
+                    v = new HeartView(this);
                 else if (o instanceof KeyObject)
-                    v = new KeyView(this, o);
+                    v = new KeyView(this);
                 else if (o instanceof GhostObject)
-                    v = new GhostView(this, o);
+                    v = new GhostView(this);
 
                 if (v != null)
                     this.objects.add(v);
             });
-        } else {
-            this.objects.add(new WallView(this));
         }
 
         updateUI();
