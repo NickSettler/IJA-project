@@ -43,7 +43,7 @@ public class AStarPathFinder {
             }
             for (CommonField.Direction direction : CommonField.Direction.values()) {
                 BaseField neighbourField = (BaseField) maze.getField(current.getField().getRow(), current.getField().getCol()).nextField(direction);
-                int g = current.getG();
+                int g = current.getG() + 1;
                 int h = heuristic[neighbourField.getRow()][neighbourField.getCol()];
                 Node neighbourNode = new Node(neighbourField, current, g, h, direction);
                 if (!(neighbourField instanceof WallField) && !closedSet.contains(neighbourNode)) {
