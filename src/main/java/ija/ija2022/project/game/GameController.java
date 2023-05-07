@@ -105,6 +105,9 @@ public class GameController extends BaseGameViewController {
             else if (keys.getOrDefault(KeyEvent.VK_D, false))
                 pacman.setDirection(CommonField.Direction.R);
 
+            if (!this.maze.getField(pacman.getRow() + pacman.getDirection().deltaRow(), pacman.getCol() + pacman.getDirection().deltaCol()).canMove())
+                pacman.setDirection(CommonField.Direction.N);
+
             keys.clear();
 
             pacman.move();
