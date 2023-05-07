@@ -1,5 +1,7 @@
 package ija.ija2022.project.collisions;
 
+import ija.ija2022.project.events.EventManager;
+import ija.ija2022.project.events.events.WinEvent;
 import ija.ija2022.project.maze.CommonMaze;
 import ija.ija2022.project.objects.*;
 
@@ -47,6 +49,10 @@ public class CollisionController {
                     p.incrLives();
                     h.collect();
                 }));
+        }
+
+        if (this.collidesBasic(pacman, this.maze.target())) {
+            EventManager.getInstance().fireEvent(new WinEvent());
         }
     }
 

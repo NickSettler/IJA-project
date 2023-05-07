@@ -84,6 +84,15 @@ public class Maze implements CommonMaze {
                 .toArray(HeartObject[]::new);
     }
 
+    public TargetObject target() {
+        return Arrays.stream(this.objects).flatMap(Arrays::stream)
+                .flatMap(List::stream)
+                .filter(object -> object instanceof TargetObject)
+                .map(object -> (TargetObject) object)
+                .findFirst()
+                .orElse(null);
+    }
+
     public PacmanObject getPacman() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
                 .flatMap(List::stream)
@@ -144,6 +153,9 @@ public class Maze implements CommonMaze {
 
         this.objects[row][col].remove(object);
         this.updatesFields.add(new Pair<>(row, col));
+
+        if (this.isAllKeysCollected())
+            this.updatesFields.add(new Pair<>(this.target().getRow(), this.target().getCol()));
     }
 
     public void notifyUpdates() {
@@ -162,11 +174,6 @@ public class Maze implements CommonMaze {
     }
 
     public boolean isAllKeysCollected() {
-        return Arrays.stream(this.objects)
-                .anyMatch(row -> Arrays.stream(row)
-                        .anyMatch(o -> o.stream()
-                                .anyMatch(object -> object instanceof KeyObject)
-                        )
-                );
+        return keys().length == 0;
     }
 }

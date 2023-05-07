@@ -19,6 +19,8 @@ public interface CommonMaze {
 
     HeartObject[] hearts();
 
+    TargetObject target();
+
     PacmanObject getPacman();
 
     void setField(int row, int col, CommonField iField);
@@ -38,4 +40,6 @@ public interface CommonMaze {
     List<int[]> getPacmanPath();
 
     void setPacmanPath(List<int[]> pacmanPath);
+
+    boolean isAllKeysCollected();
 }

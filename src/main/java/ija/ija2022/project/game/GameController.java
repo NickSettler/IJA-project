@@ -8,6 +8,7 @@ import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.events.events.MouseClickedEvent;
+import ija.ija2022.project.events.events.WinEvent;
 import ija.ija2022.project.fields.CommonField;
 import ija.ija2022.project.fields.FieldView;
 import ija.ija2022.project.logger.LOGGER_MODE;
@@ -82,6 +83,11 @@ public class GameController extends BaseGameViewController {
         if (path == null || path.isEmpty()) return;
 
         this.maze.setPacmanPath(path);
+    }
+
+    @EventHandler
+    private void handleWinEvent(WinEvent e) {
+        this.stop();
     }
 
     protected void update() {
