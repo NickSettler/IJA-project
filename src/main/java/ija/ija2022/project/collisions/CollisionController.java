@@ -2,6 +2,7 @@ package ija.ija2022.project.collisions;
 
 import ija.ija2022.project.maze.CommonMaze;
 import ija.ija2022.project.objects.GhostObject;
+import ija.ija2022.project.objects.KeyObject;
 import ija.ija2022.project.objects.PacmanObject;
 
 import java.util.ArrayList;
@@ -30,6 +31,16 @@ public class CollisionController {
                 }));
             }
         }
+
+        for (KeyObject key : this.maze.keys()) {
+            if (pacman.getRow() == key.getRow() && pacman.getCol() == key.getCol()) {
+                this.collisions.add(new Collision(pacman, key, (pair) -> {
+                    KeyObject k = (KeyObject) pair.getValue();
+
+                    k.collect();
+                }));
+            }
+        }
     }
 
     public boolean collides(PacmanObject pacman, GhostObject ghost) {
@@ -48,9 +59,7 @@ public class CollisionController {
     }
 
     public void handleCollisions() {
-        for (Collision collision : this.collisions) {
-            collision.handle();
-        }
+        for (Collision collision : this.collisions) collision.handle();
 
         this.collisions.clear();
     }

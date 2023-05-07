@@ -4,6 +4,7 @@ import ija.ija2022.project.fields.CommonField;
 import ija.ija2022.project.fields.WallField;
 import ija.ija2022.project.objects.CommonMazeObject;
 import ija.ija2022.project.objects.GhostObject;
+import ija.ija2022.project.objects.KeyObject;
 import ija.ija2022.project.objects.PacmanObject;
 import javafx.util.Pair;
 
@@ -70,6 +71,13 @@ public class Maze implements CommonMaze {
                 .flatMap(List::stream)
                 .filter(object -> object instanceof GhostObject)
                 .toArray(GhostObject[]::new);
+    }
+
+    public KeyObject[] keys() {
+        return Arrays.stream(this.objects).flatMap(Arrays::stream)
+                .flatMap(List::stream)
+                .filter(object -> object instanceof KeyObject)
+                .toArray(KeyObject[]::new);
     }
 
     public PacmanObject getPacman() {
@@ -147,5 +155,14 @@ public class Maze implements CommonMaze {
         this.pacmanPath = pacmanPath;
 
         pacmanPath.forEach(p -> this.updatesFields.add(new Pair<>(p[0], p[1])));
+    }
+
+    public boolean isAllKeysCollected() {
+        return Arrays.stream(this.objects)
+                .anyMatch(row -> Arrays.stream(row)
+                        .anyMatch(o -> o.stream()
+                                .anyMatch(object -> object instanceof KeyObject)
+                        )
+                );
     }
 }
