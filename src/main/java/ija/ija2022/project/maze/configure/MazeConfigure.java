@@ -5,10 +5,7 @@ import ija.ija2022.project.fields.PathField;
 import ija.ija2022.project.fields.WallField;
 import ija.ija2022.project.maze.CommonMaze;
 import ija.ija2022.project.maze.Maze;
-import ija.ija2022.project.objects.CommonMazeObject;
-import ija.ija2022.project.objects.GhostObject;
-import ija.ija2022.project.objects.KeyObject;
-import ija.ija2022.project.objects.PacmanObject;
+import ija.ija2022.project.objects.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,6 +25,7 @@ public class MazeConfigure {
         put(CHARACTER_MAP.PACMAN.getCharacter(), PacmanObject.class);
         put(CHARACTER_MAP.GHOST.getCharacter(), GhostObject.class);
         put(CHARACTER_MAP.KEY.getCharacter(), KeyObject.class);
+        put(CHARACTER_MAP.HEART.getCharacter(), HeartObject.class);
     }};
 
     private boolean reading;

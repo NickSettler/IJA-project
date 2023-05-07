@@ -5,6 +5,7 @@ public enum CHARACTER_MAP {
     WALL('X'),
     PACMAN('S'),
     GHOST('G'),
+    HEART('H'),
     KEY('K'),
     TARGET('T');
 

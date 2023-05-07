@@ -1,10 +1,7 @@
 package ija.ija2022.project.maze;
 
 import ija.ija2022.project.fields.CommonField;
-import ija.ija2022.project.objects.CommonMazeObject;
-import ija.ija2022.project.objects.GhostObject;
-import ija.ija2022.project.objects.KeyObject;
-import ija.ija2022.project.objects.PacmanObject;
+import ija.ija2022.project.objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,8 @@ public interface CommonMaze {
     GhostObject[] ghosts();
 
     KeyObject[] keys();
+
+    HeartObject[] hearts();
 
     PacmanObject getPacman();
 

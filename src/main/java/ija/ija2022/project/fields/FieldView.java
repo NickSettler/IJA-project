@@ -42,6 +42,8 @@ public class FieldView extends JPanel implements Observable.Observer {
                 ComponentView v = null;
                 if (o instanceof PacmanObject)
                     v = new PacmanView(this, (PacmanObject) o);
+                else if (o instanceof HeartObject)
+                    v = new HeartView(this, o);
                 else if (o instanceof KeyObject)
                     v = new KeyView(this, o);
                 else if (o instanceof GhostObject)

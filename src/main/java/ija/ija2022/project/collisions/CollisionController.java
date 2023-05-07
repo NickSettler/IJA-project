@@ -1,9 +1,7 @@
 package ija.ija2022.project.collisions;
 
 import ija.ija2022.project.maze.CommonMaze;
-import ija.ija2022.project.objects.GhostObject;
-import ija.ija2022.project.objects.KeyObject;
-import ija.ija2022.project.objects.PacmanObject;
+import ija.ija2022.project.objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ public class CollisionController {
         PacmanObject pacman = this.maze.getPacman();
 
         for (GhostObject ghost : this.maze.ghosts()) {
-            if (collides(pacman, ghost)) {
+            if (collides(pacman, ghost))
                 this.collisions.add(new Collision(pacman, ghost, (pair) -> {
                     PacmanObject p = (PacmanObject) pair.getKey();
                     GhostObject g = (GhostObject) pair.getValue();
@@ -29,33 +27,44 @@ public class CollisionController {
                     p.decrLives();
                     g.die();
                 }));
-            }
         }
 
         for (KeyObject key : this.maze.keys()) {
-            if (pacman.getRow() == key.getRow() && pacman.getCol() == key.getCol()) {
+            if (this.collidesBasic(pacman, key))
                 this.collisions.add(new Collision(pacman, key, (pair) -> {
                     KeyObject k = (KeyObject) pair.getValue();
 
                     k.collect();
                 }));
-            }
+        }
+
+        for (HeartObject heart : this.maze.hearts()) {
+            if (this.collidesBasic(pacman, heart))
+                this.collisions.add(new Collision(pacman, heart, (pair) -> {
+                    PacmanObject p = (PacmanObject) pair.getKey();
+                    HeartObject h = (HeartObject) pair.getValue();
+
+                    p.incrLives();
+                    h.collect();
+                }));
         }
     }
 
-    public boolean collides(PacmanObject pacman, GhostObject ghost) {
+    private boolean collidesBasic(PacmanObject pacman, CommonMazeObject object) {
+        return pacman.getRow() == object.getRow() && pacman.getCol() == object.getCol();
+    }
+
+    private boolean collides(PacmanObject pacman, GhostObject ghost) {
         int pacmanPrevRow = pacman.getRow() - pacman.getDirection().deltaRow();
         int pacmanPrevCol = pacman.getCol() - pacman.getDirection().deltaCol();
         int ghostPrevRow = ghost.getRow() - ghost.getDirection().deltaRow();
         int ghostPrevCol = ghost.getCol() - ghost.getDirection().deltaCol();
-
-        boolean collidesByCurrentPosition = pacman.getRow() == ghost.getRow() && pacman.getCol() == ghost.getCol();
         boolean collidesByPrevPosition = pacmanPrevRow == ghostPrevRow && pacmanPrevCol == ghostPrevCol;
         boolean collidesByCrossPositions = (pacman.getRow() == ghostPrevRow && pacman.getCol() == ghostPrevCol)
                 || (pacmanPrevRow == ghost.getRow() && pacmanPrevCol == ghost.getCol());
 
 
-        return collidesByCurrentPosition || collidesByPrevPosition || collidesByCrossPositions;
+        return this.collidesBasic(pacman, ghost) || collidesByPrevPosition || collidesByCrossPositions;
     }
 
     public void handleCollisions() {
