@@ -2,10 +2,7 @@ package ija.ija2022.project.maze;
 
 import ija.ija2022.project.fields.CommonField;
 import ija.ija2022.project.fields.WallField;
-import ija.ija2022.project.objects.CommonMazeObject;
-import ija.ija2022.project.objects.GhostObject;
-import ija.ija2022.project.objects.KeyObject;
-import ija.ija2022.project.objects.PacmanObject;
+import ija.ija2022.project.objects.*;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -78,6 +75,13 @@ public class Maze implements CommonMaze {
                 .flatMap(List::stream)
                 .filter(object -> object instanceof KeyObject)
                 .toArray(KeyObject[]::new);
+    }
+
+    public HeartObject[] hearts() {
+        return Arrays.stream(this.objects).flatMap(Arrays::stream)
+                .flatMap(List::stream)
+                .filter(object -> object instanceof HeartObject)
+                .toArray(HeartObject[]::new);
     }
 
     public PacmanObject getPacman() {
