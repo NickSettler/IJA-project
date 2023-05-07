@@ -26,7 +26,8 @@ public class CollisionController {
                     PacmanObject p = (PacmanObject) pair.getKey();
                     GhostObject g = (GhostObject) pair.getValue();
 
-                    p.decrLives();
+                    if (!g.isFrozen())
+                        p.decrLives();
                     g.die();
                 }));
         }
