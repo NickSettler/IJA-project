@@ -40,7 +40,6 @@ public class GameView extends JFrame {
         c.gridx = 0;
         c.gridy = 1;
         c.anchor = GridBagConstraints.PAGE_START;
-
         mazePanel.add(controller.getMazeView());
         this.add(mazePanel, c);
 

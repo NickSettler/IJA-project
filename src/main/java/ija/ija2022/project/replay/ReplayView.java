@@ -72,7 +72,6 @@ public class ReplayView extends JFrame {
         buttonsPanel.add(increaseContinuousSpeed);
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.weighty = 0.1;
         c.weightx = 1;
         c.gridwidth = 2;
         this.add(buttonsPanel, c);
@@ -91,20 +90,23 @@ public class ReplayView extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
-        c.weighty = 0.02;
         c.weightx = 1;
         c.gridx = 0;
         c.gridy = 2;
-        c.ipady = 0;
         this.add(heartsPanel, c);
 
+        JPanel mazePanel = new JPanel();
+        mazePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        mazePanel.setBackground(Color.gray);
+
         c.fill = GridBagConstraints.BOTH;
-        c.weighty = 0.9;
+        c.weighty = 1;
         c.weightx = 1;
         c.gridx = 0;
         c.gridwidth = 5;
         c.gridy = 3;
-        this.add(controller.getMazeView(), c);
+        mazePanel.add(controller.getMazeView());
+        this.add(mazePanel, c);
 
         addWindowListener(new WindowAdapter() {
             @Override
