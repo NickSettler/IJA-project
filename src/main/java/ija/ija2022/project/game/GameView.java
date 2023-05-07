@@ -25,12 +25,15 @@ public class GameView extends JFrame {
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
         this.setFocusableWindowState(true);
-        this.setBackground(Color.gray);
-        this.getContentPane().setBackground(Color.gray);
+
+        Color themeColor = Color.decode(ThemeManager.getInstance().getTheme().getBaseColor());
+
+        this.setBackground(themeColor);
+        this.getContentPane().setBackground(themeColor);
 
         JPanel mazePanel = new JPanel();
         mazePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        mazePanel.setBackground(Color.gray);
+        mazePanel.setBackground(themeColor);
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -43,7 +46,7 @@ public class GameView extends JFrame {
         this.add(mazePanel, c);
 
         heartsPanel = new JPanel();
-        heartsPanel.setBackground(Color.gray);
+        heartsPanel.setBackground(themeColor);
         heartsPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 
         c.fill = GridBagConstraints.HORIZONTAL;

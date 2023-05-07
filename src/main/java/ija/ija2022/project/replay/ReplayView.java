@@ -31,13 +31,16 @@ public class ReplayView extends JFrame {
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
         this.setFocusableWindowState(true);
-        this.setBackground(Color.gray);
-        this.getContentPane().setBackground(Color.gray);
+
+        Color themeColor = Color.decode(ThemeManager.getInstance().getTheme().getBaseColor());
+
+        this.setBackground(themeColor);
+        this.getContentPane().setBackground(themeColor);
         GridBagConstraints c = new GridBagConstraints();
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        buttonsPanel.setBackground(Color.gray);
+        buttonsPanel.setBackground(themeColor);
 
         ImageIcon increaseContinuousSpeedIcon = new ImageIcon("src/main/resources/icons/ff.png");
         JButton increaseContinuousSpeed = new JButton(increaseContinuousSpeedIcon);
@@ -91,7 +94,7 @@ public class ReplayView extends JFrame {
         this.add(stepButton, c);
 
         heartsPanel = new JPanel();
-        heartsPanel.setBackground(Color.gray);
+        heartsPanel.setBackground(themeColor);
         heartsPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -103,7 +106,7 @@ public class ReplayView extends JFrame {
 
         JPanel mazePanel = new JPanel();
         mazePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        mazePanel.setBackground(Color.gray);
+        mazePanel.setBackground(themeColor);
 
         c.fill = GridBagConstraints.BOTH;
         c.weighty = 1;

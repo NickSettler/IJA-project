@@ -1,12 +1,31 @@
 package ija.ija2022.project.theming;
 
 import ija.ija2022.project.fields.CommonField;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.InputStream;
 
 public class Theme {
     private final String directoryName;
+    private String baseColor;
 
     public Theme(String directoryName) {
         this.directoryName = "/themes/" + directoryName;
+
+        this.processConfig();
+    }
+
+    private void processConfig() {
+        InputStream is = ThemeManager.class.getResourceAsStream(this.directoryName + "/config.json");
+
+        if (is == null) {
+            throw new RuntimeException("Theme config file not found");
+        }
+
+        JSONObject object = new JSONObject(new JSONTokener(is));
+
+        this.baseColor = object.getString("baseColor");
     }
 
     public String getWallSpriteName() {
@@ -51,5 +70,9 @@ public class Theme {
 
     public String getBackgroundImageName() {
         return this.directoryName + "/" + THEME_OBJECT_NAMES_PATTERNS.BACKGROUND.name().toLowerCase() + ".jpg";
+    }
+
+    public String getBaseColor() {
+        return baseColor;
     }
 }
