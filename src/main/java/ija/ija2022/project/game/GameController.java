@@ -64,7 +64,7 @@ public class GameController extends BaseGameViewController {
     private void handleKeyDownEvent(KeyDownEvent event) {
         if (this.mode == GAME_MODE.STEP_BY_STEP)
             this.tick();
-        else if (!this.isRunning.get())
+        else if (!this.isRunning.get() && !this.isFinished.get())
             this.start();
     }
 
@@ -90,7 +90,7 @@ public class GameController extends BaseGameViewController {
 
     @EventHandler
     private void handleWinEvent(WinEvent e) {
-        this.stop();
+        this.finish();
     }
 
     protected void update() {

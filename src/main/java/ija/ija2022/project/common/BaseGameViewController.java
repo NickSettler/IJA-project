@@ -12,6 +12,7 @@ public abstract class BaseGameViewController implements Runnable {
     protected Thread tickThread;
     protected int tickTime = 250;
     protected AtomicBoolean isRunning = new AtomicBoolean(false);
+    protected AtomicBoolean isFinished = new AtomicBoolean(false);
     protected SettingsController settingsController;
 
     public BaseGameViewController(GAME_MODE mode) {
@@ -57,6 +58,11 @@ public abstract class BaseGameViewController implements Runnable {
 
     public void stop() {
         this.isRunning.set(false);
+    }
+
+    public void finish() {
+        this.stop();
+        this.isFinished.set(true);
     }
 
     public void destroy() {
