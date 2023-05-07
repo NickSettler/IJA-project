@@ -42,18 +42,23 @@ public class ReplayView extends JFrame {
         ImageIcon increaseContinuousSpeedIcon = new ImageIcon("src/main/resources/icons/ff.png");
         JButton increaseContinuousSpeed = new JButton(increaseContinuousSpeedIcon);
         increaseContinuousSpeed.setFocusable(false);
+        increaseContinuousSpeed.setToolTipText("Increase speed");
         ImageIcon decreaseContinuousSpeedIcon = new ImageIcon("src/main/resources/icons/fr.png");
         JButton decreaseContinuousSpeed = new JButton(decreaseContinuousSpeedIcon);
         decreaseContinuousSpeed.setFocusable(false);
+        decreaseContinuousSpeed.setToolTipText("Decrease speed");
         ImageIcon stepForwardIcon = new ImageIcon("src/main/resources/icons/sn.png");
         JButton stepForward = new JButton(stepForwardIcon);
         stepForward.setFocusable(false);
+        stepForward.setToolTipText("Next step");
         ImageIcon stepBackwardIcon = new ImageIcon("src/main/resources/icons/sp.png");
         JButton stepBackward = new JButton(stepBackwardIcon);
         stepBackward.setFocusable(false);
+        stepBackward.setToolTipText("Previous step");
         ImageIcon pauseIcon = new ImageIcon("src/main/resources/icons/pa.png");
         pauseResumeButton = new JToggleButton(pauseIcon);
         pauseResumeButton.setFocusable(false);
+        pauseResumeButton.setToolTipText("Play/Pause");
 
         decreaseContinuousSpeed.addActionListener(e -> controller.increaseTickTime());
         stepBackward.addActionListener(e -> controller.previousStep());
