@@ -1,3 +1,10 @@
+/**
+ * AStar path finding node implementation.
+ * This class is used to represent a node in the AStar algorithm.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.astar;
 
 import ija.ija2022.project.fields.BaseField;

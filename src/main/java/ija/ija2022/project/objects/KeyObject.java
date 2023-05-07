@@ -1,3 +1,12 @@
+/**
+ * Represents a key object in the maze.
+ * Key object is a collectible object that can be collected by the player.
+ * When collected, the player gains a key.
+ * When collecting all the keys in the maze, the player can open the door and win the game.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.maze.CommonMaze;

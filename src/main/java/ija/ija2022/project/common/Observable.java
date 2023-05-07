@@ -1,3 +1,9 @@
+/**
+ * Observable interface for Observer pattern.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.common;
 
 public interface Observable {

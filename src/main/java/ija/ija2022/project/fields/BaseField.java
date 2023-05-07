@@ -1,3 +1,10 @@
+/**
+ * BaseField class represents a field in the maze.
+ * It is used as a base class for all other types of fields.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.fields;
 
 import ija.ija2022.project.maze.CommonMaze;

@@ -1,3 +1,11 @@
+/**
+ * Project settings view
+ * It is a part of MVC design pattern.
+ * It is used to display the settings.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.settings;
 
 import ija.ija2022.project.theming.THEME_NAMES;

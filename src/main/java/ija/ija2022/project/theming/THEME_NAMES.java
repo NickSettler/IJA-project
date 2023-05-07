@@ -1,3 +1,9 @@
+/**
+ * Enum for theme names.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.theming;
 
 public enum THEME_NAMES {

@@ -1,3 +1,11 @@
+/**
+ * Basic keyboard controller for the game.
+ * It fires KeyDownEvent when a key is pressed.
+ * Event can be handled by anywhere in the application.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.ui.controllers;
 
 import ija.ija2022.project.events.EventManager;

@@ -1,3 +1,12 @@
+/**
+ * Represents a ghost object in the maze.
+ * Ghost object is an object that can move through the maze.
+ * It is controlled by the computer.
+ * When the player collides with the ghost, the player loses a life and the ghost is removed from the maze.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.fields.CommonField;

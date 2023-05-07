@@ -1,3 +1,9 @@
+/**
+ * Utility class for storing pairs of objects.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.utils;
 
 import java.io.Serializable;

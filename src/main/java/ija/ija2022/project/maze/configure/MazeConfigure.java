@@ -1,3 +1,9 @@
+/**
+ * MazeConfigure class is used to configure maze from file.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.maze.configure;
 
 import ija.ija2022.project.fields.CommonField;

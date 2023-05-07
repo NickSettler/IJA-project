@@ -1,3 +1,12 @@
+/**
+ * Represents a clock object in the maze.
+ * Clock object is a collectible object that can be collected by the player.
+ * When collected, all the ghosts in the maze are getting frozen for a period of time.
+ * During this period of time, the player can safely move through the ghosts and eat them without losing a life.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.maze.CommonMaze;

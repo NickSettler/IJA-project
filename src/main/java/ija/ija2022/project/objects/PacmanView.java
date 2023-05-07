@@ -1,3 +1,9 @@
+/**
+ * PacmanView class represents the view of the PacmanObject.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
@@ -12,7 +18,6 @@ import java.io.IOException;
 public class PacmanView implements ComponentView {
     private final FieldView parent;
     private final PacmanObject pacman;
-    private String directionChar = "r";
 
     public PacmanView(FieldView parent, PacmanObject pacman) {
         this.parent = parent;

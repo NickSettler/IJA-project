@@ -1,3 +1,10 @@
+/**
+ * CommonMaze interface represents a maze.
+ * It is implemented by Maze class.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.maze;
 
 import ija.ija2022.project.fields.CommonField;
@@ -16,6 +23,7 @@ public interface CommonMaze {
     GhostObject[] ghosts();
 
     KeyObject[] keys();
+
     ClockObject[] clocks();
 
     HeartObject[] hearts();

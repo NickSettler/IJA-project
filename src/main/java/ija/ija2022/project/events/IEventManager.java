@@ -1,3 +1,9 @@
+/**
+ * Interface for event manager.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.events;
 
 public interface IEventManager {

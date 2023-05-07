@@ -1,3 +1,10 @@
+/**
+ * Project event manager.
+ * It is used to manage events and their listeners.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.events;
 
 import java.lang.reflect.InvocationTargetException;

@@ -1,3 +1,10 @@
+/**
+ * Collisions class represents a collision between two objects.
+ * It is used by collisions controller to handle collisions.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.collisions;
 
 import ija.ija2022.project.objects.CommonMazeObject;

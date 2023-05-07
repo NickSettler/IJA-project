@@ -1,3 +1,11 @@
+/**
+ * Project settings controller
+ * It is a part of MVC design pattern.
+ * It is used by the settings view to change the settings.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.settings;
 
 import ija.ija2022.project.theming.THEME_NAMES;

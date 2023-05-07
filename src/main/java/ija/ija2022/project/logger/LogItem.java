@@ -1,3 +1,9 @@
+/**
+ * LogItem record represent a single change of object position in the game.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.logger;
 
 import ija.ija2022.project.fields.CommonField;

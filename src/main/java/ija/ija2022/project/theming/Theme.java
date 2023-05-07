@@ -1,3 +1,10 @@
+/**
+ * Represents a theme of the game.
+ * It is used to get address of the images to be used in the game.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.theming;
 
 import ija.ija2022.project.fields.CommonField;

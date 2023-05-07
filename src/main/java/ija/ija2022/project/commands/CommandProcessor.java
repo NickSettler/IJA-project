@@ -1,3 +1,23 @@
+/**
+ * Command processor class is used to process commands from game history logs.
+ * Commands have the following grammar:
+ * ```text
+ * <change> ::= <object>:<coords>-<coords>
+ * <object> ::= "G" | "S"
+ * <coords> ::= "(" <int> "," <int> ")"
+ * <int> ::= <digit> | <digit> <int>
+ * <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+ * ```
+ * Where:
+ * - `<change>` is a change of object position
+ * - `<object>` is an object type
+ * - `<coords>` is a pair of coordinates
+ * - `<int>` is an integer number
+ * - `<digit>` is a digit
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.commands;
 
 import ija.ija2022.project.fields.CommonField;

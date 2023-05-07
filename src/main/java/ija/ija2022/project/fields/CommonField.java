@@ -1,3 +1,10 @@
+/**
+ * CommonField interface for observable fields.
+ * It is used as a common interface for fields.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.fields;
 
 import ija.ija2022.project.common.Observable;

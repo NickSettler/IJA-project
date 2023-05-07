@@ -1,3 +1,10 @@
+/**
+ * BaseGameViewController class is used in GameController and ReplayController.
+ * This class mainly works with the game loop and the game tick thread.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.common;
 
 import ija.ija2022.project.events.EventManager;

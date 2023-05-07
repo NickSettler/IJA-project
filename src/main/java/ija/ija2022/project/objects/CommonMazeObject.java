@@ -1,3 +1,10 @@
+/**
+ * CommonMazeObject interface represents an object in the maze.
+ * It is implemented by all objects in the maze.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.Observable;

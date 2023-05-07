@@ -1,3 +1,10 @@
+/**
+ * Main menu of the game.
+ * It is used to start the game, replay the game or change settings.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project;
 
 import ija.ija2022.project.game.GameController;

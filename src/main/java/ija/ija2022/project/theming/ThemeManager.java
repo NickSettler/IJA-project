@@ -1,3 +1,10 @@
+/**
+ * ThemeManager class is used to get the current theme.
+ * It is a singleton class.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.theming;
 
 import ija.ija2022.project.settings.SettingsController;

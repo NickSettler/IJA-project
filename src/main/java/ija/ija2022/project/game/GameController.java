@@ -1,3 +1,11 @@
+/**
+ * GameController class is responsible for controlling the game.
+ * It is a part of the MVC pattern.
+ * The whole logic of the game update and render processes is implemented here
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.astar.AStarPathFinder;

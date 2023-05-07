@@ -1,3 +1,10 @@
+/**
+ * Represents a controller for replay mode.
+ * It is a part of MVC design pattern.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.replay;
 
 import ija.ija2022.project.collisions.CollisionController;

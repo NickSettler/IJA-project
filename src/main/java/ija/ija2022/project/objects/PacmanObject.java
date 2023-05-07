@@ -1,3 +1,11 @@
+/**
+ * Represents Pacman object in the game.
+ * Pacman object is an object that can move through the maze.
+ * It is controlled by the player.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.events.EventManager;

@@ -1,3 +1,9 @@
+/**
+ * CHARACTER_MAP enumeration represents all possible characters in the maze file
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.maze.configure;
 
 public enum CHARACTER_MAP {

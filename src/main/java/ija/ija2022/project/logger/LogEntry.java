@@ -1,3 +1,10 @@
+/**
+ * LogEntry record represents a single entry in the log of the game.
+ * It contains a list of LogItem objects.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.logger;
 
 import ija.ija2022.project.maze.configure.CHARACTER_MAP;

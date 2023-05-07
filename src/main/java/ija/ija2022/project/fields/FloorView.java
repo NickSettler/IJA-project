@@ -1,3 +1,9 @@
+/**
+ * FloorView class represents a view of a floor field.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.fields;
 
 import ija.ija2022.project.common.ComponentView;

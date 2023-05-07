@@ -1,3 +1,10 @@
+/**
+ * Abstract class for observable fields.
+ * Each field in the game is observable, so it can notify its observers about changes.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.fields;
 
 import java.util.HashSet;

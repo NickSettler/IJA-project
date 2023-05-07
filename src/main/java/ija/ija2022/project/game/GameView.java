@@ -1,3 +1,11 @@
+/**
+ * GameView class represents the view of the game.
+ * It is responsible for displaying the game.
+ * It is a part of the MVC pattern.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.game;
 
 import ija.ija2022.project.events.EventHandler;

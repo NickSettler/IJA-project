@@ -1,3 +1,10 @@
+/**
+ * AStar path finding algorithm implementation.
+ * This class is used to find the shortest path between two points in a maze.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.astar;
 
 import ija.ija2022.project.fields.BaseField;

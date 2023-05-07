@@ -1,3 +1,10 @@
+/**
+ * ReplayView class is responsible for displaying the replay game window.
+ * It is a part of MVC design pattern.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.replay;
 
 import ija.ija2022.project.events.EventHandler;

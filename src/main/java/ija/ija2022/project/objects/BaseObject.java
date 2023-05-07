@@ -1,3 +1,11 @@
+/**
+ * Base object class.
+ * It is implemented by all objects in the maze.
+ * It contains basic information about the object, methods for moving and working with observers.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.Observable;

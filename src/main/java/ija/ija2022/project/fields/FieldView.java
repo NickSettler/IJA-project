@@ -1,3 +1,11 @@
+/**
+ * FieldView class represents view of field.
+ * It renders field and all objects on it based on model.
+ * It uses observer pattern to get notified about changes in model.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.fields;
 
 import ija.ija2022.project.common.ComponentView;

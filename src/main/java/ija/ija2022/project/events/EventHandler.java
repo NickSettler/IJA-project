@@ -1,3 +1,10 @@
+/**
+ * Annotation for event handlers.
+ * It is used for marking methods as event handlers.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.events;
 
 import java.lang.annotation.ElementType;

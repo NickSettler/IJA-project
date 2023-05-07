@@ -1,3 +1,9 @@
+/**
+ * LoggerController class is responsible for logging the game.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.logger;
 
 import ija.ija2022.project.events.EventManager;

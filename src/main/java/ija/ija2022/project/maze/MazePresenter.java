@@ -1,3 +1,10 @@
+/**
+ * MazePresenter class represents a graphical interface of the maze.
+ * It renders the maze and its objects.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.maze;
 
 import ija.ija2022.project.fields.FieldView;

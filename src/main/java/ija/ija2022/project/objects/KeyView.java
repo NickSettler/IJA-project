@@ -1,3 +1,9 @@
+/**
+ * KeyView class represents a view of a key object.
+ *
+ * @author xmoise01, Nikita Moiseev
+ * @author xshevc01, Aleksandr Shevchenko
+ */
 package ija.ija2022.project.objects;
 
 import ija.ija2022.project.common.ComponentView;
