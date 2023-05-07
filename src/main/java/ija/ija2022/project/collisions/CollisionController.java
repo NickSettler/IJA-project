@@ -68,6 +68,8 @@ public class CollisionController {
     }
 
     private boolean collidesBasic(PacmanObject pacman, CommonMazeObject object) {
+        if (object == null || pacman == null) return false;
+
         return pacman.getRow() == object.getRow() && pacman.getCol() == object.getCol();
     }
 
