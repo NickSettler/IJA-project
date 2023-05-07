@@ -46,6 +46,7 @@ public class CollisionController {
                 this.collisions.add(new Collision(pacman, clock, (pair) -> {
                     ClockObject c = (ClockObject) pair.getValue();
 
+                    this.maze.freezeGhosts();
                     c.collect();
                 }));
         }
