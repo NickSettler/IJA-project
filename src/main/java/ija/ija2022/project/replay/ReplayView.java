@@ -8,11 +8,13 @@ import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.theming.ThemeManager;
 import ija.ija2022.project.ui.controllers.KeyboardController;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class ReplayView extends JFrame {
     private ReplayController controller;
@@ -131,14 +133,31 @@ public class ReplayView extends JFrame {
     private void drawLives(int count) {
         this.heartsPanel.removeAll();
 
+        int max = Math.max(this.controller.getMaxLives(), count);
 
-        ImageIcon heartIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getHeartSpriteName());
-        ImageIcon heartEmptyIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getEmptyHeartSpriteName());
+        int heartSize = 20;
 
-        for (int i = 0; i < this.controller.getMaxLives(); i++) {
-            boolean isFull = i < count;
-            heartsPanel.add(new JLabel(isFull ? heartIcon : heartEmptyIcon));
+        ImageIcon heartIcon = null;
+        try {
+            heartIcon = new ImageIcon(ImageIO.read(getClass().getResource(ThemeManager.getInstance().getTheme().getHeartSpriteName())));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        Image image = heartIcon.getImage();
+        Image newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
+        heartIcon = new ImageIcon(newImage);
+        ImageIcon heartEmptyIcon = null;
+        try {
+            heartEmptyIcon = new ImageIcon(ImageIO.read(getClass().getResource(ThemeManager.getInstance().getTheme().getEmptyHeartSpriteName())));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        image = heartEmptyIcon.getImage();
+        newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
+        heartEmptyIcon = new ImageIcon(newImage);
+
+        for (int i = 0; i < max; i++)
+            heartsPanel.add(new JLabel(i < count ? heartIcon : heartEmptyIcon));
 
         this.revalidate();
         this.repaint();

@@ -6,10 +6,12 @@ import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.theming.ThemeManager;
 import ija.ija2022.project.ui.controllers.KeyboardController;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class GameView extends JFrame {
     private GameController controller;
@@ -81,11 +83,21 @@ public class GameView extends JFrame {
 
         int heartSize = 20;
 
-        ImageIcon heartIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getHeartSpriteName());
+        ImageIcon heartIcon = null;
+        try {
+            heartIcon = new ImageIcon(ImageIO.read(getClass().getResource(ThemeManager.getInstance().getTheme().getHeartSpriteName())));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Image image = heartIcon.getImage();
         Image newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
         heartIcon = new ImageIcon(newImage);
-        ImageIcon heartEmptyIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getEmptyHeartSpriteName());
+        ImageIcon heartEmptyIcon = null;
+        try {
+            heartEmptyIcon = new ImageIcon(ImageIO.read(getClass().getResource(ThemeManager.getInstance().getTheme().getEmptyHeartSpriteName())));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         image = heartEmptyIcon.getImage();
         newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
         heartEmptyIcon = new ImageIcon(newImage);
