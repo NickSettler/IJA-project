@@ -25,4 +25,18 @@ public class MazePresenter extends JPanel {
             }
         }
     }
+
+    @Override
+    public Dimension getPreferredSize() {
+        Rectangle bounds = this.getParent().getBounds();
+
+        if (bounds == null)
+            return super.getPreferredSize();
+
+        int squareSize = Math.min(bounds.width / this.maze.numCols(), bounds.height / this.maze.numRows());
+        int width = squareSize * this.maze.numCols();
+        int height = squareSize * this.maze.numRows();
+
+        return new Dimension(width, height);
+    }
 }

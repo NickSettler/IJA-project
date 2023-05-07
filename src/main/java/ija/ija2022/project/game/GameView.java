@@ -29,14 +29,20 @@ public class GameView extends JFrame {
         this.setBackground(Color.gray);
         this.getContentPane().setBackground(Color.gray);
 
+        JPanel mazePanel = new JPanel();
+        mazePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        mazePanel.setBackground(Color.gray);
+
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.weighty = 1;
         c.weightx = 1;
         c.gridx = 0;
         c.gridy = 1;
+        c.anchor = GridBagConstraints.PAGE_START;
 
-        this.add(controller.getMazeView(), c);
+        mazePanel.add(controller.getMazeView());
+        this.add(mazePanel, c);
 
         heartsPanel = new JPanel();
         heartsPanel.setBackground(Color.gray);
