@@ -71,7 +71,7 @@ public class Window extends JFrame {
             }
         });
 
-        settingsButton.addActionListener(e -> new SettingsView().getFrame().setVisible(true));
+        settingsButton.addActionListener(e -> new SettingsView().setVisible(true));
 
         endButton.addActionListener(e -> System.exit(0));
     }

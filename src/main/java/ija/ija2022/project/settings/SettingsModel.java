@@ -5,6 +5,7 @@ import ija.ija2022.project.theming.THEME_NAMES;
 public class SettingsModel {
     private GAME_MODE gameMode;
     private int maxLives;
+    private int freezeSteps;
     private THEME_NAMES theme;
 
     public GAME_MODE getGameMode() {
@@ -21,6 +22,14 @@ public class SettingsModel {
 
     public int getMaxLives() {
         return this.maxLives;
+    }
+
+    public int getFreezeSteps() {
+        return freezeSteps;
+    }
+
+    public void setFreezeSteps(int freezeSteps) {
+        this.freezeSteps = freezeSteps;
     }
 
     public void setTheme(THEME_NAMES theme) {

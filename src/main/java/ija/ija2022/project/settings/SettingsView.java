@@ -1,21 +1,25 @@
 package ija.ija2022.project.settings;
 
+import ija.ija2022.project.theming.THEME_NAMES;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
-public class SettingsView {
-    private final SettingsController controller;
-
-    private final JFrame settingsFrame;
+public class SettingsView extends JFrame {
+    private SettingsController controller;
+    private JLabel maxLivesLabel;
+    private JLabel freezingStepsLabel;
+    private JLabel themeLabel;
 
     public SettingsView() {
+        super("Settings");
         this.controller = new SettingsController();
-        this.settingsFrame = new JFrame("Settings");
-        this.settingsFrame.setSize(400, 400);
-        this.settingsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.settingsFrame.setLayout(new BoxLayout(this.settingsFrame.getContentPane(), BoxLayout.Y_AXIS));
-        JPanel settingsPanel = new JPanel();
-        settingsPanel.setLayout(new GridBagLayout());
+
+        this.setLayout(new GridBagLayout());
+        this.setSize(new Dimension(500, 500));
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -23,7 +27,7 @@ public class SettingsView {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.PAGE_START;
         c.gridx = c.gridy = 0;
-        settingsPanel.add(gameModeLabel, c);
+        this.add(gameModeLabel, c);
 
         GAME_MODE selectedGameMode = this.controller.getGameMode();
 
@@ -39,28 +43,84 @@ public class SettingsView {
         gameModeButtonsPanel.add(stepByStepButton);
         gameModeButtonsPanel.add(continuousButton);
         c.gridx = 1;
-        settingsPanel.add(gameModeButtonsPanel, c);
+        this.add(gameModeButtonsPanel, c);
+
+        maxLivesLabel = new JLabel("Max Lives: " + this.controller.getMaxLives());
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 1;
+        this.add(maxLivesLabel, c);
+
+        JSlider maxLivesSlider = new JSlider(JSlider.HORIZONTAL, 1, 10, this.controller.getMaxLives());
+        maxLivesSlider.addChangeListener(this::maxLivesSliderChange);
+        maxLivesSlider.setMajorTickSpacing(1);
+        maxLivesSlider.setMinorTickSpacing(1);
+        c.gridx = 1;
+        this.add(maxLivesSlider, c);
+
+        freezingStepsLabel = new JLabel("Freezing Steps: " + this.controller.getFreezeSteps());
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 2;
+        this.add(freezingStepsLabel, c);
+
+        JSlider freezingStepsSlider = new JSlider(JSlider.HORIZONTAL, 1, 50, this.controller.getFreezeSteps());
+        freezingStepsSlider.addChangeListener(this::freezingStepsSliderChange);
+        freezingStepsSlider.setMajorTickSpacing(5);
+        freezingStepsSlider.setMinorTickSpacing(5);
+        c.gridx = 1;
+        this.add(freezingStepsSlider, c);
+
+        themeLabel = new JLabel("Theme: " + controller.getTheme().getName());
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 3;
+        this.add(themeLabel, c);
+
+        JComboBox<THEME_NAMES> themeComboBox = new JComboBox<>(THEME_NAMES.values());
+        themeComboBox.setSelectedItem(controller.getTheme().getName());
+        themeComboBox.addActionListener(this::themeComboBoxChange);
+        c.gridx = 1;
+        this.add(themeComboBox, c);
 
         JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(e -> {
-            this.controller.saveSettings();
-            this.dispose();
-        });
+        saveButton.addActionListener(this::saveButtonClick);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 2;
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 4;
         c.weightx = 0.0;
-        settingsPanel.add(saveButton, c);
-
-        this.settingsFrame.add(settingsPanel);
+        this.add(saveButton, c);
     }
 
-    public JFrame getFrame() {
-        return this.settingsFrame;
+    private void maxLivesSliderChange(ChangeEvent e) {
+        this.controller.setMaxLives(((JSlider) e.getSource()).getValue());
+        maxLivesLabel.setText("Max Lives: " + this.controller.getMaxLives());
     }
 
+    private void freezingStepsSliderChange(ChangeEvent e) {
+        this.controller.setFreezeSteps(((JSlider) e.getSource()).getValue());
+        freezingStepsLabel.setText("Freezing Steps: " + this.controller.getFreezeSteps());
+    }
+
+    private void themeComboBoxChange(ActionEvent e) {
+        this.controller.setTheme(((THEME_NAMES) (((JComboBox) e.getSource()).getSelectedItem())));
+        themeLabel.setText("Theme: " + this.controller.getTheme().getName());
+    }
+
+    private void saveButtonClick(ActionEvent e) {
+        this.controller.saveSettings();
+        this.dispose();
+    }
+
+    @Override
     public void dispose() {
-        this.settingsFrame.dispose();
+        super.dispose();
+
+        this.controller = null;
     }
 }

@@ -29,10 +29,12 @@ public class SettingsController {
         JSONObject object = new JSONObject(tokener);
         String gameMode = object.getString("mode");
         int maxLives = object.getInt("maxLives");
+        int freezeSteps = object.getInt("freezeSteps");
         String themeName = object.getString("theme");
 
         this.model.setGameMode(GAME_MODE.fromValue(gameMode));
         this.model.setMaxLives(maxLives);
+        this.model.setFreezeSteps(freezeSteps);
         this.model.setTheme(THEME_NAMES.fromValue(themeName));
     }
 
@@ -48,6 +50,7 @@ public class SettingsController {
         JSONObject object = new JSONObject();
         object.put("mode", model.getGameMode().toString());
         object.put("maxLives", model.getMaxLives());
+        object.put("freezeSteps", model.getFreezeSteps());
         object.put("theme", model.getTheme().getName());
 
         FileOutputStream os = null;
@@ -76,6 +79,14 @@ public class SettingsController {
 
     public int getMaxLives() {
         return model.getMaxLives();
+    }
+
+    public void setFreezeSteps(int freezeSteps) {
+        model.setFreezeSteps(freezeSteps);
+    }
+
+    public int getFreezeSteps() {
+        return model.getFreezeSteps();
     }
 
     public void setTheme(THEME_NAMES theme) {
