@@ -29,9 +29,9 @@ public class ClockView implements ComponentView {
         double w = bounds.getWidth();
         double h = bounds.getHeight();
         double diameter = Math.min(h, w) - 10.0;
-        double x = (w - diameter) / 2.0;
-        double y = (h - diameter);
+        double x = (w - diameter);
+        double y = (h - diameter) / 2.0;
 
-        g2.drawImage(clockImage, (int) x, (int) y, (int) diameter, (int) diameter / 2, null);
+        g2.drawImage(clockImage, (int) x, (int) y, (int) (diameter / 1.5), (int) diameter, null);
     }
 }
