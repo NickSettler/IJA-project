@@ -29,6 +29,10 @@ public class Theme {
         return this.directoryName + "/" + THEME_OBJECT_NAMES_PATTERNS.GHOST.name().toLowerCase() + "_" + (frozen ? "f" : "n") + ".png";
     }
 
+    public String getEmptyHeartSpriteName() {
+        return this.directoryName + "/" + THEME_OBJECT_NAMES_PATTERNS.HEART_EMPTY.name().toLowerCase() + ".png";
+    }
+
     public String getHeartSpriteName() {
         return this.directoryName + "/" + THEME_OBJECT_NAMES_PATTERNS.HEART.name().toLowerCase() + ".png";
     }

@@ -3,6 +3,7 @@ package ija.ija2022.project.game;
 import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.LivesChangeEvent;
+import ija.ija2022.project.theming.ThemeManager;
 import ija.ija2022.project.ui.controllers.KeyboardController;
 
 import javax.swing.*;
@@ -77,11 +78,11 @@ public class GameView extends JFrame {
 
         int heartSize = 20;
 
-        ImageIcon heartIcon = new ImageIcon("src/main/resources/heart_full.png");
+        ImageIcon heartIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getHeartSpriteName());
         Image image = heartIcon.getImage();
         Image newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
         heartIcon = new ImageIcon(newImage);
-        ImageIcon heartEmptyIcon = new ImageIcon("src/main/resources/heart_empty.png");
+        ImageIcon heartEmptyIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getEmptyHeartSpriteName());
         image = heartEmptyIcon.getImage();
         newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
         heartEmptyIcon = new ImageIcon(newImage);

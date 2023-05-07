@@ -6,6 +6,7 @@ public enum THEME_OBJECT_NAMES_PATTERNS {
     GHOST("ghost"),
     PACMAN("pacman"),
     HEART("heart"),
+    HEART_EMPTY("heart_empty"),
     CLOCK("clock"),
     KEY("key"),
     TARGET("target"),

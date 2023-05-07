@@ -5,6 +5,7 @@ import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.events.events.UpdateReplayStepEvent;
 import ija.ija2022.project.settings.GAME_MODE;
+import ija.ija2022.project.theming.ThemeManager;
 import ija.ija2022.project.ui.controllers.KeyboardController;
 
 import javax.swing.*;
@@ -122,8 +123,9 @@ public class ReplayView extends JFrame {
     private void drawLives(int count) {
         this.heartsPanel.removeAll();
 
-        ImageIcon heartIcon = new ImageIcon("src/main/resources/heart_full.png");
-        ImageIcon heartEmptyIcon = new ImageIcon("src/main/resources/heart_empty.png");
+
+        ImageIcon heartIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getHeartSpriteName());
+        ImageIcon heartEmptyIcon = new ImageIcon("src/main/resources" + ThemeManager.getInstance().getTheme().getEmptyHeartSpriteName());
 
         for (int i = 0; i < this.controller.getMaxLives(); i++) {
             boolean isFull = i < count;
