@@ -34,7 +34,6 @@ public class FloorView implements ComponentView {
         double x = (w - diameter) / w;
         double y = (h - diameter) / h;
 
-//        g2.drawImage(floorImage, 0, 0, (int) w, (int) h, null);
         g2.drawImage(floorImage, (int) x, (int) y, (int) diameter, (int) diameter, null);
     }
 }
