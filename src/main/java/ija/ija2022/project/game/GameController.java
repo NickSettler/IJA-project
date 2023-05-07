@@ -45,7 +45,7 @@ public class GameController extends BaseGameViewController {
 
         this.mazeConfigure = new MazeConfigure(filePath, true);
         this.maze = this.mazeConfigure.createMaze();
-        this.unfreezeTicks = this.maze.ghosts().length * 10;
+        this.unfreezeTicks = this.maze.ghosts().length * this.settingsController.getFreezeSteps();
 
         this.collisionController = new CollisionController(this.maze);
 
