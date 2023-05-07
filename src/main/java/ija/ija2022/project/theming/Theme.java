@@ -44,4 +44,8 @@ public class Theme {
     public String getTargetSpriteName(boolean opened) {
         return this.directoryName + "/" + THEME_OBJECT_NAMES_PATTERNS.TARGET.name().toLowerCase() + "_" + (opened ? "o" : "c") + ".png";
     }
+
+    public String getBackgroundImageName() {
+        return this.directoryName + "/" + THEME_OBJECT_NAMES_PATTERNS.BACKGROUND.name().toLowerCase() + ".jpg";
+    }
 }

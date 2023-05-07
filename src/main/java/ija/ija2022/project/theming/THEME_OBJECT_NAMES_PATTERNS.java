@@ -8,11 +8,12 @@ public enum THEME_OBJECT_NAMES_PATTERNS {
     HEART("heart"),
     CLOCK("clock"),
     KEY("key"),
-    TARGET("target");
+    TARGET("target"),
+    BACKGROUND("background");
 
-    private final String pattern;
+    private final String name;
 
-    THEME_OBJECT_NAMES_PATTERNS(String pattern) {
-        this.pattern = pattern;
+    THEME_OBJECT_NAMES_PATTERNS(String name) {
+        this.name = name;
     }
 }

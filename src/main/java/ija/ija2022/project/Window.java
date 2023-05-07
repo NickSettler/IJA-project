@@ -4,28 +4,56 @@ import ija.ija2022.project.game.GameController;
 import ija.ija2022.project.replay.ReplayController;
 import ija.ija2022.project.settings.GAME_MODE;
 import ija.ija2022.project.settings.SettingsView;
+import ija.ija2022.project.theming.ThemeManager;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class Window extends JFrame {
-
     public Window() {
         super("Pacman game");
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
         this.setFocusableWindowState(true);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridBagLayout());
         this.setSize(500, 500);
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
 
-        setGhostImage();
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setClip(0, 0, getWidth(), getHeight());
+
+                String bgImageName = ThemeManager.getInstance().getTheme().getBackgroundImageName();
+
+                BufferedImage backgroundImage = null;
+                try {
+                    backgroundImage = ImageIO.read(getClass().getResource(bgImageName));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Rectangle bounds = g2.getClipBounds();
+                int width = bounds.width;
+                int height = bounds.height;
+
+                g2.drawImage(backgroundImage, 0, 0, width, height, null);
+            }
+        };
+
         createButtons(panel);
 
-        this.add(panel, BorderLayout.NORTH);
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.weighty = 1;
+        c.weightx = 1;
+        c.gridx = 1;
+        this.add(panel, c);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
@@ -74,33 +102,5 @@ public class Window extends JFrame {
         settingsButton.addActionListener(e -> new SettingsView().setVisible(true));
 
         endButton.addActionListener(e -> System.exit(0));
-    }
-
-    private void setGhostImage() {
-        ImageIcon imageIcon = new ImageIcon("ghost.png");
-        JLabel imageLabel = new JLabel(imageIcon);
-        imageLabel.setLayout(new FlowLayout());
-
-        // Add a ComponentListener to the JLabel to listen for size changes
-        imageLabel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                // Rescale the image when the JLabel is resized
-                ImageIcon icon = (ImageIcon) imageLabel.getIcon();
-                if (icon != null && imageLabel.getWidth() > 0 && imageLabel.getHeight() > 0) {
-                    icon.setImage(icon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH));
-                }
-            }
-        });
-
-        // Scale the image to fit the initial size of the JLabel
-        if (imageLabel.getWidth() > 0 && imageLabel.getHeight() > 0) {
-            imageIcon.setImage(imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH));
-        }
-
-        imageLabel.setIcon(imageIcon);
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        imageLabel.setVerticalAlignment(JLabel.CENTER);
-        this.add(imageLabel, BorderLayout.CENTER);
     }
 }
