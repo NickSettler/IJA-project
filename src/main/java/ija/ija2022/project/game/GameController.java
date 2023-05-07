@@ -69,10 +69,10 @@ public class GameController extends BaseGameViewController {
     }
 
     /**
-    * Handles key down events.
-    * 
-    * @param event - The event to handle
-    */
+     * Handles key down events.
+     *
+     * @param event - The event to handle
+     */
     @EventHandler
     private void handleKeyDownEvent(KeyDownEvent event) {
         // Returns true if the job has finished.
@@ -81,16 +81,16 @@ public class GameController extends BaseGameViewController {
         // If the game mode is step by step then tick the game.
         if (this.mode == GAME_MODE.STEP_BY_STEP)
             this.tick();
-        // Start the timer if it is running.
+            // Start the timer if it is running.
         else if (!this.isRunning.get())
             this.start();
     }
 
     /**
-    * Handles a pacman path click.
-    * 
-    * @param event - The event to handle
-    */
+     * Handles a pacman path click.
+     *
+     * @param event - The event to handle
+     */
     @EventHandler
     private void handlePathMouseClickEvent(PathFieldMouseClickEvent event) {
         CommonField field = event.getField();
@@ -113,18 +113,35 @@ public class GameController extends BaseGameViewController {
     }
 
     /**
-    * Invoked when a WinEvent is received.
-    * 
-    * @param e - The WinEvent that was
-    */
+     * Invoked when a WinEvent is received.
+     *
+     * @param e - The WinEvent that was
+     */
     @EventHandler
     private void handleWinEvent(WinEvent e) {
-        this.finish();
+        this.isWon.set(true);
+    }
+
+    @EventHandler
+    private void handleLivesChangeEvent(LivesChangeEvent e) {
+        if (e.getLives() == 0) {
+            this.isFinished.set(true);
+            this.isWon.set(false);
+
+            JOptionPane.showMessageDialog(
+                    this.view,
+                    "You lost!",
+                    "Game over",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            this.view.dispose();
+        }
     }
 
     /**
-    * Updates the maze. Called every tick
-    */
+     * Updates the maze. Called every tick
+     */
     protected void update() {
         for (GhostObject ghost : this.maze.ghosts()) {
             if (!ghost.isFrozen()) {
@@ -181,40 +198,52 @@ public class GameController extends BaseGameViewController {
     }
 
     /**
-    * Called when the maze is rendered
-    */
+     * Called when the maze is rendered
+     */
     protected void render() {
         this.maze.notifyUpdates();
     }
 
     /**
-    * Finishes the game
-    */
+     * Finishes the game
+     */
     @Override
     public void finish() {
         super.finish();
+
+        JOptionPane.showMessageDialog(
+                this.view,
+                "Congratulations! You won the game!",
+                "You won!",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        this.view.dispose();
     }
 
     /**
-    * Handles the window closing.
-    * 
-    * @param window - The window that was closed
-    */
+     * Handles the window closing.
+     *
+     * @param window - The window that was closed
+     */
     public void handleWindowClose(Window window) {
         this.stop();
 
-        this.showSaveModal(window, "Save Game", "Do you really want to save the game?");
+        this.showSaveModal(window, "Save Game", "Do you want to save the game?", true);
     }
 
     /**
-    * Shows a modal to save maze
-    * 
-    * @param window - the window to display the modal in
-    * @param title - the title of the modal
-    * @param message - the message to display in the
-    */
-    private void showSaveModal(Window window, String title, String message) {
-        String[] options = {"Yes! Please.", "No! Not now.", "Cancel"};
+     * Shows a modal to save maze
+     *
+     * @param window        - the window to display the modal
+     * @param title         - the title of the modal
+     * @param message       - the message of the modal
+     * @param includeCancel - whether to include the cancel button
+     */
+    private void showSaveModal(Window window, String title, String message, boolean includeCancel) {
+        String[] options = {"Yes! Please.", "No! Not now."};
+        if (includeCancel) options = new String[]{"Yes! Please.", "No! Not now.", "Cancel"};
+
         int result = JOptionPane.showOptionDialog(
                 window,
                 message,
@@ -242,7 +271,7 @@ public class GameController extends BaseGameViewController {
 
             // Show the save modal dialog if the user cancels the file chooser.
             if (userSelection == JFileChooser.CANCEL_OPTION) {
-                this.showSaveModal(window, title, message);
+                this.showSaveModal(window, title, message, includeCancel);
             }
         }
 
@@ -256,16 +285,14 @@ public class GameController extends BaseGameViewController {
     }
 
     /**
-    * Called when the view is destroyed
-    */
+     * Called when the view is destroyed
+     */
     @Override
     public void destroy() {
         super.destroy();
 
         EventManager.getInstance().removeEventListener(this);
 
-        this.view.dispose();
-        this.settingsController = null;
         this.loggerController = null;
         this.collisionController = null;
         this.maze = null;
@@ -275,11 +302,10 @@ public class GameController extends BaseGameViewController {
     }
 
     /**
-    * Returns the maze view.
-    * 
-    * 
-    * @return JPanel the maze view
-    */
+     * Returns the maze view.
+     *
+     * @return JPanel the maze view
+     */
     @Override
     public JPanel getMazeView() {
         return this.presenter;

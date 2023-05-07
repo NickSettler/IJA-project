@@ -20,6 +20,7 @@ public abstract class BaseGameViewController implements Runnable {
     protected int tickTime = 250;
     protected AtomicBoolean isRunning = new AtomicBoolean(false);
     protected AtomicBoolean isFinished = new AtomicBoolean(false);
+    protected AtomicBoolean isWon = new AtomicBoolean(false);
     protected SettingsController settingsController;
 
     public BaseGameViewController(GAME_MODE mode) {
@@ -31,8 +32,8 @@ public abstract class BaseGameViewController implements Runnable {
     }
 
     /**
-    * Runs the game. This is the main loop
-    */
+     * Runs the game. This is the main loop
+     */
     @Override
     public void run() {
         isRunning.set(true);
@@ -40,6 +41,11 @@ public abstract class BaseGameViewController implements Runnable {
         while (isRunning.get()) {
             try {
                 this.tick();
+
+                if (this.isWon.get()) {
+                    this.finish();
+                    break;
+                }
 
                 // Sleeps for tickTime tickTime.
                 if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(tickTime);
@@ -55,69 +61,68 @@ public abstract class BaseGameViewController implements Runnable {
     }
 
     /**
-    * Updates the state of the maze. This is called by the tick
-    */
+     * Updates the state of the maze. This is called by the tick
+     */
     abstract protected void update();
 
     /**
-    * Renders the view. This is called by the tick
-    */
+     * Renders the view. This is called by the tick
+     */
     abstract protected void render();
 
     /**
-    * Updates the game. Called every tick
-    */
+     * Updates the game. Called every tick
+     */
     protected void tick() {
         this.update();
         this.render();
     }
 
     /**
-    * Starts the tick thread.
-    */
+     * Starts the tick thread.
+     */
     public void start() {
         this.tickThread = new Thread(this);
         this.tickThread.start();
     }
 
     /**
-    * Stops the thread. Does not wait for it to finish
-    */
+     * Stops the thread. Does not wait for it to finish
+     */
     public void stop() {
         this.isRunning.set(false);
     }
 
     /**
-    * Stops and sets isFinished
-    */
+     * Stops and sets isFinished
+     */
     public void finish() {
         this.stop();
         this.isFinished.set(true);
     }
 
     /**
-    * Stops the timer and destroys the controller
-    */
+     * Stops the timer and destroys the controller
+     */
     public void destroy() {
         this.stop();
         this.tickThread.interrupt();
         this.tickThread = null;
-        this.isRunning = null;
         this.settingsController = null;
 
         EventManager.getInstance().removeEventListener(this);
     }
 
     /**
-    * Increases the tick time by 50
-    */
+     * Increases the tick time by 50
+     */
     public void increaseTickTime() {
         tickTime += 50;
     }
 
     /**
-    * Decreases the tick time by 50
-    */
+     * Decreases the tick time by 50
+     */
     public void decreaseTickTime() {
         tickTime -= 50;
         // Set the tick time to 0.
@@ -127,35 +132,33 @@ public abstract class BaseGameViewController implements Runnable {
     }
 
     /**
-    * Sets the game mode.
-    * 
-    * @param mode - The game mode to
-    */
+     * Sets the game mode.
+     *
+     * @param mode - The game mode to
+     */
     public void setMode(GAME_MODE mode) {
         this.mode = mode;
     }
 
     /**
-    * Returns the game mode.
-    * 
-    * 
-    * @return GAME_MODE. COMPACT or GAME_MODE.
-    */
+     * Returns the game mode.
+     *
+     * @return GAME_MODE. COMPACT or GAME_MODE.
+     */
     public GAME_MODE getMode() {
         return mode;
     }
 
     /**
-    * Returns the maze view.
-    * 
-    * 
-    * @return JPanel The maze view
-    */
+     * Returns the maze view.
+     *
+     * @return JPanel The maze view
+     */
     abstract public JPanel getMazeView();
 
     /**
-    * Returns the maximum number of lives that can be created
-    */
+     * Returns the maximum number of lives that can be created
+     */
     public int getMaxLives() {
         return this.settingsController.getMaxLives();
     }

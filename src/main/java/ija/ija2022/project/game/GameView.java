@@ -17,8 +17,6 @@ import ija.ija2022.project.ui.controllers.KeyboardController;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class GameView extends JFrame {
@@ -68,37 +66,24 @@ public class GameView extends JFrame {
         c.ipady = 0;
         this.add(heartsPanel, c);
 
-        addWindowListener(new WindowAdapter() {
-            /**
-            * Invoked when the user clicks the close button.
-            * 
-            * @param e - Details about the event
-            */
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                handleWindowClosing(e.getWindow());
-            }
-        });
-
         EventManager.getInstance().addEventListener(this);
     }
 
     /**
-    * Handles lives change.
-    * 
-    * @param event - The event to handle
-    */
+     * Handles lives change.
+     *
+     * @param event - The event to handle
+     */
     @EventHandler
     private void handleLivesChange(LivesChangeEvent event) {
         this.drawLives(event.getLives());
     }
 
     /**
-    * Draws lives on the hearts panel
-    * 
-    * @param count - number of lives to
-    */
+     * Draws lives on the hearts panel
+     *
+     * @param count - number of lives to
+     */
     private void drawLives(int count) {
         this.heartsPanel.removeAll();
 
@@ -134,20 +119,22 @@ public class GameView extends JFrame {
     }
 
     /**
-    * Called when a window is closing.
-    * 
-    * @param window - The window that was
-    */
+     * Called when a window is closing.
+     *
+     * @param window - The window that was
+     */
     public void handleWindowClosing(Window window) {
         this.controller.handleWindowClose(window);
     }
 
     /**
-    * Removes this component from the game.
-    */
+     * Removes this component from the game.
+     */
     @Override
     public void dispose() {
         super.dispose();
+
+        this.handleWindowClosing(this);
 
         this.heartsPanel.removeAll();
 
