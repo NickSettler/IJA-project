@@ -89,10 +89,19 @@ public class GameView extends JFrame {
     }
 
     public void handleWindowClosing(Window window) {
+        this.controller.handleWindowClose(window);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        this.heartsPanel.removeAll();
+
         this.removeKeyListener(KeyboardController.getInstance());
         this.removeMouseListener(MouseController.getInstance());
+        EventManager.getInstance().removeEventListener(this);
 
-        this.controller.handleWindowClose(window);
         this.controller = null;
     }
 }

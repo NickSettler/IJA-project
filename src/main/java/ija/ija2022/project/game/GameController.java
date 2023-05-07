@@ -31,7 +31,7 @@ public class GameController extends BaseGameViewController {
     private final MazeConfigure mazeConfigure;
     private final CommonMaze maze;
     private final MazePresenter presenter;
-    private final GameView view;
+    private GameView view;
     private final CollisionController collisionController;
     private final LoggerController loggerController;
 
@@ -131,7 +131,6 @@ public class GameController extends BaseGameViewController {
     }
 
     public void handleWindowClose(Window window) {
-
         this.stop();
 
         String[] options = {"Yes! Please.", "No! Not now."};
@@ -168,6 +167,7 @@ public class GameController extends BaseGameViewController {
         EventManager.getInstance().removeEventListener(this);
 
         this.view.dispose();
+        this.view = null;
     }
 
     @Override
