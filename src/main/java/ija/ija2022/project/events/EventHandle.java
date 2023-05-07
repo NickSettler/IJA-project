@@ -58,6 +58,6 @@ public class EventHandle {
     */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof EventHandle && ((EventHandle) obj).method().equals(method) && ((EventHandle) obj).methodClass().equals(methodClass);
+        return obj instanceof EventHandle && ((EventHandle) obj).getMethod().equals(method) && ((EventHandle) obj).getMethodClass().equals(methodClass);
     }
 }

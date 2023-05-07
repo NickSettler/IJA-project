@@ -9,10 +9,7 @@ package ija.ija2022.project.events;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EventManager implements IEventManager {
     private final Map<Class<? extends Event>, List<EventHandle>> eventHandleMap = new HashMap<>();
@@ -88,7 +85,7 @@ public class EventManager implements IEventManager {
     * @param arrayList - the array list to
     */
     private void sortArrayList(List<EventHandle> arrayList) {
-        arrayList.sort((objOne, objTwo) -> objTwo.priority().ordinal() - objOne.priority().ordinal());
+        arrayList.sort((objOne, objTwo) -> objTwo.getPriority().ordinal() - objOne.getPriority().ordinal());
     }
 
     /**
@@ -126,7 +123,7 @@ public class EventManager implements IEventManager {
                 // Invoke the method of the event.
                 if (!event.isCancelled() && eventHandle.getPriority() != EventPriority.MONITOR) {
                     try {
-                        eventHandle.method().invoke(eventHandle.methodClass(), event);
+                        eventHandle.getMethod().invoke(eventHandle.getMethodClass(), event);
                     } catch (InvocationTargetException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
