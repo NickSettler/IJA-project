@@ -3,6 +3,7 @@ package ija.ija2022.project.objects;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.maze.CommonMaze;
+import ija.ija2022.project.settings.SettingsController;
 
 import java.util.Objects;
 
@@ -12,7 +13,9 @@ public class PacmanObject extends BaseObject {
     public PacmanObject(int row, int col, CommonMaze commonMaze) {
         super(row, col, commonMaze);
 
-        this.lives = 3;
+        SettingsController settings = new SettingsController();
+
+        this.lives = settings.getMaxLives();
     }
 
     @Override
