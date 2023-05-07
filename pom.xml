@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ija.ija2022.project</groupId>
-    <artifactId>IJA</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>pacman</artifactId>
+    <version>1.0.0</version>
 
     <build>
         <plugins>
