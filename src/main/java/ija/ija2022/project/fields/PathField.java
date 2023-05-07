@@ -1,5 +1,7 @@
 package ija.ija2022.project.fields;
 
+import ija.ija2022.project.objects.TargetObject;
+
 import java.util.List;
 
 public class PathField extends BaseField implements CommonField {
@@ -9,7 +11,10 @@ public class PathField extends BaseField implements CommonField {
 
     @Override
     public boolean canMove() {
-        return true;
+        boolean containsClosedTarget = this.get().stream()
+                .anyMatch(o -> o instanceof TargetObject && !this.commonMaze.isAllKeysCollected());
+
+        return !containsClosedTarget;
     }
 
     @Override
