@@ -10,6 +10,10 @@ package ija.ija2022.project.astar;
 import ija.ija2022.project.fields.BaseField;
 import ija.ija2022.project.fields.CommonField;
 
+/**
+ * AStar path finding node implementation.
+ * This class is used to represent a node in the AStar algorithm.
+ */
 public class Node {
     private final BaseField field;
     private final Node parent;
@@ -18,6 +22,15 @@ public class Node {
     private final int f;
     private final CommonField.Direction direction;
 
+    /**
+     * Constructor for creating a new Node object.
+     *
+     * @param field the field associated with this node
+     * @param parent the parent node of this node
+     * @param g the cost of the path from the start node to this node
+     * @param h the heuristic cost from this node to the goal node
+     * @param direction the direction from the parent node to this node
+     */
     public Node(BaseField field, Node parent, int g, int h, CommonField.Direction direction) {
         this.field = field;
         this.parent = parent;
@@ -28,8 +41,8 @@ public class Node {
     }
 
     /**
-    * Returns true if this Node is equal to the specified Node. 
-    * 
+    * Returns true if this Node is equal to the specified Node.
+    *
     * @param o - the Node to compare this Node to for equality
     */
     @Override
@@ -51,7 +64,7 @@ public class Node {
     }
 
     /**
-    * Returns the f value of the vector. 
+    * Returns the f value of the vector.
     */
     public int getF() {
         return f;
@@ -66,8 +79,8 @@ public class Node {
 
     /**
     * Returns the field that this event is associated with.
-    * 
-    * 
+    *
+    *
     * @return The field that this event is associated with.
     */
     public BaseField getField() {
@@ -76,9 +89,9 @@ public class Node {
 
     /**
     * Returns the parent of this node.
-    * 
-    * 
-    * @return the parent of this node 
+    *
+    *
+    * @return the parent of this node
     */
     public Node getParent() {
         return parent;

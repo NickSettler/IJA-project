@@ -14,6 +14,12 @@ import ija.ija2022.project.maze.CommonMaze;
 
 import java.util.*;
 
+/**
+ * A* Path Finder implementation to find the shortest path in a maze from a starting point to an ending point.
+ * Uses a heuristic function to estimate the remaining distance from each point to the goal and a priority queue to
+ * determine the next node to explore based on the f value (g + h) of each node. Nodes that have already been explored
+ * are added to the closed set to avoid revisiting them.
+ */
 public class AStarPathFinder {
     private final CommonMaze maze;
     private final int[][] heuristic;
@@ -29,7 +35,7 @@ public class AStarPathFinder {
 
     /**
     * Finds path from start to end. This method is thread safe. Use only when there is no need to lock maze
-    * 
+    *
     * @param startX - x coordinate of start field
     * @param startY - y coordinate of start field ( must be greater than 0 )
     * @param endX - x coordinate of end field ( must be greater than 0 )
