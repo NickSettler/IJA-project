@@ -22,7 +22,6 @@ public class ThemeManager {
     }
 
     public void setTheme(THEME_NAMES name) {
-        this.settingsController.setTheme(name);
         this.currentTheme = new Theme(name.getName());
     }
 

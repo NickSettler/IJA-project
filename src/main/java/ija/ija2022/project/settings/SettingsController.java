@@ -1,6 +1,7 @@
 package ija.ija2022.project.settings;
 
 import ija.ija2022.project.theming.THEME_NAMES;
+import ija.ija2022.project.theming.ThemeManager;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -91,6 +92,7 @@ public class SettingsController {
 
     public void setTheme(THEME_NAMES theme) {
         model.setTheme(theme);
+        ThemeManager.getInstance().setTheme(theme);
     }
 
     public THEME_NAMES getTheme() {

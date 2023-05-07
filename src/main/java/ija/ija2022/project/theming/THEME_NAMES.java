@@ -1,7 +1,7 @@
 package ija.ija2022.project.theming;
 
 public enum THEME_NAMES {
-    BASIC("castle"),
+    CASTLE("castle"),
     FOREST("forest");
 
     private final String name;

@@ -82,7 +82,7 @@ public class SettingsView extends JFrame {
         this.add(themeLabel, c);
 
         JComboBox<THEME_NAMES> themeComboBox = new JComboBox<>(THEME_NAMES.values());
-        themeComboBox.setSelectedItem(controller.getTheme().getName());
+        themeComboBox.setSelectedItem(controller.getTheme());
         themeComboBox.addActionListener(this::themeComboBoxChange);
         c.gridx = 1;
         this.add(themeComboBox, c);
