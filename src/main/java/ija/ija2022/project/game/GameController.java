@@ -7,10 +7,9 @@ import ija.ija2022.project.events.EventHandler;
 import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.KeyDownEvent;
 import ija.ija2022.project.events.events.LivesChangeEvent;
-import ija.ija2022.project.events.events.MouseClickedEvent;
+import ija.ija2022.project.events.events.PathFieldMouseClickEvent;
 import ija.ija2022.project.events.events.WinEvent;
 import ija.ija2022.project.fields.CommonField;
-import ija.ija2022.project.fields.FieldView;
 import ija.ija2022.project.logger.LOGGER_MODE;
 import ija.ija2022.project.logger.LoggerController;
 import ija.ija2022.project.maze.CommonMaze;
@@ -19,7 +18,7 @@ import ija.ija2022.project.maze.configure.MazeConfigure;
 import ija.ija2022.project.objects.GhostObject;
 import ija.ija2022.project.objects.PacmanObject;
 import ija.ija2022.project.settings.GAME_MODE;
-import ija.ija2022.project.ui_controllers.KeyboardController;
+import ija.ija2022.project.ui.controllers.KeyboardController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,18 +68,17 @@ public class GameController extends BaseGameViewController {
     }
 
     @EventHandler
-    private void handleMouseClickEvent(MouseClickedEvent event) {
-        FieldView field = (FieldView) SwingUtilities.getDeepestComponentAt(this.view, event.getX(), event.getY());
+    private void handlePathMouseClickEvent(PathFieldMouseClickEvent event) {
+        CommonField field = event.getField();
 
-        if (field == null || field.getField() == null)
-            return;
+        if (field == null) return;
 
         AStarPathFinder pathFinder = new AStarPathFinder(this.maze);
         List<int[]> path = pathFinder.findPath(
                 this.maze.getPacman().getRow(),
                 this.maze.getPacman().getCol(),
-                field.getField().getRow(),
-                field.getField().getCol()
+                field.getRow(),
+                field.getCol()
         );
 
         if (path == null || path.isEmpty()) return;

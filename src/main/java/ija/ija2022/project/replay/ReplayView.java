@@ -5,7 +5,7 @@ import ija.ija2022.project.events.EventManager;
 import ija.ija2022.project.events.events.LivesChangeEvent;
 import ija.ija2022.project.events.events.UpdateReplayStepEvent;
 import ija.ija2022.project.settings.GAME_MODE;
-import ija.ija2022.project.ui_controllers.KeyboardController;
+import ija.ija2022.project.ui.controllers.KeyboardController;
 
 import javax.swing.*;
 import java.awt.*;

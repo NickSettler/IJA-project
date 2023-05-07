@@ -3,6 +3,7 @@ package ija.ija2022.project.fields;
 import ija.ija2022.project.common.ComponentView;
 import ija.ija2022.project.common.Observable;
 import ija.ija2022.project.objects.*;
+import ija.ija2022.project.ui.controllers.PathMouseController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class FieldView extends JPanel implements Observable.Observer {
         this.objects = new ArrayList<>();
         this.privUpdate();
         field.addObserver(this);
+        this.addMouseListener(PathMouseController.getInstance());
     }
 
     protected void paintComponent(Graphics g) {
