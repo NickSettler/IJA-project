@@ -3,7 +3,7 @@ package ija.ija2022.project.maze;
 import ija.ija2022.project.fields.CommonField;
 import ija.ija2022.project.fields.WallField;
 import ija.ija2022.project.objects.*;
-import javafx.util.Pair;
+import ija.ija2022.project.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;

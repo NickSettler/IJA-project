@@ -1,7 +1,7 @@
 package ija.ija2022.project.collisions;
 
 import ija.ija2022.project.objects.CommonMazeObject;
-import javafx.util.Pair;
+import ija.ija2022.project.utils.Pair;
 
 import java.util.function.Consumer;
 

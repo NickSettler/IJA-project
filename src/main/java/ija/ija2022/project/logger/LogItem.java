@@ -2,7 +2,7 @@ package ija.ija2022.project.logger;
 
 import ija.ija2022.project.fields.CommonField;
 import ija.ija2022.project.maze.configure.CHARACTER_MAP;
-import javafx.util.Pair;
+import ija.ija2022.project.utils.Pair;
 
 import java.util.Arrays;
 

@@ -5,7 +5,7 @@ import ija.ija2022.project.events.events.UpdateReplayStepEvent;
 import ija.ija2022.project.maze.configure.CHARACTER_MAP;
 import ija.ija2022.project.objects.CommonMazeObject;
 import ija.ija2022.project.objects.GhostObject;
-import javafx.util.Pair;
+import ija.ija2022.project.utils.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
