@@ -12,7 +12,7 @@ public abstract class BaseGameViewController implements Runnable {
     protected Thread tickThread;
     protected int tickTime = 250;
     protected AtomicBoolean isRunning = new AtomicBoolean(false);
-    protected final SettingsController settingsController;
+    protected SettingsController settingsController;
 
     public BaseGameViewController(GAME_MODE mode) {
         this.mode = mode;
@@ -64,6 +64,7 @@ public abstract class BaseGameViewController implements Runnable {
         this.tickThread.interrupt();
         this.tickThread = null;
         this.isRunning = null;
+        this.settingsController = null;
 
         EventManager.getInstance().removeEventListener(this);
     }
