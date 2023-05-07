@@ -30,13 +30,13 @@ import java.util.List;
 import java.util.Map;
 
 public class GameController extends BaseGameViewController {
-    private final MazeConfigure mazeConfigure;
-    private final CommonMaze maze;
+    private MazeConfigure mazeConfigure;
+    private CommonMaze maze;
     private int unfreezeTicks;
-    private final MazePresenter presenter;
+    private MazePresenter presenter;
     private GameView view;
-    private final CollisionController collisionController;
-    private final LoggerController loggerController;
+    private CollisionController collisionController;
+    private LoggerController loggerController;
 
     public GameController(GAME_MODE mode, String filePath) {
         super(mode);
@@ -45,7 +45,7 @@ public class GameController extends BaseGameViewController {
 
         this.mazeConfigure = new MazeConfigure(filePath, true);
         this.maze = this.mazeConfigure.createMaze();
-        this.unfreezeTicks = this.maze.ghosts().length * 10;
+        this.unfreezeTicks = this.maze.ghosts().length * this.settingsController.getFreezeSteps();
 
         this.collisionController = new CollisionController(this.maze);
 
@@ -64,7 +64,7 @@ public class GameController extends BaseGameViewController {
     private void handleKeyDownEvent(KeyDownEvent event) {
         if (this.mode == GAME_MODE.STEP_BY_STEP)
             this.tick();
-        else if (!this.isRunning.get())
+        else if (!this.isRunning.get() && !this.isFinished.get())
             this.start();
     }
 
@@ -90,7 +90,7 @@ public class GameController extends BaseGameViewController {
 
     @EventHandler
     private void handleWinEvent(WinEvent e) {
-        this.stop();
+        this.finish();
     }
 
     protected void update() {
@@ -184,6 +184,12 @@ public class GameController extends BaseGameViewController {
         EventManager.getInstance().removeEventListener(this);
 
         this.view.dispose();
+        this.settingsController = null;
+        this.loggerController = null;
+        this.collisionController = null;
+        this.maze = null;
+        this.mazeConfigure = null;
+        this.presenter = null;
         this.view = null;
     }
 

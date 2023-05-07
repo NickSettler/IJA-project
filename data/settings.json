@@ -1,5 +1,1 @@
-{
-  "mode": "continuous",
-  "maxLives": 3,
-  "theme": "basic"
-}
+{"mode":"continuous","maxLives":10,"freezeSteps":15,"theme":"basic"}
