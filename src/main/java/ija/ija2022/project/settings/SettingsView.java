@@ -105,26 +105,51 @@ public class SettingsView extends JFrame {
         this.add(saveButton, c);
     }
 
+    /**
+     * Updates the maximum number of lives allowed in the game when the maxLivesSlider is changed.
+     *
+     * @param e The ChangeEvent that triggered this method
+     */
     private void maxLivesSliderChange(ChangeEvent e) {
         this.controller.setMaxLives(((JSlider) e.getSource()).getValue());
         maxLivesLabel.setText("Max Lives: " + this.controller.getMaxLives());
     }
 
+    /**
+     * Updates the number of freezing steps in the controller when the freezing steps slider is changed.
+     *
+     * @param e The ChangeEvent object representing the change in the slider
+     */
     private void freezingStepsSliderChange(ChangeEvent e) {
         this.controller.setFreezeSteps(((JSlider) e.getSource()).getValue());
         freezingStepsLabel.setText("Freezing Steps: " + this.controller.getFreezeSteps());
     }
 
+    /**
+     * Handles the event when the theme combo box is changed. Sets the theme of the controller
+     * to the selected item and updates the theme label.
+     *
+     * @param e The ActionEvent triggered by the theme combo box being changed
+     */
     private void themeComboBoxChange(ActionEvent e) {
         this.controller.setTheme(((THEME_NAMES) (((JComboBox) e.getSource()).getSelectedItem())));
         themeLabel.setText("Theme: " + this.controller.getTheme().getName());
     }
 
+    /**
+     * Saves the current settings and closes the window.
+     *
+     * @param e The ActionEvent that triggered this method.
+     */
     private void saveButtonClick(ActionEvent e) {
         this.controller.saveSettings();
         this.dispose();
     }
 
+    /**
+     * Disposes of the resources used by this object.
+     * This method should be called when the object is no longer needed to free up resources.
+     */
     @Override
     public void dispose() {
         super.dispose();

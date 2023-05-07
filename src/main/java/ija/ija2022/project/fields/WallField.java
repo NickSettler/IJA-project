@@ -11,6 +11,9 @@ public class WallField extends BaseField implements CommonField {
         super(row, col);
     }
 
+    /**
+    * Returns always false because pacman cannot move to the wall field
+    */
     @Override
     public boolean isEmpty() {
         return false;

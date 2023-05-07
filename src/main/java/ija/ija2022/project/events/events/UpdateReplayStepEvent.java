@@ -15,6 +15,9 @@ public class UpdateReplayStepEvent extends Event {
         step = _step;
     }
 
+    /**
+    * Returns the step of the replay
+    */
     public int getStep() {
         return this.step;
     }

@@ -27,35 +27,66 @@ public class Node {
         this.direction = direction;
     }
 
+    /**
+    * Returns true if this Node is equal to the specified Node. 
+    * 
+    * @param o - the Node to compare this Node to for equality
+    */
     @Override
     public boolean equals(Object o) {
+        // Returns true if this object is the same as the receiver.
         if (this == o) return true;
+        // Returns true if this object is a subclass of the same class.
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
         return field == node.field;
     }
 
+    /**
+    * Returns hash code for this field. This is equivalent to Field#hashCode () except that it does not depend on the type
+    */
     @Override
     public int hashCode() {
         return field.hashCode();
     }
 
+    /**
+    * Returns the f value of the vector. 
+    */
     public int getF() {
         return f;
     }
 
+    /**
+    * Returns the value of the g property.
+    */
     public int getG() {
         return g;
     }
 
+    /**
+    * Returns the field that this event is associated with.
+    * 
+    * 
+    * @return The field that this event is associated with.
+    */
     public BaseField getField() {
         return field;
     }
 
+    /**
+    * Returns the parent of this node.
+    * 
+    * 
+    * @return the parent of this node 
+    */
     public Node getParent() {
         return parent;
     }
 
+    /**
+    * Returns the direction of this field.
+    */
     public CommonField.Direction getDirection() {
         return direction;
     }

@@ -15,6 +15,9 @@ public class HeartObject extends BaseObject {
         super(row, col, commonMaze);
     }
 
+    /**
+     * Removes the current object from the maze at its current position.
+     */
     public void collect() {
         this.maze.removeObject(this, this.row, this.col);
     }

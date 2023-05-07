@@ -26,25 +26,47 @@ public class PacmanObject extends BaseObject {
         this.lives = settings.getMaxLives();
     }
 
+    /**
+     * Returns whether this entity is a Pacman or not.
+     *
+     * @return true, indicating that this entity is a Pacman
+     */
     @Override
     public boolean isPacman() {
         return true;
     }
 
+    /**
+     * Returns the number of lives the player currently has.
+     *
+     * @return The number of lives.
+     */
     public int getLives() {
         return this.lives;
     }
 
+    /**
+     * Decrements the number of lives by 1 and fires a LivesChangeEvent.
+     */
     public void decrLives() {
         this.lives -= 1;
         EventManager.getInstance().fireEvent(new LivesChangeEvent(this.lives));
     }
 
+    /**
+     * Increases the number of lives by 1 and fires a LivesChangeEvent.
+     */
     public void incrLives() {
         this.lives += 1;
         EventManager.getInstance().fireEvent(new LivesChangeEvent(this.lives));
     }
 
+    /**
+     * Compares this PacmanObject to another object to determine if they are equal.
+     *
+     * @param o The object to compare to this PacmanObject
+     * @return true if the objects are equal, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,6 +80,11 @@ public class PacmanObject extends BaseObject {
         return Objects.equals(maze, that.maze);
     }
 
+    /**
+     * Computes the hash code for this MazeState object.
+     *
+     * @return The hash code for this object.
+     */
     @Override
     public int hashCode() {
         int result = getRow();

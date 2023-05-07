@@ -36,9 +36,15 @@ public class Maze implements CommonMaze {
         this.initObjects();
     }
 
+    /**
+    * Initializes wall fields.
+    */
     private void initWalls() {
+        // Creates a new WallField for each row in the list.
         for (int i = 0; i < this.rows; i++) {
+            // Creates a new WallField for each row in the list.
             for (int j = 0; j < this.cols; j++) {
+                // Creates a new field in the list.
                 if (i == 0 || i == this.rows - 1 || j == 0 || j == this.cols - 1) {
                     this.fields[i][j] = new WallField(i, j);
                 }
@@ -46,6 +52,9 @@ public class Maze implements CommonMaze {
         }
     }
 
+    /**
+    * Initializes the objects array.
+    */
     private void initObjects() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; ++j) {
@@ -54,6 +63,14 @@ public class Maze implements CommonMaze {
         }
     }
 
+    /**
+    * Returns the field at the specified position.
+    * 
+    * @param row - The row to look at.
+    * @param col - The column to look at.
+    * 
+    * @return The field at the specified position
+    */
     @Override
     public CommonField getField(int row, int col) {
         if (row < 0 || row >= this.rows)
@@ -65,11 +82,17 @@ public class Maze implements CommonMaze {
         return this.fields[row][col];
     }
 
+    /**
+    * Returns the number of columns
+    */
     @Override
     public int numCols() {
         return this.cols;
     }
 
+    /**
+    * Returns all ghost objects
+    */
     @Override
     public GhostObject[] ghosts() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
@@ -78,6 +101,9 @@ public class Maze implements CommonMaze {
                 .toArray(GhostObject[]::new);
     }
 
+    /**
+    * Returns all KeyObjects 
+    */
     public KeyObject[] keys() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
                 .flatMap(List::stream)
@@ -85,6 +111,9 @@ public class Maze implements CommonMaze {
                 .toArray(KeyObject[]::new);
     }
 
+    /**
+    * Returns all clock objects 
+    */
     public ClockObject[] clocks() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
                 .flatMap(List::stream)
@@ -92,6 +121,9 @@ public class Maze implements CommonMaze {
                 .toArray(ClockObject[]::new);
     }
 
+    /**
+    * Returns all heart objects
+    */
     public HeartObject[] hearts() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
                 .flatMap(List::stream)
@@ -99,6 +131,12 @@ public class Maze implements CommonMaze {
                 .toArray(HeartObject[]::new);
     }
 
+    /**
+    * Returns the target object if any.
+    * 
+    * 
+    * @return the target object or null if there is no target object
+    */
     public TargetObject target() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
                 .flatMap(List::stream)
@@ -108,6 +146,12 @@ public class Maze implements CommonMaze {
                 .orElse(null);
     }
 
+    /**
+    * Returns Pacman object
+    * 
+    * 
+    * @return Pacman 
+    */
     public PacmanObject getPacman() {
         return Arrays.stream(this.objects).flatMap(Arrays::stream)
                 .flatMap(List::stream)
@@ -117,26 +161,49 @@ public class Maze implements CommonMaze {
                 .orElse(null);
     }
 
+    /**
+    * Returns the number of rows
+    */
     @Override
     public int numRows() {
         return this.rows;
     }
 
+    /**
+    * Sets the field at the specified position
+    * 
+    * @param row - The row to set the field at
+    * @param col - The column to set the field at
+    * @param iField - The field to set
+    */
     @Override
     public void setField(int row, int col, CommonField iField) {
         this.fields[row][col] = iField;
     }
 
+    /**
+    * Returns the fields in the maze
+    */
     @Override
     public CommonField[][] getFields() {
         return this.fields;
     }
 
+    /**
+    * Returns the objects in the maze
+    */
     @Override
     public ArrayList<CommonMazeObject>[][] getObjects() {
         return this.objects;
     }
 
+    /**
+    * Puts the object at the specified row and column.
+    * 
+    * @param object - The object to put.
+    * @param row - The row of the object.
+    * @param col - The column of the object
+    */
     @Override
     public void putObject(CommonMazeObject object, int row, int col) {
         if (object == null)
@@ -146,6 +213,13 @@ public class Maze implements CommonMaze {
         this.updatesFields.add(new Pair<>(row, col));
     }
 
+    /**
+    * Moves an object to a new location
+    * 
+    * @param object - The object to move.
+    * @param row - The row of the object
+    * @param col - The column of the
+    */
     public void moveObject(CommonMazeObject object, int row, int col) {
         if (object == null) return;
 
@@ -162,6 +236,13 @@ public class Maze implements CommonMaze {
         this.updatesFields.add(new Pair<>(row, col));
     }
 
+    /**
+    * Removes the object from the specified row and column.
+    * 
+    * @param object - The object to remove.
+    * @param row - The row of the object.
+    * @param col - The column of the object
+    */
     @Override
     public void removeObject(CommonMazeObject object, int row, int col) {
         if (object == null) return;
@@ -173,6 +254,9 @@ public class Maze implements CommonMaze {
             this.updatesFields.add(new Pair<>(this.target().getRow(), this.target().getCol()));
     }
 
+    /**
+    * Freeze ghosts 
+    */
     @Override
     public void freezeGhosts() {
         for (GhostObject ghost : this.ghosts()) {
@@ -181,6 +265,9 @@ public class Maze implements CommonMaze {
         }
     }
 
+    /**
+    * Unfreeze ghosts
+    */
     @Override
     public void unfreezeGhosts() {
         for (GhostObject ghost : this.ghosts()) {
@@ -189,21 +276,35 @@ public class Maze implements CommonMaze {
         }
     }
 
+    /**
+    * Notify all observers that this field has been updated.
+    */
     public void notifyUpdates() {
         this.updatesFields.forEach(pair -> this.fields[pair.getKey()][pair.getValue()].notifyObservers());
         this.updatesFields.clear();
     }
 
+    /**
+    * Returns the Pacman path
+    */
     public List<int[]> getPacmanPath() {
         return pacmanPath;
     }
 
+    /**
+    * Sets the Pacman path.
+    * 
+    * @param pacmanPath - a list of integers representing the
+    */
     public void setPacmanPath(List<int[]> pacmanPath) {
         this.pacmanPath = pacmanPath;
 
         pacmanPath.forEach(p -> this.updatesFields.add(new Pair<>(p[0], p[1])));
     }
 
+    /**
+    * Returns true if all keys have been collected
+    */
     public boolean isAllKeysCollected() {
         return keys().length == 0;
     }

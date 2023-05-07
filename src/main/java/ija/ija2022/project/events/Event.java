@@ -9,10 +9,18 @@ package ija.ija2022.project.events;
 public abstract class Event {
     private boolean isCancelled;
 
+    /**
+    * Sets the cancelled flag.
+    * 
+    * @param isCancelled - true if the task is cancelled
+    */
     public void setCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;
     }
 
+    /**
+    * Returns true if the task has been cancelled
+    */
     public boolean isCancelled() {
         return isCancelled;
     }

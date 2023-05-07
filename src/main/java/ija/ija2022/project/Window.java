@@ -30,6 +30,9 @@ public class Window extends JFrame {
         this.setSize(500, 500);
         JPanel panel = new JPanel() {
             @Override
+            /**
+             * Paints the background image.
+             */
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
@@ -64,6 +67,11 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
 
+    /**
+     * Creates buttons for the game menu panel and sets their action listeners.
+     *
+     * @param panel The panel to add the buttons to
+     */
     private void createButtons(JPanel panel) {
         JButton startButton = new JButton("start game");
         panel.add(startButton);

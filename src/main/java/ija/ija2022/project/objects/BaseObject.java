@@ -33,6 +33,11 @@ public class BaseObject implements CommonMazeObject {
         this.maze = maze;
     }
 
+    /**
+    * Returns true if this object can be moved to the given direction
+    * 
+    * @param direction - the direction to check
+    */
     @Override
     public boolean canMove(CommonField.Direction direction) {
         CommonField nextField = this.maze.getField(
@@ -47,6 +52,12 @@ public class BaseObject implements CommonMazeObject {
         return nextField != null && nextField.canMove() && !canGhostMoveToGhost;
     }
 
+    /**
+    * Returns true if the object can be moved to the given field
+    * 
+    * @param row - The row of the field
+    * @param col - The column of the
+    */
     @Override
     public boolean canMove(int row, int col) {
         CommonField nextField = this.maze.getField(row, col);
@@ -54,6 +65,9 @@ public class BaseObject implements CommonMazeObject {
         return nextField != null && nextField.canMove();
     }
 
+    /**
+    * Generates a random direction for the object to move to
+    */
     public void generateDirection() {
         CommonField.Direction[] directions = Arrays.stream(CommonField.Direction.values())
                 .filter(this::canMove)
@@ -65,8 +79,12 @@ public class BaseObject implements CommonMazeObject {
         this.direction = directions[randomIndex];
     }
 
+    /**
+    * Moves the character in the direction specified
+    */
     @Override
     public void move() {
+        // Generate the direction if it is not set
         if (this.direction == null) {
             this.generateDirection();
             return;
@@ -75,6 +93,11 @@ public class BaseObject implements CommonMazeObject {
         this.move(this.direction);
     }
 
+    /**
+    * Moves the object to the specified direction.
+    * 
+    * @param direction - The direction to move
+    */
     @Override
     public void move(CommonField.Direction direction) {
         boolean canMove = this.canMove(direction);
@@ -90,6 +113,12 @@ public class BaseObject implements CommonMazeObject {
         this.maze.moveObject(this, nextRow, nextCol);
     }
 
+    /**
+    * Moves the object to the specified row and column.
+    * 
+    * @param row - The row to move to.
+    * @param col - The column to move to
+    */
     @Override
     public void move(int row, int col) {
         boolean canMove = this.canMove(row, col);
@@ -102,34 +131,61 @@ public class BaseObject implements CommonMazeObject {
         this.maze.moveObject(this, row, col);
     }
 
+    /**
+    * Sets the direction of the object
+    * 
+    * @param direction - the direction of the
+    */
     public void setDirection(CommonField.Direction direction) {
         this.direction = direction;
     }
 
+    /**
+    * Returns the direction of this object
+    */
     public CommonField.Direction getDirection() {
         return direction;
     }
 
+    /**
+    * Returns the row that this object is on
+    */
     @Override
     public int getRow() {
         return this.row;
     }
 
+    /**
+    * Returns the column that this object is on
+    */
     @Override
     public int getCol() {
         return this.col;
     }
 
+    /**
+    * Adds an observer to the list of observers.
+    * 
+    * @param observer - The observer to add
+    */
     @Override
     public void addObserver(Observable.Observer observer) {
         this.observers.add(observer);
     }
 
+    /**
+    * Removes an observer from the list of observers.
+    * 
+    * @param observer - The observer to remove
+    */
     @Override
     public void removeObserver(Observable.Observer observer) {
         this.observers.remove(observer);
     }
 
+    /**
+    * Notify all observers that the object has changed.
+    */
     @Override
     public void notifyObservers() {
         this.observers.forEach(observer -> observer.update(this));

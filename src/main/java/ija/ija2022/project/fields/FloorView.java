@@ -21,6 +21,11 @@ public class FloorView implements ComponentView {
         this.parent = parent;
     }
 
+    /**
+    * Paints the Floor Sprite.
+    * 
+    * @param g - The Graphics to paint
+    */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

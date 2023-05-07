@@ -30,13 +30,18 @@ public abstract class BaseGameViewController implements Runnable {
         EventManager.getInstance().addEventListener(this);
     }
 
+    /**
+    * Runs the game. This is the main loop
+    */
     @Override
     public void run() {
         isRunning.set(true);
+        // This method is thread safe.
         while (isRunning.get()) {
             try {
                 this.tick();
 
+                // Sleeps for tickTime tickTime.
                 if (this.mode == GAME_MODE.CONTINUOUS) Thread.sleep(tickTime);
 
                 runCheck();
@@ -49,29 +54,50 @@ public abstract class BaseGameViewController implements Runnable {
     protected void runCheck() {
     }
 
+    /**
+    * Updates the state of the maze. This is called by the tick
+    */
     abstract protected void update();
 
+    /**
+    * Renders the view. This is called by the tick
+    */
     abstract protected void render();
 
+    /**
+    * Updates the game. Called every tick
+    */
     protected void tick() {
         this.update();
         this.render();
     }
 
+    /**
+    * Starts the tick thread.
+    */
     public void start() {
         this.tickThread = new Thread(this);
         this.tickThread.start();
     }
 
+    /**
+    * Stops the thread. Does not wait for it to finish
+    */
     public void stop() {
         this.isRunning.set(false);
     }
 
+    /**
+    * Stops and sets isFinished
+    */
     public void finish() {
         this.stop();
         this.isFinished.set(true);
     }
 
+    /**
+    * Stops the timer and destroys the controller
+    */
     public void destroy() {
         this.stop();
         this.tickThread.interrupt();
@@ -82,27 +108,54 @@ public abstract class BaseGameViewController implements Runnable {
         EventManager.getInstance().removeEventListener(this);
     }
 
+    /**
+    * Increases the tick time by 50
+    */
     public void increaseTickTime() {
         tickTime += 50;
     }
 
+    /**
+    * Decreases the tick time by 50
+    */
     public void decreaseTickTime() {
         tickTime -= 50;
+        // Set the tick time to 0.
         if (tickTime < 0) {
             tickTime = 0;
         }
     }
 
+    /**
+    * Sets the game mode.
+    * 
+    * @param mode - The game mode to
+    */
     public void setMode(GAME_MODE mode) {
         this.mode = mode;
     }
 
+    /**
+    * Returns the game mode.
+    * 
+    * 
+    * @return GAME_MODE. COMPACT or GAME_MODE.
+    */
     public GAME_MODE getMode() {
         return mode;
     }
 
+    /**
+    * Returns the maze view.
+    * 
+    * 
+    * @return JPanel The maze view
+    */
     abstract public JPanel getMazeView();
 
+    /**
+    * Returns the maximum number of lives that can be created
+    */
     public int getMaxLives() {
         return this.settingsController.getMaxLives();
     }

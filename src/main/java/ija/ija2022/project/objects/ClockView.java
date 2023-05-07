@@ -22,6 +22,11 @@ public class ClockView implements ComponentView {
         this.parent = parent;
     }
 
+    /**
+    * Paints the clock sprite.
+    * 
+    * @param g - The graphics to paint
+    */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

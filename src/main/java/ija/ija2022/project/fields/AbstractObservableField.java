@@ -16,14 +16,27 @@ public abstract class AbstractObservableField implements CommonField {
     public AbstractObservableField() {
     }
 
+    /**
+    * Adds an observer to the list of observers.
+    * 
+    * @param observer - the observer to add
+    */
     public void addObserver(Observer observer) {
         this.observers.add(observer);
     }
 
+    /**
+    * Removes an observer from the list of observers.
+    * 
+    * @param observer - the observer to remove
+    */
     public void removeObserver(Observer observer) {
         this.observers.remove(observer);
     }
 
+    /**
+    * Notify all observers of this
+    */
     public void notifyObservers() {
         this.observers.forEach((o) -> o.update(this));
     }

@@ -16,6 +16,11 @@ public class PathFieldMouseClickEvent extends Event {
         this.field = field;
     }
 
+    /**
+    * Returns the CommonField that this event is associated with.
+    * 
+    * @return the CommonField that this event is associated with
+    */
     public CommonField getField() {
         return this.field;
     }

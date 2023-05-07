@@ -24,6 +24,11 @@ public class KeyboardController implements KeyListener {
         this.keys = new HashMap<>();
     }
 
+    /**
+     * Returns the singleton instance of the KeyboardController class.
+     *
+     * @return The singleton instance of the KeyboardController class.
+     */
     public static KeyboardController getInstance() {
         if (KeyboardController.instance == null) {
             KeyboardController.instance = new KeyboardController();
@@ -37,6 +42,12 @@ public class KeyboardController implements KeyListener {
 
     }
 
+    /**
+     * Invoked when a key has been pressed. This method updates the keys map with the pressed key and
+     * fires a KeyDownEvent to the EventManager.
+     *
+     * @param e The KeyEvent object representing the key press event.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         keys.put(e.getKeyCode(), true);

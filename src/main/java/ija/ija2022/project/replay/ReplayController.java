@@ -56,6 +56,13 @@ public class ReplayController extends BaseGameViewController {
         EventManager.getInstance().fireEvent(new LivesChangeEvent(this.maze.getPacman().getLives()));
     }
 
+    /**
+     * Handles the KeyDownEvent for the left and right arrow keys.
+     * If the mode is set to STEP_BY_STEP, it prepares the previous or next step
+     * depending on the key pressed, and then ticks the game.
+     *
+     * @param e The KeyDownEvent object
+     */
     @EventHandler
     private void handleKeyDownEvent(KeyDownEvent e) {
         if (e.getKeyCode() != VK_LEFT && e.getKeyCode() != VK_RIGHT)
@@ -69,28 +76,50 @@ public class ReplayController extends BaseGameViewController {
         }
     }
 
+    /**
+     * Prepares the player to move to the previous step in the replay.
+     * If the replay direction was previously forward, the logger will move to the previous entry.
+     * The replay direction is then set to backward.
+     */
     private void preparePreviousStep() {
         if (this.replayDirection == REPLAY_DIRECTION.FORWARD)
             this.logger.previousEntry();
         this.replayDirection = REPLAY_DIRECTION.BACKWARD;
     }
 
+    /**
+     * Prepares the next step in the replay process by setting the replay direction to forward
+     * and moving the logger to the next entry if the replay direction was previously backward.
+     */
     private void prepareNextStep() {
         if (this.replayDirection == REPLAY_DIRECTION.BACKWARD)
             this.logger.nextEntry();
         this.replayDirection = REPLAY_DIRECTION.FORWARD;
     }
 
+    /**
+     * Goes back to the previous step in the process.
+     * This method prepares the previous step and then ticks the process.
+     */
     public void previousStep() {
         this.preparePreviousStep();
         this.tick();
     }
 
+    /**
+     * Proceeds to the next step of the process by preparing the next step and ticking.
+     */
     public void nextStep() {
         this.prepareNextStep();
         this.tick();
     }
 
+    /**
+     * Jumps to a specific step in the logger and processes the entries up to that point.
+     * Also detects and handles collisions and renders the current state.
+     *
+     * @param step The step to jump to in the logger
+     */
     public void jumpToStep(int step) {
         boolean reverse = this.logger.getIndex() > step;
 
@@ -104,6 +133,10 @@ public class ReplayController extends BaseGameViewController {
         this.render();
     }
 
+    /**
+     * Updates the state of the game by processing the next or previous entry in the logger,
+     * depending on the replay direction. It then detects and handles any collisions that may have occurred.
+     */
     protected void update() {
         this.commandProcessor.processEntry(
                 this.logger.getEntry(this.logger.getIndex()),
@@ -119,15 +152,25 @@ public class ReplayController extends BaseGameViewController {
         this.collisionController.handleCollisions();
     }
 
+    /**
+     * Renders the maze by notifying any updates to the maze object.
+     */
     protected void render() {
         this.maze.notifyUpdates();
     }
 
+    /**
+     * Runs a check to see if the logger has a current entry. If there is no current entry,
+     * the method stops the logger.
+     */
     protected void runCheck() {
         if (this.logger.currentEntry() == null)
             this.stop();
     }
 
+    /**
+     * Destroys the current instance of the object, removing all event listeners and disposing of the view and logger.
+     */
     @Override
     public void destroy() {
         super.destroy();
@@ -138,6 +181,11 @@ public class ReplayController extends BaseGameViewController {
         this.logger.close();
     }
 
+    /**
+     * Returns the maze view panel.
+     *
+     * @return The maze view panel.
+     */
     public JPanel getMazeView() {
         return this.presenter;
     }

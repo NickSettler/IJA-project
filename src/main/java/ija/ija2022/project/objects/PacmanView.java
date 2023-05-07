@@ -24,6 +24,11 @@ public class PacmanView implements ComponentView {
         this.pacman = pacman;
     }
 
+    /**
+     * Paints the Pacman sprite on the game board.
+     *
+     * @param g The graphics object to paint on
+     */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

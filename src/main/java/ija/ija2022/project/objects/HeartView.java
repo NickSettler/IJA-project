@@ -22,6 +22,11 @@ public class HeartView implements ComponentView {
         this.parent = parent;
     }
 
+    /**
+     * Paints the heart sprite in the center of the parent component.
+     *
+     * @param g The graphics object to paint with
+     */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

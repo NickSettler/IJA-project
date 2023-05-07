@@ -24,10 +24,14 @@ public class CollisionController {
         this.maze = maze;
     }
 
+    /**
+    * Detect collisions and add them to
+    */
     public void detectCollisions() {
         PacmanObject pacman = this.maze.getPacman();
 
         for (GhostObject ghost : this.maze.ghosts()) {
+            // Add a collision to the collision list.
             if (collides(pacman, ghost))
                 this.collisions.add(new Collision(pacman, ghost, (pair) -> {
                     PacmanObject p = (PacmanObject) pair.getKey();
@@ -40,6 +44,7 @@ public class CollisionController {
         }
 
         for (KeyObject key : this.maze.keys()) {
+            // Add a collision to the collision list.
             if (this.collidesBasic(pacman, key))
                 this.collisions.add(new Collision(pacman, key, (pair) -> {
                     KeyObject k = (KeyObject) pair.getValue();
@@ -49,6 +54,7 @@ public class CollisionController {
         }
 
         for (ClockObject clock : this.maze.clocks()) {
+            // Add a collision to the list of collision objects.
             if (this.collidesBasic(pacman, clock))
                 this.collisions.add(new Collision(pacman, clock, (pair) -> {
                     ClockObject c = (ClockObject) pair.getValue();
@@ -59,6 +65,7 @@ public class CollisionController {
         }
 
         for (HeartObject heart : this.maze.hearts()) {
+            // Add a collision to the collision list.
             if (this.collidesBasic(pacman, heart))
                 this.collisions.add(new Collision(pacman, heart, (pair) -> {
                     PacmanObject p = (PacmanObject) pair.getKey();
@@ -74,12 +81,25 @@ public class CollisionController {
         }
     }
 
+    /**
+    * Checks if pacman collides with object
+    * 
+    * @param pacman - The pacman to check.
+    * @param object - The object to check
+    */
     private boolean collidesBasic(PacmanObject pacman, CommonMazeObject object) {
+        // Returns true if the object is null or if the pacman is null.
         if (object == null || pacman == null) return false;
 
         return pacman.getRow() == object.getRow() && pacman.getCol() == object.getCol();
     }
 
+    /**
+    * Checks if there is a collision between pacman and ghost.
+    * 
+    * @param pacman - The object to check for colliding with
+    * @param ghost - The object to check
+    */
     private boolean collides(PacmanObject pacman, GhostObject ghost) {
         int pacmanPrevRow = pacman.getRow() - pacman.getDirection().deltaRow();
         int pacmanPrevCol = pacman.getCol() - pacman.getDirection().deltaCol();
@@ -93,6 +113,9 @@ public class CollisionController {
         return this.collidesBasic(pacman, ghost) || collidesByPrevPosition || collidesByCrossPositions;
     }
 
+    /**
+    * Handles all collisions and clears
+    */
     public void handleCollisions() {
         for (Collision collision : this.collisions) collision.handle();
 

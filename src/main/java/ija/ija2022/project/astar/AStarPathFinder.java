@@ -27,8 +27,18 @@ public class AStarPathFinder {
         this.closedSet = new HashSet<>();
     }
 
+    /**
+    * Finds path from start to end. This method is thread safe. Use only when there is no need to lock maze
+    * 
+    * @param startX - x coordinate of start field
+    * @param startY - y coordinate of start field ( must be greater than 0 )
+    * @param endX - x coordinate of end field ( must be greater than 0 )
+    * @param endY - y coordinate of end field ( must be greater than 0
+    */
     public List<int[]> findPath(int startX, int startY, int endX, int endY) {
+        // Computes the heuristic of the heuristic.
         for (int x = 0; x < heuristic.length; x++) {
+            // Set the heuristic to the x y value of the heuristic.
             for (int y = 0; y < heuristic[0].length; y++) {
                 heuristic[x][y] = Math.abs(x - endX) + Math.abs(y - endY);
             }
@@ -36,10 +46,13 @@ public class AStarPathFinder {
         Node startNode = new Node((BaseField) maze.getField(startX, startY), null, 0, heuristic[startX][startY], null);
         openSet.offer(startNode);
 
+        // Returns the path of the open set.
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
+            // Returns a list of integers in the form of row col.
             if (current.getField().equals(maze.getField(endX, endY))) {
                 List<int[]> path = new ArrayList<>();
+                // Add a new path to the path.
                 while (current.getParent() != null) {
                     path.add(new int[]{current.getField().getRow(), current.getField().getCol()});
                     current = current.getParent();
@@ -53,6 +66,7 @@ public class AStarPathFinder {
                 int g = current.getG() + 1;
                 int h = heuristic[neighbourField.getRow()][neighbourField.getCol()];
                 Node neighbourNode = new Node(neighbourField, current, g, h, direction);
+                // offer the node to the open set
                 if (!(neighbourField instanceof WallField) && !closedSet.contains(neighbourNode)) {
                     openSet.offer(neighbourNode);
                 }

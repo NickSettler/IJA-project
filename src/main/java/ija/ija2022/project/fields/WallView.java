@@ -21,6 +21,11 @@ public class WallView implements ComponentView {
         this.parent = parent;
     }
 
+    /**
+    * Paints the wall sprite.
+    * 
+    * @param g - The graphics to paint
+    */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

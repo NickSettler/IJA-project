@@ -22,12 +22,23 @@ public enum CHARACTER_MAP {
         this.character = character;
     }
 
+    /**
+    * Returns the character associated with this key
+    */
     public char getCharacter() {
         return this.character;
     }
 
+    /**
+    * Returns the character map that corresponds to the character
+    * 
+    * @param character - the character to look up
+    * 
+    * @return the character map that corresponds to
+    */
     public static CHARACTER_MAP from(Character character) {
         for (CHARACTER_MAP value : CHARACTER_MAP.values()) {
+            // Returns the value of the character.
             if (value.getCharacter() == character) {
                 return value;
             }

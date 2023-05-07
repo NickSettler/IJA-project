@@ -69,6 +69,11 @@ public class GameView extends JFrame {
         this.add(heartsPanel, c);
 
         addWindowListener(new WindowAdapter() {
+            /**
+            * Invoked when the user clicks the close button.
+            * 
+            * @param e - Details about the event
+            */
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
@@ -79,11 +84,21 @@ public class GameView extends JFrame {
         EventManager.getInstance().addEventListener(this);
     }
 
+    /**
+    * Handles lives change.
+    * 
+    * @param event - The event to handle
+    */
     @EventHandler
     private void handleLivesChange(LivesChangeEvent event) {
         this.drawLives(event.getLives());
     }
 
+    /**
+    * Draws lives on the hearts panel
+    * 
+    * @param count - number of lives to
+    */
     private void drawLives(int count) {
         this.heartsPanel.removeAll();
 
@@ -110,6 +125,7 @@ public class GameView extends JFrame {
         newImage = image.getScaledInstance(heartSize, heartSize, java.awt.Image.SCALE_SMOOTH);
         heartEmptyIcon = new ImageIcon(newImage);
 
+        // Add all hearts to the hearts panel.
         for (int i = 0; i < max; i++)
             heartsPanel.add(new JLabel(i < count ? heartIcon : heartEmptyIcon));
 
@@ -117,10 +133,18 @@ public class GameView extends JFrame {
         this.repaint();
     }
 
+    /**
+    * Called when a window is closing.
+    * 
+    * @param window - The window that was
+    */
     public void handleWindowClosing(Window window) {
         this.controller.handleWindowClose(window);
     }
 
+    /**
+    * Removes this component from the game.
+    */
     @Override
     public void dispose() {
         super.dispose();

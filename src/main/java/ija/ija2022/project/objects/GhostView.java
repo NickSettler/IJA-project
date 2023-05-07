@@ -24,6 +24,11 @@ public class GhostView implements ComponentView {
         this.ghost = ghost;
     }
 
+    /**
+     * Paints the ghost component on the screen.
+     *
+     * @param g The graphics object to paint with
+     */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

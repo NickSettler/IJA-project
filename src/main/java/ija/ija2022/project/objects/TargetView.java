@@ -24,6 +24,11 @@ public class TargetView implements ComponentView {
         this.model = model;
     }
 
+    /**
+     * Paints the component with the target sprite image, which is determined by the current theme and whether all keys have been collected.
+     *
+     * @param g The graphics object to paint with
+     */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

@@ -19,6 +19,11 @@ import java.awt.event.MouseListener;
 public class PathMouseController implements MouseListener {
     private static PathMouseController instance;
 
+    /**
+     * Returns the singleton instance of the PathMouseController class.
+     *
+     * @return The singleton instance of the PathMouseController class.
+     */
     public static PathMouseController getInstance() {
         if (instance == null) {
             instance = new PathMouseController();
@@ -27,6 +32,13 @@ public class PathMouseController implements MouseListener {
         return instance;
     }
 
+    /**
+     * Invoked when the mouse button has been clicked (pressed and released) on a component.
+     * This method retrieves the field that was clicked and creates a PathFieldMouseClickEvent
+     * to notify any listeners of the click event.
+     *
+     * @param e The MouseEvent that occurred
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         CommonField field = ((FieldView) e.getSource()).getField();

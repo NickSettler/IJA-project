@@ -61,26 +61,41 @@ public class GameController extends BaseGameViewController {
 
         this.view.setVisible(true);
 
+        // Starts the game if the game is in a CONTINUOUS mode.
         if (this.mode == GAME_MODE.CONTINUOUS)
             this.start();
 
         EventManager.getInstance().fireEvent(new LivesChangeEvent(this.maze.getPacman().getLives()));
     }
 
+    /**
+    * Handles key down events.
+    * 
+    * @param event - The event to handle
+    */
     @EventHandler
     private void handleKeyDownEvent(KeyDownEvent event) {
+        // Returns true if the job has finished.
         if (this.isFinished.get()) return;
 
+        // If the game mode is step by step then tick the game.
         if (this.mode == GAME_MODE.STEP_BY_STEP)
             this.tick();
+        // Start the timer if it is running.
         else if (!this.isRunning.get())
             this.start();
     }
 
+    /**
+    * Handles a pacman path click.
+    * 
+    * @param event - The event to handle
+    */
     @EventHandler
     private void handlePathMouseClickEvent(PathFieldMouseClickEvent event) {
         CommonField field = event.getField();
 
+        // Returns the field that this field is associated with.
         if (field == null) return;
 
         AStarPathFinder pathFinder = new AStarPathFinder(this.maze);
@@ -91,16 +106,25 @@ public class GameController extends BaseGameViewController {
                 field.getCol()
         );
 
+        // Returns the path for the pacman.
         if (path == null || path.isEmpty()) return;
 
         this.maze.setPacmanPath(path);
     }
 
+    /**
+    * Invoked when a WinEvent is received.
+    * 
+    * @param e - The WinEvent that was
+    */
     @EventHandler
     private void handleWinEvent(WinEvent e) {
         this.finish();
     }
 
+    /**
+    * Updates the maze. Called every tick
+    */
     protected void update() {
         for (GhostObject ghost : this.maze.ghosts()) {
             if (!ghost.isFrozen()) {
@@ -113,14 +137,17 @@ public class GameController extends BaseGameViewController {
             this.loggerController.addItem(ghost);
         }
 
+        // Unfreeze all ghosts that are frozen.
         if (this.unfreezeTicks <= 0 && Arrays.stream(this.maze.ghosts()).anyMatch(GhostObject::isFrozen))
             this.maze.unfreezeGhosts();
 
         PacmanObject pacman = this.maze.getPacman();
 
+        // Move the pacman path to the current path.
         if (this.maze.getPacmanPath().size() == 0) {
             Map<Integer, Boolean> keys = KeyboardController.getInstance().getKeys();
 
+            // Set the direction of the pacman.
             if (keys.getOrDefault(KeyEvent.VK_W, false))
                 pacman.setDirection(CommonField.Direction.U);
             else if (keys.getOrDefault(KeyEvent.VK_S, false))
@@ -130,6 +157,7 @@ public class GameController extends BaseGameViewController {
             else if (keys.getOrDefault(KeyEvent.VK_D, false))
                 pacman.setDirection(CommonField.Direction.R);
 
+            // Move the pacman to the next row and column
             if (!this.maze.getField(pacman.getRow() + pacman.getDirection().deltaRow(), pacman.getCol() + pacman.getDirection().deltaCol()).canMove())
                 pacman.setDirection(CommonField.Direction.N);
 
@@ -140,6 +168,7 @@ public class GameController extends BaseGameViewController {
             pacman.move(this.maze.getPacmanPath().get(0)[0], this.maze.getPacmanPath().get(0)[1]);
             this.maze.getPacmanPath().remove(0);
 
+            // Set direction to N if the path is empty
             if (this.maze.getPacmanPath().isEmpty())
                 pacman.setDirection(CommonField.Direction.N);
         }
@@ -151,21 +180,39 @@ public class GameController extends BaseGameViewController {
         this.collisionController.handleCollisions();
     }
 
+    /**
+    * Called when the maze is rendered
+    */
     protected void render() {
         this.maze.notifyUpdates();
     }
 
+    /**
+    * Finishes the game
+    */
     @Override
     public void finish() {
         super.finish();
     }
 
+    /**
+    * Handles the window closing.
+    * 
+    * @param window - The window that was closed
+    */
     public void handleWindowClose(Window window) {
         this.stop();
 
         this.showSaveModal(window, "Save Game", "Do you really want to save the game?");
     }
 
+    /**
+    * Shows a modal to save maze
+    * 
+    * @param window - the window to display the modal in
+    * @param title - the title of the modal
+    * @param message - the message to display in the
+    */
     private void showSaveModal(Window window, String title, String message) {
         String[] options = {"Yes! Please.", "No! Not now.", "Cancel"};
         int result = JOptionPane.showOptionDialog(
@@ -179,30 +226,38 @@ public class GameController extends BaseGameViewController {
                 options[0]
         );
 
+        // Shows a dialog to save a file to save.
         if (result == JOptionPane.YES_OPTION) {
             JFileChooser fileChooser = new JFileChooser("data/");
             fileChooser.setDialogTitle("Specify a file to save");
 
             int userSelection = fileChooser.showSaveDialog(window);
 
+            // Closes the file chooser and closes the logger controller.
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToSave = fileChooser.getSelectedFile();
                 this.loggerController.close(fileToSave.getAbsolutePath(), this.mazeConfigure.getMazeText());
                 this.destroy();
             }
 
+            // Show the save modal dialog if the user cancels the file chooser.
             if (userSelection == JFileChooser.CANCEL_OPTION) {
                 this.showSaveModal(window, title, message);
             }
         }
 
+        // Destroys the game if the user does not want to save the game.
         if (result == JOptionPane.NO_OPTION)
             this.destroy();
 
+        // If the result is JOptionPane. CANCEL_OPTION then start the game again.
         if (result == JOptionPane.CANCEL_OPTION && !this.isFinished.get())
             this.start();
     }
 
+    /**
+    * Called when the view is destroyed
+    */
     @Override
     public void destroy() {
         super.destroy();
@@ -219,6 +274,12 @@ public class GameController extends BaseGameViewController {
         this.view = null;
     }
 
+    /**
+    * Returns the maze view.
+    * 
+    * 
+    * @return JPanel the maze view
+    */
     @Override
     public JPanel getMazeView() {
         return this.presenter;

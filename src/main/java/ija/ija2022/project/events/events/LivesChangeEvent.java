@@ -15,6 +15,9 @@ public class LivesChangeEvent extends Event {
         this.lives = lives;
     }
 
+    /**
+    * Returns the number of lives
+    */
     public int getLives() {
         return this.lives;
     }

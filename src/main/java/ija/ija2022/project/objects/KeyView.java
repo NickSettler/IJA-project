@@ -22,6 +22,11 @@ public class KeyView implements ComponentView {
         this.parent = parent;
     }
 
+    /**
+     * Paints the component with the key image in the center.
+     *
+     * @param g The graphics object to paint with
+     */
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

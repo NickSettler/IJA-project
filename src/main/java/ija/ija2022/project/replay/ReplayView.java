@@ -137,6 +137,11 @@ public class ReplayView extends JFrame {
         EventManager.getInstance().addEventListener(this);
     }
 
+    /**
+     * Draws the lives of the player on the screen.
+     *
+     * @param count The number of lives the player has.
+     */
     private void drawLives(int count) {
         this.heartsPanel.removeAll();
 
@@ -170,6 +175,12 @@ public class ReplayView extends JFrame {
         this.repaint();
     }
 
+    /**
+     * Handles the pause button click event. If the game mode is continuous, the game is paused and the button icon is changed to a pause icon.
+     * If the game mode is step-by-step, the game is resumed and the button icon is changed to a play icon.
+     *
+     * @param e The ActionEvent object representing the pause button click event.
+     */
     private void pauseButtonClickHandler(ActionEvent e) {
         ImageIcon pauseIcon = new ImageIcon("src/main/resources/icons/pa.png");
         ImageIcon playIcon = new ImageIcon("src/main/resources/icons/pl.png");
@@ -184,22 +195,41 @@ public class ReplayView extends JFrame {
         }
     }
 
+    /**
+     * Handles the click event of the "Step" button. Parses the integer value from the text field
+     * and passes it to the controller to jump to the corresponding step.
+     *
+     * @param e The ActionEvent object representing the click event
+     */
     private void stepButtonClickHandler(ActionEvent e) {
         int step = Integer.parseInt(stepTextField.getText());
         this.controller.jumpToStep(step);
     }
 
+    /**
+     * Handles the UpdateReplayStepEvent by updating the step text field with the current step.
+     *
+     * @param event The UpdateReplayStepEvent to handle
+     */
     @EventHandler
     private void handleReplayStepUpdate(UpdateReplayStepEvent event) {
         String step = event.getStep() < 0 ? "0" : String.valueOf(event.getStep());
         this.stepTextField.setText(step);
     }
 
+    /**
+     * Handles a change in the number of lives a player has and updates the UI accordingly.
+     *
+     * @param event The LivesChangeEvent containing the new number of lives.
+     */
     @EventHandler
     private void handleLivesChange(LivesChangeEvent event) {
         this.drawLives(event.getLives());
     }
 
+    /**
+     * Handles the window closing event by removing the key listener, event listener, and destroying the controller.
+     */
     private void handleWindowClosing() {
         this.removeKeyListener(KeyboardController.getInstance());
 

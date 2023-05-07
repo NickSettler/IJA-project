@@ -53,6 +53,7 @@ public class MazeConfigure {
         this.commonMaze = null;
         this.mazeText = null;
 
+        // Set the text of the maze.
         if (isFilePath)
             try {
                 this.mazeText = Files.readString(Paths.get(text));
@@ -65,10 +66,12 @@ public class MazeConfigure {
             this.mazeText = text;
 
         String[] lines = this.mazeText.split("\n");
+        // Removes all whitespace from the lines.
         for (int i = 0; i < lines.length; i++) {
             lines[i] = lines[i].trim();
         }
 
+        // Check if the file is too short.
         if (lines.length < 2) {
             System.out.println("File is too short");
             System.exit(1);
@@ -77,6 +80,7 @@ public class MazeConfigure {
 
         Integer[] dimensions = this.parseDimensions(lines[0]);
 
+        // Check if the dimensions are valid.
         if (dimensions.length != 2) {
             System.out.println("Invalid dimensions");
             System.exit(1);
@@ -89,6 +93,11 @@ public class MazeConfigure {
         this.stopReading();
     }
 
+    /**
+    * Parses the dimensions from the line
+    * 
+    * @param line - the line to parse
+    */
     private Integer[] parseDimensions(String line) {
         try {
             return Arrays.stream(line.split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
@@ -99,9 +108,16 @@ public class MazeConfigure {
         }
     }
 
+    /**
+    * Checks if line is valid
+    * 
+    * @param line - line to check for
+    */
     private boolean checkLine(String line) {
+        // Returns true if the line is null.
         if (line == null) return false;
 
+        // Check if the line length is equal to the commonMaze. numCols
         if (line.length() != this.commonMaze.numCols() - 2) return false;
 
         String allowedChars = Arrays.stream(CHARACTER_MAP.values())
@@ -112,6 +128,12 @@ public class MazeConfigure {
         return line.matches("^[ " + allowedChars + "]+$");
     }
 
+    /**
+    * Creates a maze for use.
+    * 
+    * 
+    * @return the common maze or null if there is
+    */
     public CommonMaze createMaze() {
         if (this.reading) {
             return null;
@@ -121,6 +143,7 @@ public class MazeConfigure {
             return null;
         }
 
+        // Returns null if the row counter is not equal to the commonMaze. numRows
         if (this.rowCounter != this.commonMaze.numRows()) {
             return null;
         }
@@ -128,17 +151,25 @@ public class MazeConfigure {
         return this.commonMaze;
     }
 
+    /**
+    * Processes a line of text
+    * 
+    * @param line - The line to be
+    */
     public void processLine(String line) {
         line = line.trim();
         if (!this.reading) return;
 
+        // Check if the current line is valid.
         if (!this.checkLine(line)) return;
 
+        // Increment the row counter by one.
         if (this.rowCounter >= this.commonMaze.numRows()) {
             this.rowCounter++;
             return;
         }
 
+        // This method is used to create a new line of data.
         for (int i = 0; i < line.length(); i++) {
             char ch = line.charAt(i);
 
@@ -171,6 +202,12 @@ public class MazeConfigure {
         this.rowCounter++;
     }
 
+    /**
+    * Starts reading maze. 
+    * 
+    * @param rows - number of rows in the maze
+    * @param cols - number of columns in the
+    */
     public void startReading(int rows, int cols) {
         if (this.reading) {
             return;
@@ -189,13 +226,23 @@ public class MazeConfigure {
         this.commonMaze = new Maze(rows, cols);
     }
 
+    /**
+    * Stop reading the data.
+    */
     public void stopReading() {
+        // This method increments the row counter and resets the reading flag.
         if (this.reading) {
             this.rowCounter++;
             this.reading = false;
         }
     }
 
+    /**
+    * Returns the maze text.
+    * 
+    * 
+    * @return the maze text or null if there is
+    */
     public String getMazeText() {
         return mazeText;
     }

@@ -15,6 +15,9 @@ public class PathField extends BaseField implements CommonField {
         super(row, col);
     }
 
+    /**
+    * Returns true if pacman can move to this field
+    */
     @Override
     public boolean canMove() {
         boolean containsClosedTarget = this.get().stream()
@@ -23,6 +26,9 @@ public class PathField extends BaseField implements CommonField {
         return !containsClosedTarget;
     }
 
+    /**
+    * Returns true if the field is a part of pacman's path
+    */
     @Override
     public boolean isPacmanPath() {
         List<int[]> path = this.commonMaze.getPacmanPath();

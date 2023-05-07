@@ -27,6 +27,9 @@ public class Collision {
         this.handler = handler;
     }
 
+    /**
+    * Handles the pair. This is called by the thread that created the pair
+    */
     public void handle() {
         this.handler.accept(new Pair<>(this.a, this.b));
     }

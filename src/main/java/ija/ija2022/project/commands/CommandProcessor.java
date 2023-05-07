@@ -26,37 +26,44 @@ import ija.ija2022.project.logger.LogItem;
 import ija.ija2022.project.logger.LoggerController;
 import ija.ija2022.project.maze.CommonMaze;
 import ija.ija2022.project.maze.configure.CHARACTER_MAP;
-import ija.ija2022.project.objects.CommonMazeObject;
 import ija.ija2022.project.objects.GhostObject;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CommandProcessor {
     private final CommonMaze maze;
 
-    private final Map<Integer, CommonMazeObject> ghostAssociations;
-
     public CommandProcessor(CommonMaze maze, LoggerController loggerController) {
         this.maze = maze;
-        this.ghostAssociations = new HashMap<>();
-
-        loggerController.getGhostsAssociations().forEach((index, association) -> {
-            CommonMazeObject object = maze.getField(association.getKey(), association.getValue()).get().get(0);
-            this.ghostAssociations.put(index, object);
-        });
     }
 
+    /**
+     * Processes a log entry.
+     *
+     * @param entry - the entry to process
+     */
     public void processEntry(LogEntry entry) {
         this.processEntry(entry, false);
     }
 
+    /**
+     * Processes a LogEntry and moves it.
+     *
+     * @param entry   - The LogEntry to process.
+     * @param reverse - Whether or not the entry is reversed
+     */
     public void processEntry(LogEntry entry, boolean reverse) {
+        // Returns true if the entry is empty.
         if (entry == null || entry.items().size() == 0) return;
 
+        // Move all entries in the entry to the next log item.
         for (int i = 0; i < entry.items().size(); i++) {
             LogItem item = entry.items().get(i);
             CommonField.Direction direction = reverse ? item.direction().opposite() : item.direction();
 
+            // Move the item to the next position in the maze.
             if (item.character() == CHARACTER_MAP.PACMAN) {
                 this.maze.getPacman().move(direction);
             } else if (item.character() == CHARACTER_MAP.GHOST) {
@@ -76,7 +83,14 @@ public class CommandProcessor {
         }
     }
 
+    /**
+     * Processes a list of log entries.
+     *
+     * @param entries - the list of log entries to process
+     * @param reverse - whether or not to reverse
+     */
     public void processEntries(List<LogEntry> entries, boolean reverse) {
+        // reverse the entries in reverse order.
         if (reverse)
             Collections.reverse(entries);
 

@@ -24,8 +24,13 @@ public class MazePresenter extends JPanel {
         this.initializeInterface();
     }
 
+    /**
+    * Initializes the graphical interface of the maze.
+    */
     private void initializeInterface() {
+        // Add all the fields in the maze to the view.
         for (int i = 0; i < this.maze.numRows(); ++i) {
+            // Add all fields in the maze to the view.
             for (int j = 0; j < this.maze.numCols(); ++j) {
                 FieldView field = new FieldView(this.maze.getField(i, j));
                 this.add(field);
@@ -33,10 +38,17 @@ public class MazePresenter extends JPanel {
         }
     }
 
+    /**
+    * Returns the preferred size of this maze.
+    * 
+    * 
+    * @return the preferred size of this maz
+    */
     @Override
     public Dimension getPreferredSize() {
         Rectangle bounds = this.getParent().getBounds();
 
+        // Returns the preferred size of the bounds.
         if (bounds == null)
             return super.getPreferredSize();
 

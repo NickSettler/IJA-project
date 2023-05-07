@@ -16,6 +16,9 @@ public class ClockObject extends BaseObject {
         super(row, col, commonMaze);
     }
 
+    /**
+    * Collects the clock object from the maze.
+    */
     public void collect() {
         this.maze.removeObject(this, this.row, this.col);
     }

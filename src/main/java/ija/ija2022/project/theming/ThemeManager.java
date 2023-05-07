@@ -20,6 +20,11 @@ public class ThemeManager {
         this.currentTheme = new Theme(this.settingsController.getTheme().getName());
     }
 
+    /**
+     * Returns the singleton instance of the ThemeManager class.
+     *
+     * @return The singleton instance of the ThemeManager class.
+     */
     public static ThemeManager getInstance() {
         if (instance == null) {
             instance = new ThemeManager();
@@ -28,10 +33,20 @@ public class ThemeManager {
         return instance;
     }
 
+    /**
+     * Sets the current theme to the specified theme name.
+     *
+     * @param name The name of the theme to set
+     */
     public void setTheme(THEME_NAMES name) {
         this.currentTheme = new Theme(name.getName());
     }
 
+    /**
+     * Returns the current theme.
+     *
+     * @return The current theme.
+     */
     public Theme getTheme() {
         return this.currentTheme;
     }

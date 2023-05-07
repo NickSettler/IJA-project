@@ -15,6 +15,12 @@ public class KeyDownEvent extends Event {
         keyCode = _keyCode;
     }
 
+    /**
+    * Returns the key code associated with this Key.
+    * 
+    * 
+    * @return the key code associated with this
+    */
     public Integer getKeyCode() {
         return keyCode;
     }

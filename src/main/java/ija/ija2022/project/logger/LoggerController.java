@@ -21,9 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoggerController {
     private final LOGGER_MODE mode;
@@ -48,9 +46,14 @@ public class LoggerController {
         this.process();
     }
 
+    /**
+     * Process the log file and extract
+     */
     private void process() {
+        // If the logger is write mode then do not process the file.
         if (this.mode == LOGGER_MODE.WRITE) return;
 
+        // If the file path is null throws an exception.
         if (this.filePath == null) {
             throw new IllegalStateException("Cannot process without file path");
         }
@@ -69,6 +72,7 @@ public class LoggerController {
 
         this.entries = new ArrayList<>(entries.length());
 
+        // Add all entries in the list to the log entries.
         for (int i = 0; i < entries.length(); i++) {
             this.entries.add(LogEntry.fromJSONArray(entries.getJSONArray(i)));
         }
@@ -76,15 +80,23 @@ public class LoggerController {
         this.mapText = object.getString("map");
     }
 
+    /**
+     * Adds an item to the log.
+     *
+     * @param item - the item to add
+     */
     public void addItem(LogItem item) {
+        // If the logger is in read mode then throw an exception.
         if (this.mode == LOGGER_MODE.READ) {
             throw new IllegalStateException("Cannot add item in read mode");
         }
 
+        // Add a new entry to the list of entries.
         if (this.entries.size() == 0) {
             this.entries.add(new LogEntry(new ArrayList<>()));
         }
 
+        // Add a new entry to the list of entries.
         if (this.entries.size() < this.index + 1) {
             this.entries.add(new LogEntry(new ArrayList<>()));
         }
@@ -92,6 +104,11 @@ public class LoggerController {
         this.entries.get(this.index).items().add(item);
     }
 
+    /**
+     * Adds a LogItem to the maze
+     *
+     * @param object - CommonMazeObject to add to
+     */
     public void addItem(CommonMazeObject object) {
         CHARACTER_MAP character = object instanceof GhostObject ? CHARACTER_MAP.GHOST : CHARACTER_MAP.PACMAN;
 
@@ -105,62 +122,116 @@ public class LoggerController {
         this.addItem(new LogItem(character, from, to));
     }
 
+    /**
+     * Moves to the next entry
+     */
     public void nextEntry() {
+        // Returns true if the index is less than the size of the entries array.
         if (this.index >= this.entries.size()) return;
         this.index++;
         EventManager.getInstance().fireEvent(new UpdateReplayStepEvent(this.index));
     }
 
+    /**
+     * Go to previous entry in the log
+     */
     public void previousEntry() {
         if (this.index <= -1) return;
         this.index--;
         EventManager.getInstance().fireEvent(new UpdateReplayStepEvent(this.index));
     }
 
+    /**
+     * Returns the current entry.
+     *
+     * @return null if there are no
+     */
     public LogEntry currentEntry() {
+        // Returns the entry at the current position in the list.
         if (this.index >= this.entries.size() || this.index < 0)
             return null;
 
         return this.entries.get(this.index);
     }
 
+    /**
+     * Returns the LogEntry at the specified index.
+     *
+     * @param index - The index of the LogEntry to return.
+     * @return The LogEntry at the specified index
+     */
     public LogEntry getEntry(int index) {
+        // Returns the entry at the given index or null if the index is out of range.
         if (index >= this.entries.size() || index < 0)
             return null;
 
         return this.entries.get(index);
     }
 
+    /**
+     * Returns the list of log entries
+     */
     public List<LogEntry> getEntries() {
         return this.entries;
     }
 
+    /**
+     * Returns a sublist of the entries starting at the given index.
+     *
+     * @param start - index of the first
+     */
     public List<LogEntry> getEntries(int start) {
+        // Checks if the start index is within the list of entries.
         if (start < 0 || start > this.entries.size())
             throw new IllegalArgumentException("Invalid start index");
 
         return this.entries.subList(start, this.entries.size());
     }
 
+    /**
+     * Returns a sublist of the entries.
+     *
+     * @param start - the index of the first entry to return
+     * @param end   - the index of the last entry to
+     */
     public List<LogEntry> getEntries(int start, int end) {
+        // Raises an exception if the start or end index is invalid.
         if (start < 0 || end > this.entries.size() || start > end)
             throw new IllegalArgumentException("Invalid start or end index");
 
         return this.entries.subList(start, end);
     }
 
+    /**
+     * Sets the index of the list.
+     *
+     * @param index - The index of the list
+     */
     public void setIndex(int index) {
         this.index = index;
     }
 
+    /**
+     * Returns the index of the list.
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * Returns the text that is used to generate the maze
+     *
+     * @return the text that is used to generate the maze
+     */
     public String getMapText() {
         return mapText;
     }
 
+    /**
+     * Converts this Log to JSON.
+     *
+     * @return A JSON representation of this
+     */
     public JSONObject toJSON() {
         JSONObject object = new JSONObject();
 
@@ -176,12 +247,17 @@ public class LoggerController {
         return object;
     }
 
+    /**
+     * Saves settings to file.
+     */
     public void close() {
+        // Close the log file if the logger is in read mode.
         if (this.mode == LOGGER_MODE.READ) {
             this.afterClose();
             return;
         }
 
+        // Closes the file. If the file path is null throws an exception.
         if (this.filePath == null) {
             throw new IllegalStateException("Cannot close without file path");
         }
@@ -204,6 +280,12 @@ public class LoggerController {
         this.afterClose();
     }
 
+    /**
+     * Closes the reader and sets the file path and map text.
+     *
+     * @param filePath - The path to the file
+     * @param mapText  - The map text to
+     */
     public void close(String filePath, String mapText) {
         this.filePath = filePath;
         this.mapText = mapText;
@@ -211,40 +293,14 @@ public class LoggerController {
         this.close();
     }
 
+    /**
+     * Clears the state after the file has been closed
+     */
     public void afterClose() {
         this.filePath = null;
         this.mapText = null;
         this.entries.clear();
         this.entries = null;
         this.index = 0;
-    }
-
-    public Map<Integer, Pair<Integer, Integer>> getGhostsAssociations() {
-        if (this.mode == LOGGER_MODE.WRITE) return null;
-
-        if (this.entries.size() == 0) {
-            throw new IllegalStateException("Cannot get associations from empty log");
-        }
-
-        LogEntry entry = this.entries.get(0);
-
-        if (entry.items().size() == 0) {
-            throw new IllegalStateException("Cannot get associations from empty entry");
-        }
-
-        Map<Integer, Pair<Integer, Integer>> associations = new HashMap<>();
-
-        if (entry.items().size() == 0) {
-            throw new IllegalStateException("Cannot get associations from empty entry");
-        }
-
-        for (int i = 0; i < entry.items().size(); i++) {
-            LogItem item = entry.items().get(i);
-            if (item.character() == CHARACTER_MAP.GHOST) {
-                associations.put(i, item.from());
-            }
-        }
-
-        return associations;
     }
 }
